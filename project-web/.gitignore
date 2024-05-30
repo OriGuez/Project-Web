@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+run_project.bat
 # production
 /build
 
