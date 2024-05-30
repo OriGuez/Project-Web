@@ -1,24 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Registration from './Components/Register Page/websiteRegistration';
+import React, { useState } from 'react';
+import users from './data/userdb.json';
 function App() {
+  // creating the list of all users so I will Access It from all components
+  const [usersList, setUsersList] = useState(users)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Registration usersList={usersList} setUsersList={setUsersList}/>
+{/*       \\<lOGIN usersList={usersList}
+ */}    </div>
   );
 }
 
