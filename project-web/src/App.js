@@ -2,9 +2,6 @@ import './App.css';
 
 import AppLogin from './Login';
 import React, {useState} from 'react';
-
- //function App({usersList, loggedUser, setLoggedUser})
-
 import Registration from './Components/Register Page/websiteRegistration';
 import users from './data/userdb.json';
 
