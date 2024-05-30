@@ -13,8 +13,6 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
       return;
     }
     logged = (usersList.find(user => user.username === usernameInput.current.value));
-    console.log("aaaaaaaaaaaaaaaaaaa" + logged);
-
     if (logged == null) {
       usernameInput.current.classList.add('invalidInput');
       usernameInput.current.setCustomValidity('Username not found');
@@ -49,11 +47,8 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
     }
   }
   const signIn = (event) => {
-    console.log(logged.password)
-
     if (logged != null && logged.password == passwordInput.current.value) {
       setLoggedUser(logged)
-      console.log("WOWWWWWWWWWWWWWWWWWWW")
       //move to homepage with loggedUser data
     }
     else {
