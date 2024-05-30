@@ -1,28 +1,28 @@
 import React, { useState, useRef } from 'react';
 import './App.css';
-//function AppLogin({usersList, setLoggedUser})
-function AppLogin() {
+function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   const usernameInput = useRef();
   const passwordInput = useRef();
-  const logged = null;
+  var logged = null;
 
   const validateUsername = (event) => {
     const val = event.target.value;
     if (val.length < 1) {
-        usernameInput.current.classList.add('invalidInput');
-        usernameInput.current.setCustomValidity('Username must contain at least 1 character');
+      usernameInput.current.classList.add('invalidInput');
+      usernameInput.current.setCustomValidity('Username must contain at least 1 character');
       return;
     }
+    logged = (usersList.find(user => user.username === usernameInput.current.value));
+    console.log("aaaaaaaaaaaaaaaaaaa" + logged);
 
-    // logged = (usersList.find (user => user.usernameInput === usernameInput  ))
-    // if(logged == null )
-    //     {
-    //      usernameInput.current.classList.add('invalidInput');
-    //      usernameInput.current.setCustomValidity('Username not found');
-    //     }
+    if (logged == null) {
+      usernameInput.current.classList.add('invalidInput');
+      usernameInput.current.setCustomValidity('Username not found');
+      return;
+    }
   };
 
-    const validatePassword = (event) => {
+  const validatePassword = (event) => {
     const pwval = event.target.value;
     let hasNonNumeric = false;
 
@@ -48,25 +48,20 @@ function AppLogin() {
       passwordInput.current.setCustomValidity('');
     }
   }
-    // const signIn = (event) => {
-        
-    //     if (logged != null && logged.password === passwordInput)
-    //         {
-    //             setLoggedUser(logged)
-    //             //move to homepage with loggedUser data
-    //         }
-    //     else
-    //     {
-    //         loggged.current.classList.add ('invalid input');
-    //         logged.current.setCustomValidity('incorrect username or password, try again');
-    //         return;
-    //     }
-        
+  const signIn = (event) => {
+    console.log(logged.password)
 
-    // }
-
-
-//   ;
+    if (logged != null && logged.password == passwordInput.current.value) {
+      setLoggedUser(logged)
+      console.log("WOWWWWWWWWWWWWWWWWWWW")
+      //move to homepage with loggedUser data
+    }
+    else {
+      logged.current.classList.add('invalid input');
+      logged.current.setCustomValidity('incorrect username or password, try again');
+      return;
+    }
+  }
 
   return (
     <div className="App login-page">
@@ -93,7 +88,7 @@ function AppLogin() {
               ref={passwordInput}
             />
           </div>
-          <button type="submit">Sign in</button>
+          <button type="submit" onClick={signIn}>Sign in</button>
         </form>
         <a href="#">Forgot password?</a>
       </div>
