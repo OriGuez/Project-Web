@@ -1,22 +1,23 @@
 import './websiteRegistration.css'
 import React, { useState } from 'react';
-//import users from '../../data/userdb.json';
+import users from '../../data/userdb.json';
 import UserList from './printlist';
+import { useNavigate } from 'react-router-dom';
 
 function Registration({ usersList, setUsersList }) {
-  // moved to app component so it will have access to all users
-  //const [usersList, setUsersList] = useState(users)
   console.log(usersList)
   const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [imgfile, uploadImg] = useState("")
+  const [imgfile, uploadImg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     setPasswordError('');
     setUsernameError('');
     if (validateForm()) {
       setUsersList([...usersList, newUser])
+      navigate("/login")
     }
     console.log("Registration Successful");
   }
@@ -93,11 +94,7 @@ function Registration({ usersList, setUsersList }) {
         </div>
       </div>
       <UserList users={usersList} />
-      {/* <footer>
-        <a href="#">Help</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </footer> */}
+    
     </div>
   )
 }

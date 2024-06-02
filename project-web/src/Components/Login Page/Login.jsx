@@ -1,9 +1,16 @@
 import React, { useState, useRef } from 'react';
-import './App.css';
+import '../../App.css';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
+
 function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   const usernameInput = useRef();
   const passwordInput = useRef();
   var logged = null;
+  const navigate = useNavigate();
+
 
   const validateUsername = (event) => {
     const val = event.target.value;
@@ -48,17 +55,21 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
     }
   }
   const signIn = (event) => {
-
-    if (logged != null && logged.password == passwordInput.current.value) {
-      setLoggedUser(logged)
-      //move to homepage with loggedUser data
-    }
-    else {
-      logged.current.classList.add('invalid input');
-      logged.current.setCustomValidity('incorrect username or password, try again');
-      return;
+    if (logged != null && logged.password === passwordInput.current.value) {
+      setLoggedUser(logged);
+      navigate("/");
+    } else {
+      if (usernameInput.current.value) { 
+        usernameInput.current.classList.add('invalidInput');
+        usernameInput.current.setCustomValidity('Incorrect username or password, try again');
+        passwordInput.current.classList.remove('invalidInput');
+        passwordInput.current.setCustomValidity('');
+      }
     }
   }
+  
+  
+  
 
   return (
     <div className="App login-page">
@@ -87,13 +98,16 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
           </div>
           <button type="submit" onClick={signIn}>Sign in</button>
         </form>
-        <a href="#">Forgot password?</a>
       </div>
       <div className="create-account">
         <p>
-          New to ViewTube? <a href="#">Create an account</a>
+          New to ViewTube? 
+          <Link to="/register">
+            <button>Create an account</button>
+          </Link>
         </p>
       </div>
+    
     </div>
   );
 }

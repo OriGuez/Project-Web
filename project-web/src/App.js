@@ -1,19 +1,26 @@
 import './App.css';
-
-import AppLogin from './Login';
+import Home from './Components/Home/Home';
+import AppLogin from './Components/Login Page/Login';
 import React, {useState} from 'react';
 import Registration from './Components/Register Page/websiteRegistration';
 import users from './data/userdb.json';
+import { Routes, Route, BrowserRouter} from 'react-router-dom';
+
 
 function App() {
   const [loggedUser, setLoggedUser] = useState(null)
-  // creating the list of all users so I will Access It from all components
   const [usersList, setUsersList] = useState(users)
 
   return (
     <div className="App">
-      <AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>
-      <Registration usersList={usersList} setUsersList={setUsersList}/>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
+            <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList}/>} />
+            <Route path="/" element={<Home usersList={usersList} setUsersList={setUsersList}/>} />
+          </Routes>
+        </BrowserRouter>
+  
     </div>
   );
 }
