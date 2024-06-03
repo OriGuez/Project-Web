@@ -5,8 +5,8 @@ import UserList from './printlist';
 import { useNavigate } from 'react-router-dom';
 
 function Registration({ usersList, setUsersList }) {
-  console.log(usersList)
-  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '' })
+  //console.log(usersList)
+  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image:'' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [imgfile, uploadImg] = useState("");
@@ -30,7 +30,18 @@ function Registration({ usersList, setUsersList }) {
   };
 
   const handleImageChange = (e) => {
-    uploadImg(URL.createObjectURL(e.target.files[0]))
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        //setImgPreview(reader.result);
+        setNewUser({
+          ...newUser,
+          image: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const validatePassword = () => {

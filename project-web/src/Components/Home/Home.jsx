@@ -1,20 +1,12 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../App.css';
 import './Home.css';
 
 function Home({ loggedUser }) {
-let content; 
-if (loggedUser)
-  {content=<p> <h1>Welcome to ViewTube</h1> </p> ;
-  console.log("logged");
-
-}
-else {
-  content= <p> <h1>Not logged</h1> </p>;
-  console.log("hello");
-
-}
+  const signOut = (event) => {
+    loggedUser = null;
+    window.location.reload();
+  };
 
   return (
     <div>
@@ -51,51 +43,54 @@ else {
             />
           </form>
 
-          <div className="dropdown">
-            <a
-              href="#"
-              className="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="https://github.com/mdo.png"
-                alt="mdo"
-                width="32"
-                height="32"
-                className="rounded-circle"
-              />
-            </a>
-            <ul className="dropdown-menu text-small shadow">
-              <li><a className="dropdown-item" href="#">New project...</a></li>
-              <li><a className="dropdown-item" href="#">Settings</a></li>
-              <li><a className="dropdown-item" href="#">Profile</a></li>
-              <li><hr className="dropdown-divider" /></li>
-              <li><a className="dropdown-item" href="#">Sign out</a></li>
-            </ul>
+          <div className="user-info">
+            <img
+              src={loggedUser ? loggedUser.image : '/default.png'}
+              alt="user-icon"
+              width="32"
+              height="32"
+              className="rounded-circle"
+            />
+            {loggedUser && (
+              <Link to="/">
+                <button type="submit" onClick={signOut}>Sign out</button>
+              </Link>
+            )}
           </div>
         </div>
       </header>
-      
-      <div className="home-screen">
-         {/* <h1>Welcome to ViewTube</h1> */}
-         {content}
-        <Link to="/login">
-          <button>Login</button>
-        </Link>
-        <div className="create-account">
-          <p>
-            New to ViewTube?
-            <Link to="/register">
-              <button>Create an account</button>
-            </Link>
-          </p>
-          
-        </div>
-      </div>
 
+      <div className="home-screen">
+        {loggedUser ? (
+          <div>
+            <h1>Welcome to ViewTube, {loggedUser.username} {loggedUser.password} {loggedUser.channelName}</h1>
+            <img
+              src={loggedUser.image}
+              alt="user"
+              width="32"
+              height="32"
+              className="rounded-circle"
+            />
+          </div>
+        ) : (
+          <div>
+            <h1>Welcome to ViewTube</h1>
+            <div className="create-account">
+              <p>
+                <Link to="/login">
+                  <button>Login</button>
+                </Link>
+                New to ViewTube?
+                <Link to="/register">
+                  <button>Create an account</button>
+                </Link>
+              </p>
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
-      
   );
 }
 

@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
             <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList}/>} />
-            <Route path="/" element={<Home usersList={usersList} setUsersList={setUsersList}/>} />
+            <Route path="/" element={<Home usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
           </Routes>
         </BrowserRouter>
   
