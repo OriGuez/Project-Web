@@ -124,3 +124,72 @@ footer a:hover {
     margin: 0 auto; /* Optional: center the image */
 }
 }
+  
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4285f4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  button:hover {
+    background-color: #357ae8;
+  }
+  
+  footer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  footer a {
+    margin: 0 10px;
+    color: #4285f4;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .create-account-box {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .left-section {
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+      padding-right: 0;
+      padding-bottom: 20px;
+    }
+  
+    .right-section {
+      padding-left: 0;
+      padding-top: 20px;
+    }
+    .rounded-scalable-image {
+      width: 10%;
+      max-width: 10px;
+      height: auto;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto; /* Optional: center the image */
+  }
+  }

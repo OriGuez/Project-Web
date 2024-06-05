@@ -4,17 +4,13 @@ import users from '../../data/userdb.json';
 import UserList from './printlist';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 function Registration({ usersList, setUsersList }) {
   //console.log(usersList)
-  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image: '' })
+  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image:'' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [imgfile, uploadImg] = useState("")
-  const [imgPreview, setImgPreview] = useState('');
+  const [imgfile, uploadImg] = useState("");
   const navigate = useNavigate();
-
-
   const handleSubmit = () => {
     setPasswordError('');
     setUsernameError('');
@@ -42,6 +38,7 @@ function Registration({ usersList, setUsersList }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImgPreview(reader.result);
+
         setNewUser({
           ...newUser,
           image: reader.result
@@ -84,9 +81,19 @@ function Registration({ usersList, setUsersList }) {
       <div className="create-account-box">
         <div className="left-section">
           <img src="/logo.png" alt="viewTube Logo" className="viewTube-logo" />
-          <h1>Create a ViewTube Account</h1>
+          <h1>Create a ViewTube account</h1>
           <p>Enter your details</p>
           <p>password must contain at least 8 characters and one non-digit letter</p>
+         <div className='Login'>
+          <p>
+          Already have an account? 
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
+        </p>
+        </div>
+
+
         </div>
         <div className="right-section">
           <form>
@@ -116,11 +123,7 @@ function Registration({ usersList, setUsersList }) {
         </div>
       </div>
       <UserList users={usersList} />
-      {/* <footer>
-        <a href="#">Help</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </footer> */}
+    
     </div>
   )
 }

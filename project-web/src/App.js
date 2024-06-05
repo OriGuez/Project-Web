@@ -1,15 +1,20 @@
 import './App.css';
 import Home from './Components/Home/Home';
-import AppLogin from './Components/LoginPage/Login';
+import AppLogin from './Components/Login Page/Login';
 import Registration from './Components/Register Page/websiteRegistration';
 import MapVids from './Components/Home/Homepage';
 import React, { useState } from 'react';
 import users from './data/userdb.json';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import React, { useState } from 'react';
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState(null)
-  // creating the list of all users so I will Access It from all components
-  const [usersList, setUsersList] = useState(users)
+  const [loggedUser, setLoggedUser] = useState(null);
+  const [usersList, setUsersList] = useState(users);
+
+  const handleSignOut = () => {
+    setLoggedUser(null);
+  };
 
   const handleSignOut = () => {
     setLoggedUser(null);
@@ -30,4 +35,3 @@ function App() {
 }
 
 export default App;
-

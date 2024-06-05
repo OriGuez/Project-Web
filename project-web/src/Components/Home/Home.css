@@ -1,0 +1,49 @@
+/* Home.css */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f0f0; /* Light background color */
+}
+
+.navbar {
+  padding: 10px 20px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.suggested-videos {
+  margin-top: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-toggle {
+  /* Additional styles for dropdown button */
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dropdown-toggle:focus {
+  outline: none; /* Remove focus outline */
+}
+

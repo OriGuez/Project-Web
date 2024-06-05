@@ -1,0 +1,30 @@
+.dropdown-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1050; 
+  }
+  
+  .dropdown .btn {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .offcanvas {
+    width: 250px;
+  }
+  
+  .offcanvas-body .list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .offcanvas-body .list-group-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .offcanvas-body .bi {
+    margin-right: 10px;
+  }
+  
