@@ -20,7 +20,7 @@ function Registration({ usersList, setUsersList }) {
       // resetting the newuser to the next registration that will be
       //setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
       //resetting the image prev for the next registration that will be
-      setImgPreview('');
+      // setImgPreview('');
     }
     console.log("Registration Successful");
   }
@@ -37,7 +37,7 @@ function Registration({ usersList, setUsersList }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImgPreview(reader.result);
+        // setImgPreview(reader.result);
 
         setNewUser({
           ...newUser,
@@ -111,7 +111,7 @@ function Registration({ usersList, setUsersList }) {
             </div>
             <div className="input-group">
             <input className="input-group" type="file" onChange={handleImageChange} />
-            {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />}
+            {/* {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />} */}
             </div>
             {/* <input className="input-group" type="file" onChange={handleImageChange} />
             <img src={imgfile} className="rounded-scalable-image" /> */}

@@ -6,15 +6,11 @@ import MapVids from './Components/Home/Homepage';
 import React, { useState } from 'react';
 import users from './data/userdb.json';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import React, { useState } from 'react';
 
 function App() {
   const [loggedUser, setLoggedUser] = useState(null);
   const [usersList, setUsersList] = useState(users);
 
-  const handleSignOut = () => {
-    setLoggedUser(null);
-  };
 
   const handleSignOut = () => {
     setLoggedUser(null);
@@ -22,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <MapVids />
+      {/* <MapVids /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
