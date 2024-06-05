@@ -1,33 +1,49 @@
-import React, { useState, useRef } from 'react';
-import './App.css';
+import React, { useState, useRef, useEffect } from 'react';
+import '../../App.css';
+import './Login.css'; 
+
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
+
 function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   const usernameInput = useRef();
   const passwordInput = useRef();
-  var logged = null;
+  const [foundUser, setFoundUser] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log("00000Logged User:", loggedUser);
+  }, [loggedUser]);
 
   const validateUsername = (event) => {
-    const val = event.target.value;
+    const val = usernameInput.current.value;
     if (val.length < 1) {
       usernameInput.current.classList.add('invalidInput');
       usernameInput.current.setCustomValidity('Username must contain at least 1 character');
-      return;
+      return false;
     }
-    logged = (usersList.find(user => user.username === usernameInput.current.value));
-    if (logged == null) {
+    const user = usersList.find(user => user.username === val);
+
+    if (!user) {
       usernameInput.current.classList.add('invalidInput');
       usernameInput.current.setCustomValidity('Username not found');
-      return;
+      return false;
     }
+    setFoundUser(user);
+    usernameInput.current.classList.remove('invalidInput');
+    usernameInput.current.setCustomValidity('');
+    return true;
   };
 
   const validatePassword = (event) => {
-    const pwval = event.target.value;
+    const pwval = passwordInput.current.value;
     let hasNonNumeric = false;
 
     if (pwval.length < 8) {
       passwordInput.current.classList.add('invalidInput');
       passwordInput.current.setCustomValidity('Password must contain at least 8 characters');
-      return;
+      return false;
     }
 
     for (let i = 0; i < pwval.length; i++) {
@@ -41,27 +57,34 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
     if (!hasNonNumeric) {
       passwordInput.current.classList.add('invalidInput');
       passwordInput.current.setCustomValidity('Password must contain at least one non-numeric character.');
+      return false;
     } else {
       passwordInput.current.classList.remove('invalidInput');
       passwordInput.current.setCustomValidity('');
+      return true
     }
   }
   const signIn = (event) => {
-    if (logged != null && logged.password == passwordInput.current.value) {
-      setLoggedUser(logged)
-      //move to homepage with loggedUser data
-    }
-    else {
-      logged.current.classList.add('invalid input');
-      logged.current.setCustomValidity('incorrect username or password, try again');
-      return;
+    event.preventDefault();
+    if (validateUsername() && validatePassword() && foundUser && foundUser.password === passwordInput.current.value) {
+      setLoggedUser(foundUser);
+      console.log("logged isnt null.his value:" + foundUser.username + " " + foundUser.password)
+      if (!loggedUser)
+        console.log("null")
+      navigate("/");
+    } else {
+      usernameInput.current.classList.add('invalidInput');
+      usernameInput.current.setCustomValidity('Incorrect username or password, try again');
+      passwordInput.current.classList.remove('invalidInput');
+      passwordInput.current.setCustomValidity('');
     }
   }
 
   return (
     <div className="App login-page">
       <div className="login-form">
-        <h1 className="logo">ViewTube</h1>
+        <h1 className="logo">ViewTube <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
+        </h1>
         <form>
           <div className="input-container">
             <label htmlFor="username">Username</label>
@@ -85,11 +108,13 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
           </div>
           <button type="submit" onClick={signIn}>Sign in</button>
         </form>
-        <a href="#">Forgot password?</a>
       </div>
       <div className="create-account">
         <p>
-          New to ViewTube? <a href="#">Create an account</a>
+          New to ViewTube?
+          <Link to="/register">
+            <button>Create an account</button>
+          </Link>
         </p>
       </div>
     </div>

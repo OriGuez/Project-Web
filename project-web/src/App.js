@@ -1,9 +1,9 @@
 import './App.css';
-
-import AppLogin from './Login';
+import Home from './Components/Home/Home';
+import AppLogin from './Components/LoginPage/Login';
+import Registration from './Components/Register Page/websiteRegistration';
 import MapVids from './Components/Home/Homepage';
 import React, { useState } from 'react';
-import Registration from './Components/Register Page/websiteRegistration';
 import users from './data/userdb.json';
 
 function App() {
@@ -11,19 +11,20 @@ function App() {
   // creating the list of all users so I will Access It from all components
   const [usersList, setUsersList] = useState(users)
 
+  const handleSignOut = () => {
+    setLoggedUser(null);
+  };
+
   return (
     <div className="App">
       <MapVids />
-      <AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
-      <Registration usersList={usersList} setUsersList={setUsersList} />
-      {(() => {
-        if (loggedUser) {
-          console.log("loggedUser=" + loggedUser.username);
-        }
-      })()}
-      {loggedUser != null && loggedUser.image && (
-        <img src={loggedUser.image} alt={`${loggedUser.username}'s profile`} />
-      )}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
+          <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList} />} />
+          <Route path="/" element={<Home loggedUser={loggedUser} handleSignOut={handleSignOut} />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
