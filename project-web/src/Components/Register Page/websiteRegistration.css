@@ -1,60 +1,129 @@
 .create-account-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
-    padding: 20px; /* Add padding to handle small screens */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  padding: 20px; /* Add padding to handle small screens */
+}
+
+.create-account-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 100%;
+  max-width: 1200px; /* Use max-width to control the maximum size */
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.left-section {
+  flex: 1;
+  text-align: left;
+  border-right: 1px solid #ccc;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.viewTube-logo {
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.right-section {
+  flex: 1;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+button:hover {
+  background-color: #357ae8;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+footer a {
+  margin: 0 10px;
+  color: #4285f4;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
   .create-account-box {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    width: 100%;
-    max-width: 1200px; /* Use max-width to control the maximum size */
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 20px;
-    box-sizing: border-box;
+    flex-direction: column;
+    padding: 20px;
   }
-  
+
   .left-section {
-    flex: 1;
-    text-align: left;
-    border-right: 1px solid #ccc;
-    padding-right: 20px;
-    box-sizing: border-box;
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    padding-right: 0;
+    padding-bottom: 20px;
   }
-  
-  .viewTube-logo {
-    width: 100px; /* Adjust size as needed */
-    height: auto;
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  p {
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
+
   .right-section {
-    flex: 1;
-    padding-left: 20px;
-    box-sizing: border-box;
+    padding-left: 0;
+    padding-top: 20px;
   }
-  
-  .input-group {
-    margin-bottom: 20px;
-  }
+  .rounded-scalable-image {
+    width: 10%;
+    max-width: 10px;
+    height: auto;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto; /* Optional: center the image */
+}
+}
   
   input[type="text"],
   input[type="password"] {

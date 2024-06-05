@@ -4,8 +4,6 @@ import users from '../../data/userdb.json';
 import UserList from './printlist';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
-
 function Registration({ usersList, setUsersList }) {
   //console.log(usersList)
   const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image:'' })
@@ -13,13 +11,16 @@ function Registration({ usersList, setUsersList }) {
   const [usernameError, setUsernameError] = useState('');
   const [imgfile, uploadImg] = useState("");
   const navigate = useNavigate();
-
   const handleSubmit = () => {
     setPasswordError('');
     setUsernameError('');
     if (validateForm()) {
       setUsersList([...usersList, newUser])
       navigate("/login")
+      // resetting the newuser to the next registration that will be
+      //setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
+      //resetting the image prev for the next registration that will be
+      setImgPreview('');
     }
     console.log("Registration Successful");
   }
@@ -36,7 +37,8 @@ function Registration({ usersList, setUsersList }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        //setImgPreview(reader.result);
+        setImgPreview(reader.result);
+
         setNewUser({
           ...newUser,
           image: reader.result
@@ -107,8 +109,12 @@ function Registration({ usersList, setUsersList }) {
             <div className="input-group">
               <input type="text" id="channelName" name="channelName" value={newUser.channelName} onChange={handleChange} placeholder="Channel Name" required />
             </div>
+            <div className="input-group">
             <input className="input-group" type="file" onChange={handleImageChange} />
-            <img src={imgfile} className="rounded-scalable-image" />
+            {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />}
+            </div>
+            {/* <input className="input-group" type="file" onChange={handleImageChange} />
+            <img src={imgfile} className="rounded-scalable-image" /> */}
             <button type="button" onClick={handleSubmit}>Register</button>
             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
             {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
