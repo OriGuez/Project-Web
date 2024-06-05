@@ -6,17 +6,23 @@ import UserList from './printlist';
 function Registration({ usersList, setUsersList }) {
   // moved to app component so it will have access to all users
   //const [usersList, setUsersList] = useState(users)
-  console.log(usersList)
-  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '' })
+  //console.log(usersList)
+  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image: '' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [imgfile, uploadImg] = useState("")
+  //const [imgfile, uploadImg] = useState("")
+  const [imgPreview, setImgPreview] = useState('');
+
 
   const handleSubmit = () => {
     setPasswordError('');
     setUsernameError('');
     if (validateForm()) {
       setUsersList([...usersList, newUser])
+      // resetting the newuser to the next registration that will be
+      setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
+      //resetting the image prev for the next registration that will be
+      setImgPreview('');
     }
     console.log("Registration Successful");
   }
@@ -29,7 +35,18 @@ function Registration({ usersList, setUsersList }) {
   };
 
   const handleImageChange = (e) => {
-    uploadImg(URL.createObjectURL(e.target.files[0]))
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImgPreview(reader.result);
+        setNewUser({
+          ...newUser,
+          image: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const validatePassword = () => {
@@ -83,8 +100,12 @@ function Registration({ usersList, setUsersList }) {
             <div className="input-group">
               <input type="text" id="channelName" name="channelName" value={newUser.channelName} onChange={handleChange} placeholder="Channel Name" required />
             </div>
+            <div className="input-group">
             <input className="input-group" type="file" onChange={handleImageChange} />
-            <img src={imgfile} className="rounded-scalable-image" />
+            {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />}
+            </div>
+            {/* <input className="input-group" type="file" onChange={handleImageChange} />
+            <img src={imgfile} className="rounded-scalable-image" /> */}
             <button type="button" onClick={handleSubmit}>Register</button>
             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
             {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
