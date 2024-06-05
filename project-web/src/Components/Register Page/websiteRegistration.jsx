@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import users from '../../data/userdb.json';
 import UserList from './printlist';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 function Registration({ usersList, setUsersList }) {
   //console.log(usersList)
@@ -77,9 +79,19 @@ function Registration({ usersList, setUsersList }) {
       <div className="create-account-box">
         <div className="left-section">
           <img src="/logo.png" alt="viewTube Logo" className="viewTube-logo" />
-          <h1>Create a ViewTube Account</h1>
+          <h1>Create a ViewTube account</h1>
           <p>Enter your details</p>
           <p>password must contain at least 8 characters and one non-digit letter</p>
+         <div className='Login'>
+          <p>
+          Already have an account? 
+          <Link to="/login">
+            <button>Login</button>
+          </Link>
+        </p>
+        </div>
+
+
         </div>
         <div className="right-section">
           <form>

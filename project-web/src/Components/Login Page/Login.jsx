@@ -1,5 +1,7 @@
-import React, { useState, useRef,useEffect  } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../../App.css';
+import './Login.css'; 
+
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   const usernameInput = useRef();
   const passwordInput = useRef();
-  const [foundUser, setFoundUser] = useState({ username: '', password: ''});
+  const [foundUser, setFoundUser] = useState({ username: '', password: '' });
   const navigate = useNavigate();
   useEffect(() => {
     console.log("00000Logged User:", loggedUser);
@@ -63,11 +65,11 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
     }
   }
   const signIn = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    if (validateUsername() && validatePassword()&& foundUser && foundUser.password === passwordInput.current.value) {
+    event.preventDefault();
+    if (validateUsername() && validatePassword() && foundUser && foundUser.password === passwordInput.current.value) {
       setLoggedUser(foundUser);
-      console.log("logged isnt null.his value:"+foundUser.username+" "+foundUser.password)
-      if(!loggedUser)
+      console.log("logged isnt null.his value:" + foundUser.username + " " + foundUser.password)
+      if (!loggedUser)
         console.log("null")
       navigate("/");
     } else {
@@ -81,7 +83,8 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   return (
     <div className="App login-page">
       <div className="login-form">
-        <h1 className="logo">ViewTube</h1>
+        <h1 className="logo">ViewTube <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
+        </h1>
         <form>
           <div className="input-container">
             <label htmlFor="username">Username</label>
@@ -108,7 +111,7 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
       </div>
       <div className="create-account">
         <p>
-          New to ViewTube? 
+          New to ViewTube?
           <Link to="/register">
             <button>Create an account</button>
           </Link>
