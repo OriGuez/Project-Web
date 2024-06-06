@@ -1,0 +1,39 @@
+.video-page-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.video-details {
+    max-width: 800px; /* Adjust as needed */
+    text-align: left;
+    margin-top: 20px;
+}
+
+.video-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.video-publisher, .video-upload-date {
+    font-size: 14px;
+    color: #606060;
+    margin-bottom: 10px;
+}
+
+.video-description {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.comment-section {
+    max-width: 800px; /* Adjust as needed */
+    margin: 0 auto;
+}
