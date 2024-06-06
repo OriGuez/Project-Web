@@ -1,9 +1,10 @@
 import './Comment.css';
 import { useState } from 'react';
 
-function Comment({ vidID, commentId, commentText, uploader, ProfilePicURL, isEditable, videoList, setVList }) {
+function Comment({ vidID, commentId, commentText, uploader, isEditable, videoList, setVList }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedComment, setEditedComment] = useState(commentText);
+
     const handleEdit = () => {
         setIsEditing(true);
     };
@@ -45,7 +46,7 @@ function Comment({ vidID, commentId, commentText, uploader, ProfilePicURL, isEdi
     };
     return (
         <div className="comment">
-            <img src={ProfilePicURL} alt="Profile" />
+            <img src={"/thumbnails/thumbnail1.jpg"} alt="Profile" />
             <div className="comment-details">
                 <p className="uploader">{uploader}</p>
                 {isEditing ? (
