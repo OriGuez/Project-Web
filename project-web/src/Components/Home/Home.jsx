@@ -13,6 +13,9 @@ function Home({ loggedUser, handleSignOut }) {
 
   return (
     <div className="home-container">
+      <Link to="/video/5">
+      <p>hereeee</p>
+      </Link>
       <header className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">

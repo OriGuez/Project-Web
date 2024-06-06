@@ -30,3 +30,29 @@
 .comment-details .commentText {
     color: #606060;
 }
+
+
+
+
+.comment-actions {
+    margin-top: 10px;
+}
+
+.edit-button,
+.delete-button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import CommentSection from "./CommentSection";
 import VideoPlayer from "./VideoPlayer";
 import ShareButton from './ShareButton';
@@ -9,6 +9,7 @@ function VideoPage({ loggedUser, videoList, setVList }) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState("");
     const vidInPage = videoList.find(vid => vid.vidID === id);
+    const isEditable = loggedUser ? "1" : "0";
     if (!vidInPage) {
         console.log("failed")
         return null;
@@ -19,7 +20,7 @@ function VideoPage({ loggedUser, videoList, setVList }) {
         }
         const newComment = {
             id: `c${Date.now()}`, // Generate a unique ID for the comment (not guaranteed to be unique in all cases, but works for this example)
-            publisher: "Anonymous",
+            publisher: loggedUser.channelName,
             text: newCommentText.trim()
         };
 
@@ -51,19 +52,26 @@ function VideoPage({ loggedUser, videoList, setVList }) {
                 <ShareButton />
             </div>
             <div className="comment-section">
-                <CommentSection vidId={id} comments={vidInPage.comments} />
-                <div className="add-comment-container">
-                    <textarea
-                        value={newCommentText}
-                        onChange={(e) => setNewCommentText(e.target.value)}
-                        placeholder="Add a comment..."
-                        className="comment-input"
-                    />
-                    <button onClick={addNewComment} className="add-comment-button">
-                        Add Comment
-                    </button>
-                </div>
+                <CommentSection vidId={id} comments={vidInPage.comments} isEditable={isEditable} videoList={videoList} setVList={setVList} />
+                {loggedUser ? (
+                    <>
+                        <div className="add-comment-container">
+                            <textarea
+                                value={newCommentText}
+                                onChange={(e) => setNewCommentText(e.target.value)}
+                                placeholder="Add a comment..."
+                                className="comment-input"
+                            />
+                            <button onClick={addNewComment} className="add-comment-button">
+                                Add Comment
+                            </button>
+                        </div>
+                    </>
+                ) : (<></>)}
             </div>
+            <Link to="/">
+                <p>hereeee</p>
+            </Link>
         </div>
     )
 }

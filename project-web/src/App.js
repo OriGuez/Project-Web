@@ -23,7 +23,6 @@ function App() {
   return (
     <div className="App">
       {/* <MapVids /> */}
-      <Comment commentText="hiiii bro nice vid" uploader="leo_messi" ProfilePicURL="/thumbnails/thumbnail8.jpg" />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
