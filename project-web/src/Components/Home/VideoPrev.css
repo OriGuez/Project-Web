@@ -1,0 +1,49 @@
+.video-prev {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    width: 205px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+}
+
+.video-prev:hover {
+    transform: scale(1.05);
+}
+
+.video-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.video-thumbnail {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-info {
+    padding: 10px;
+}
+
+.video-title {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.video-publisher,
+.video-upload-date {
+    font-size: 0.9em;
+    color: #555;
+}
+
+
+/* Dark mode styles */
+.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+  }

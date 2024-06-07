@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 function Registration({ usersList, setUsersList }) {
   //console.log(usersList)
-  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image:'' })
+  const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image: '' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [imgfile, uploadImg] = useState("");
@@ -80,20 +80,24 @@ function Registration({ usersList, setUsersList }) {
     <div className="create-account-container">
       <div className="create-account-box">
         <div className="left-section">
-          <img src="/logo.png" alt="viewTube Logo" className="viewTube-logo" />
-          <h1>Create a ViewTube account</h1>
-          <p>Enter your details</p>
-          <p>password must contain at least 8 characters and one non-digit letter</p>
-         <div className='Login'>
-          <p>
-          Already have an account? 
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-        </p>
-        </div>
-
-
+          <div className="logoRegister">
+            <Link to="/">
+              <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
+            </Link>
+            <span> ViewTube </span>
+          </div>
+          <div className="create">Create a ViewTube account</div>
+         <div className="Enter">Enter your details, <br></br>
+            <span> password must contain at least 8 characters </span>
+            <br></br>
+            <span> and at least one non-digit letter</span> </div>
+          <div className='LoginReg'>
+              Already have an account?
+              <br></br>
+              <Link to="/login">
+                <button className="small-button">Login</button>
+              </Link>
+          </div>
         </div>
         <div className="right-section">
           <form>
@@ -110,8 +114,8 @@ function Registration({ usersList, setUsersList }) {
               <input type="text" id="channelName" name="channelName" value={newUser.channelName} onChange={handleChange} placeholder="Channel Name" required />
             </div>
             <div className="input-group">
-            <input className="input-group" type="file" onChange={handleImageChange} />
-            {/* {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />} */}
+              <input className="input-group" type="file" onChange={handleImageChange} />
+              {/* {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />} */}
             </div>
             {/* <input className="input-group" type="file" onChange={handleImageChange} />
             <img src={imgfile} className="rounded-scalable-image" /> */}
@@ -123,7 +127,7 @@ function Registration({ usersList, setUsersList }) {
         </div>
       </div>
       <UserList users={usersList} />
-    
+
     </div>
   )
 }
