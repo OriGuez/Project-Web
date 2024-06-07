@@ -83,8 +83,13 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   return (
     <div className="App login-page">
       <div className="login-form">
-        <h1 className="logo">ViewTube <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
-        </h1>
+       
+        <div className="logoLogin">
+        <Link to='/'>
+          <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />  
+        </Link>
+        <span> ViewTube </span>
+        </div>
         <form>
           <div className="input-container">
             <label htmlFor="username">Username</label>
