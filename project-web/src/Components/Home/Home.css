@@ -1,35 +1,129 @@
-/* Home.css */
-
 .home-container {
-  display: flex;
+  display: fixed;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f0f0f0; /* Light background color */
-}
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);}
 
 .navbar {
   padding: 10px 20px;
+  background-color: var(--background-color-dark);
+
 }
 
+span2{
+  font-size: 32px;
+  color: #050505;
+  margin-bottom: 20px;
+  text-align: left; 
+  padding-top: 15px;
+  padding-right: 50px;
+  font-weight: bold;
+}
 .navbar-brand {
   display: flex;
   align-items: center;
+
+  
+}
+.signOutComfirm{
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  width: 10px;
+  height: 10px;
+  padding: 20px; 
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.signOut {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  padding: 8px; 
+  font-size: 16px;
+  white-space: nowrap;
+  position: relative;
+
+}
+span1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+  padding-right: 6px;
+  white-space: pre-wrap;  
+  line-height: 1;
+
+
+}
+
+.user-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.user-image-container {
+  position: relative;
+  display: inline-block; /* Ensure it takes up only the space it needs */
+}
+
+.signOut:hover {
+  background-color: #b8bcc4; 
+}
+
+.signIn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  padding: 8px; 
+  font-size: 16px;
+  white-space: nowrap;
+
+}
+.signInContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+  white-space: nowrap; 
+
+}
+
+.signInImage {
+  width: 60px; 
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.signIn:hover .signInImage {
+  background-color: #b8bcc4;  
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
+  
 }
 
 .video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
 }
 
-.suggested-videos {
-  margin-top: 20px;
-}
 
 .user-info {
   display: flex;
@@ -37,13 +131,92 @@
 }
 
 .dropdown-toggle {
-  /* Additional styles for dropdown button */
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
 
 .dropdown-toggle:focus {
-  outline: none; /* Remove focus outline */
+  outline: none; 
 }
 
+.btn-primary {
+  margin-right: 10px;
+}
+
+.btn-secondary {
+  margin-left: 10px;
+}
+
+
+.signOutDialog .btn-secondary {
+  font-size: 14px; 
+  padding: 5px 10px; 
+}
+
+.signOutDialog {
+  position: absolute;
+  top: calc(100% + 10px); 
+  right: 0; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.user-info {
+  border: 1px solid #ccc; 
+  border-radius: 25px; 
+  width: fixed;
+  /* padding: 1px;  */
+}
+
+.user-info .user-image {
+  position: relative;
+  display: inline-block; /* Ensure it takes up only the space it needs */
+}
+
+.user-info .user-image img {
+  max-width: 100px; /* Adjust the maximum width of the image */
+  border-radius: 50%; /* Ensure the image is circular */
+}
+
+.dark-mode {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+.dark-mode .home-container .form-control::placeholder {
+  color: var(--placeholder-color-dark); 
+}
+
+:root {
+  --input-bg-color-light: #ffffff; 
+  --input-text-color-light: #000000; 
+  --placeholder-color-light: #6c757d; 
+  --input-bg-color-dark: #1a1a1a; 
+  --input-text-color-dark: #ffffff; 
+  --placeholder-color-dark: #d3d3d3; 
+}
+
+/* Light mode placeholder */
+.form-control::placeholder {
+  color: var(--placeholder-color-light);
+}
+
+/* Dark mode placeholder */
+.dark-mode .form-control::placeholder {
+  color: var(--placeholder-color-dark);
+}
+
+/* Ensure input text colors follow the mode */
+.form-control {
+  background-color: var(--input-bg-color-light);
+  color: var(--input-text-color-light);
+}
+
+.dark-mode .form-control {
+  background-color: var(--input-bg-color-dark);
+  color: var(--input-text-color-dark);
+}
