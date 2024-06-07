@@ -40,6 +40,11 @@ function Home({ loggedUser, handleSignOut }) {
   };
 
   return (
+//     <div className="home-container">
+//       <Link to="/video/5">
+//       <p>hereeee</p>
+//       </Link>
+//       <header className="navbar navbar-expand-lg navbar-light bg-light">
     <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
         <div className="container-fluid">
