@@ -9,7 +9,9 @@ function Registration({ usersList, setUsersList }) {
   const [newUser, setNewUser] = useState({ username: '', password: '', channelName: '', image: '' })
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-  const [imgfile, uploadImg] = useState("");
+  const [imgError, setImgError] = useState('');
+  const [imgPreview, setImgPreview] = useState("");
+
   const navigate = useNavigate();
   const handleSubmit = () => {
     setPasswordError('');
@@ -20,7 +22,7 @@ function Registration({ usersList, setUsersList }) {
       // resetting the newuser to the next registration that will be
       // setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
       // resetting the image prev for the next registration that will be
-      // setImgPreview('');
+      setImgPreview('');
     }
     console.log("Registration Successful");
   }
@@ -37,13 +39,14 @@ function Registration({ usersList, setUsersList }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        // setImgPreview(reader.result);
+        setImgPreview(reader.result);
 
         setNewUser({
           ...newUser,
           image: reader.result
         });
       };
+      setImgError('');
       reader.readAsDataURL(file);
     }
   };
@@ -70,7 +73,13 @@ function Registration({ usersList, setUsersList }) {
     } else if (usersList.some(user => user.username === newUser.username)) {
       setUsernameError('Username already exists');
       return false;
-    } else if (validatePassword()) {
+    }
+    else if (!imgPreview) {
+      setImgError('Please Upload An Image');
+      return false;
+    }
+    else if (validatePassword()) {
+      setUsernameError('');
       return true;
     }
     return false;
@@ -87,16 +96,16 @@ function Registration({ usersList, setUsersList }) {
             <span> ViewTube </span>
           </div>
           <div className="create">Create a ViewTube account</div>
-         <div className="Enter">Enter your details, <br></br>
+          <div className="Enter">Enter your details, <br></br>
             <span> password must contain at least 8 characters </span>
             <br></br>
             <span> and at least one non-digit letter</span> </div>
           <div className='LoginReg'>
-              Already have an account?
-              <br></br>
-              <Link to="/login">
-                <button className="small-button">Login</button>
-              </Link>
+            Already have an account?
+            <br></br>
+            <Link to="/login">
+              <button className="small-button">Login</button>
+            </Link>
           </div>
         </div>
         <div className="right-section">
@@ -115,14 +124,14 @@ function Registration({ usersList, setUsersList }) {
             </div>
             <div className="input-group">
               <input className="input-group" type="file" onChange={handleImageChange} />
-              {/* {imgPreview && <img src={imgPreview} className="user-profile-image" alt="Profile Preview" />} */}
             </div>
-            {/* <input className="input-group" type="file" onChange={handleImageChange} />
-            <img src={imgfile} className="rounded-scalable-image" /> */}
+            <div className="image-container">
+              {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Profile Preview" />}
+            </div>
             <button type="button" onClick={handleSubmit}>Register</button>
             {passwordError && <div style={{ color: 'red' }}>{passwordError}</div>}
             {usernameError && <div style={{ color: 'red' }}>{usernameError}</div>}
-
+            {imgError && <div style={{ color: 'red' }}>{imgError}</div>}
           </form>
         </div>
       </div>

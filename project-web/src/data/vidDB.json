@@ -1,6 +1,7 @@
 [
   {
     "title": "Exploring the Wonders of Nature",
+    "description": "Embark on a culinary journey through Italy's vibrant streets as we explore the secret recipes of traditional pasta dishes.",
     "publisher": "NatGeo",
     "vidID": "1",
     "url": "/videos/vid1.mp4",
@@ -27,6 +28,7 @@
   },
   {
     "title": "Mastering the Art of Cooking",
+    "description": "Join us as we delve into the mysterious depths of the ocean, uncovering rare sea creatures and breathtaking underwater landscapes.",
     "publisher": "CookingChannel",
     "vidID": "2",
     "url": "/videos/vid2.mp4",
@@ -53,6 +55,7 @@
   },
   {
     "title": "The Future of Renewable Energy",
+    "description": "Experience the adrenaline rush of extreme sports from the perspective of professional athletes as they conquer towering cliffs and raging rapids.",
     "publisher": "EnergyTalk",
     "vidID": "3",
     "url": "/videos/vid3.mp4",
@@ -79,6 +82,7 @@
   },
   {
     "title": "Exploring Ancient Civilizations",
+    "description": "Discover the fascinating history and architectural marvels of ancient civilizations in a visually stunning documentary series.",
     "publisher": "HistoryChannel",
     "vidID": "4",
     "url": "/videos/vid4.mp4",
@@ -105,6 +109,7 @@
   },
   {
     "title": "The Science of Space Exploration",
+    "description": "Escape to tranquil landscapes and serene nature scenes in this relaxing meditation video designed to soothe the mind and body.",
     "publisher": "NASAHub",
     "vidID": "5",
     "url": "/videos/vid5.mp4",
@@ -131,6 +136,7 @@
   },
   {
     "title": "Unlocking the Secrets of the Mind",
+    "description": "Witness the awe-inspiring power of nature as we capture breathtaking footage of erupting volcanoes and cascading waterfalls.",
     "publisher": "PsychologyInsights",
     "vidID": "6",
     "url": "/videos/vid6.mp4",
@@ -157,6 +163,7 @@
   },
   {
     "title": "The Art of Landscape Photography",
+    "description": "Step into the world of virtual reality gaming and immerse yourself in heart-pounding adventures and futuristic landscapes.",
     "publisher": "PhotoGuru",
     "vidID": "7",
     "url": "/videos/vid7.mp4",
@@ -183,6 +190,7 @@
   },
   {
     "title": "Mastering the Art of Public Speaking",
+    "description": "Follow a team of daring explorers as they embark on a thrilling expedition to uncover hidden treasures in remote jungles.",
     "publisher": "CommunicationSkills",
     "vidID": "8",
     "url": "/videos/vid8.mp4",
@@ -209,6 +217,7 @@
   },
   {
     "title": "Basketball Match",
+    "description": "Join renowned experts as they unravel the mysteries of the universe, from the enigmatic depths of black holes to the origins of the cosmos.",
     "publisher": "Euroleague",
     "vidID": "9",
     "url": "/videos/vid9.mp4",
@@ -230,6 +239,7 @@
   },
   {
     "title": "Soccer Match",
+    "description": "Experience the magic of live performances as world-class musicians and dancers take center stage in this captivating concert footage.",
     "publisher": "UEFA",
     "vidID": "10",
     "url": "/videos/vid10.mp4",
