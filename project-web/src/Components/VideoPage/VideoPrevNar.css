@@ -3,12 +3,13 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-  }
+    padding-left: 20px; /* Add padding */}
+  
   
   .video-thumbnail-scroll {
-    width: 120px; /* Adjust thumbnail width as needed */
-    height: auto;
-    margin-right: 20px; /* Add space between thumbnail and details */
+    width: 180px; /* Adjust thumbnail width as needed */
+    height: 110px;
+    margin-right: 10px; /* Add space between thumbnail and details */
   }
   
   .video-info-scroll {
@@ -30,5 +31,10 @@
     font-size: 14px;
     color: #606060;
     margin: 0;
+  }
+  
+  .video-wrapper {
+    display: flex; /* Enable flexbox */
+    align-items: center; /* Vertically align content */
   }
   
