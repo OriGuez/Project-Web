@@ -1,360 +1,128 @@
-.dropdown-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1050; 
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);
-  }
-  .dropdown-container {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
-  
-  /* Dark Mode */
-  .dropdown-container.dark-mode {
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }  
-  
-  .dropdown .btn {
-    background: none;
-    border: none;
-    padding: 0;
-  }
-  
-  .offcanvas {
-    width: 250px;
-  }
-  
-  .offcanvas-body .list-group-item {
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .offcanvas-body .list-group-item:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .offcanvas-body .bi {
-    margin-right: 10px;
-  }
-  
+/* Updated NavBar.css */
 
-  
+/* Ensure the navbar takes full width */
+.navbar {
+  width: 100%;
+  padding: 10px 0; /* Adjust padding to your preference */
+  display: flex;
+  justify-content: space-between; /* Distribute space between items */
+  align-items: center; /* Vertically center items */
+  box-sizing: border-box; /* Include padding and border in element's width and height */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it stays on top */
+}
+
+/* Styling for light mode */
+.navbar-light {
+  background-color: var(--background-color-light, #f8f9fa); /* Use default color if variable is not set */
+  color: var(--text-color-light, #000);
+}
+
+/* Styling for dark mode */
+.navbar-dark {
+  background-color: var(--background-color-dark, #343a40); /* Use default color if variable is not set */
+  color: var(--text-color-dark, #fff);
+}
+
+.container-fluid {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 20px; /* Padding for content inside navbar */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Adjust dropdown button */
+.dropdownToggle {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Style user info */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-image, .signInImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.signOutDialog {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: var(--background-color, #fff);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  padding: 10px;
+  display: none; /* Hidden by default */
+  z-index: 1000;
+}
+
+.signOutDialog.showSignOutDialog {
+  display: block; /* Show dialog */
+}
+
+.signOutDialog.hideSignOutDialog {
+  display: none; /* Hide dialog */
+}
+
+/* Adjust search input */
+.form-control {
+  width: 100%;
+  max-width: 500px; /* Adjust max width as needed */
+  margin-right: 10px;
+}
+
+/* Adjust offcanvas menu */
+.offcanvas {
+  width: 300px; /* Adjust width as needed */
+  transition: transform 0.3s ease-in-out;
+}
+
+.offcanvas.show {
+  transform: translateX(0);
+}
+
+.offcanvas.bg-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.offcanvas.bg-light {
+  background-color: #f8f9fa;
+  color: #000;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.bg-dark {
+  --background-color: #343a40;
+  --text-color: #fff;
+}
+
+.bg-light {
+  --background-color: #f8f9fa;
+  --text-color: #000;
+}
+
 .dark-mode {
-    background-color: #333; /* Example background color for dark mode */
-    color: #fff; /* Example text color for dark mode */
-  }
-  :root {
-    --background-color-light: #ffffff;
-    --text-color-light: #000000;
-    
-    --background-color-dark: #1a1a1a;
-    --text-color-dark: #ffffff;
-  }
-
-
-  .home-container {
-    display: fixed;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);}
-  
-  .navbar {
-    padding: 10px 20px;
-    background-color: var(--background-color-dark);
-  
-  }
-  
-  span2{
-    font-size: 32px;
-    color: #050505;
-    margin-bottom: 20px;
-    text-align: left; 
-    padding-top: 15px;
-    padding-right: 50px;
-    font-weight: bold;
-  }
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-  
-    
-  }
-  .signOutComfirm{
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    width: 10px;
-    height: 10px;
-    padding: 20px; 
-    font-size: 16px;
-    font-weight: bold;
-    white-space: nowrap;
-  }
-  
-  .signOut {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    padding: 8px; 
-    font-size: 16px;
-    white-space: nowrap;
-    position: relative;
-  
-  }
-  span1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    padding-right: 6px;
-    white-space: pre-wrap;  
-    line-height: 1;
-    border: 2px solid #8b7a7a;
-  
-  }
-  
-  button4{
-    align-items: relative;
-    margin-top: 10px;
-    margin-right: 10px;
-  
-  }
-  
-  .user-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  .user-image-container {
-    position: relative;
-    display: inline-block; /* Ensure it takes up only the space it needs */
-  }
-  
-  .signOut:hover {
-    background-color: #b8bcc4; 
-  }
-  
-  .signIn {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    padding: 8px; 
-    font-size: 16px;
-    white-space: nowrap;
-  
-  
-  }
-  .signInContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    white-space: nowrap; 
-    
-  
-  }
-  
-  .signInImage {
-    width: 60px; 
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  
-  }
-  
-  .signIn:hover .signInImage {
-    background-color: #1b366c;  
-  }
-  
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    
-  }
-  
-  .video-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 20px;
-  }
-  
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dropdown-toggle {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  
-  .dropdown-toggle:focus {
-    outline: none; 
-  }
-  
-  .btn-primary {
-    margin-right: 10px;
-  }
-  
-  .btn-secondary {
-    margin-left: 10px;
-  }
-  
-  
-  .signOutDialog .btn-secondary {
-    position: relative;
-    font-size: 14px; 
-    padding: 5px 10px; 
-  }
-  
-  /* .signOutDialog {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: var(--background-color, white);
-    color: var(--text-color, black);
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  } */
-  
-  
-  
-  
-  
-  
-  .user-info {
-    border: 1px solid #ccc; 
-    border-radius: 25px; 
-    width: fixed;
-    /* padding: 1px;  */
-  }
-  
-  .user-info .user-image {
-    position: relative;
-    display: inline-block; /* Ensure it takes up only the space it needs */
-  }
-  
-  .user-info .user-image img {
-    max-width: 100px; /* Adjust the maximum width of the image */
-    border-radius: 50%; /* Ensure the image is circular */
-  }
-  
-  .dark-mode {
-    background-color: var(--background-color-dark);
-    color: var(--text-color-dark);
-  }
-  .dark-mode .home-container .form-control::placeholder {
-    color: var(--placeholder-color-dark); 
-  }
-  
-  :root {
-    --input-bg-color-light: #ffffff; 
-    --input-text-color-light: #000000; 
-    --placeholder-color-light: #6c757d; 
-    --input-bg-color-dark: #1a1a1a; 
-    --input-text-color-dark: #ffffff; 
-    --placeholder-color-dark: #d3d3d3; 
-  }
-  
-  /* Light mode placeholder */
-  .form-control::placeholder {
-    color: var(--placeholder-color-light);
-  }
-  
-  
-  /* Define keyframes for slide-down animation */
-  @keyframes slideDown {
-    from {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  /* Define keyframes for slide-up animation */
-  @keyframes slideUp {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-  }
-  
-  .signOutDialog {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    align-items: right;
-    background-color: var(--background-color, white);
-    color: var(--text-color, black);
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    opacity: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  }
-  
-  /* Define dark mode styles */
-  .dark-mode .signOutDialog {
-    background-color: #333;
-    color: white;
-  }
-  
-  /* Show dialog with animation */
-  .showSignOutDialog {
-    display: block;
-    animation: slideDown 0.3s forwards;
-    transform: translateY(0);
-    opacity: 1;
-  }
-  
-  /* Hide dialog with animation */
-  .hideSignOutDialog {
-    display: block;
-    animation: slideUp 0.3s forwards; 
-    transform: translateY(0);
-    opacity: 1;
-  
-  
-  }
-  
-  /* Ensure input text colors follow the mode */
-  .form-control {
-    background-color: var(--input-bg-color-light);
-    color: var(--input-text-color-light);
-  }
-  
-  .dark-mode .form-control {
-    background-color: var(--input-bg-color-dark);
-    color: var(--input-text-color-dark);
-  }
-  
+  background-color: var(--background-color, #1a1a1a);
+  color: var(--text-color, #fff);
+}
