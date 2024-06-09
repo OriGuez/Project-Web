@@ -59,7 +59,14 @@ span1 {
   padding-right: 6px;
   white-space: pre-wrap;  
   line-height: 1;
+  border: 2px solid #8b7a7a;
 
+}
+
+button4{
+  align-items: relative;
+  margin-top: 10px;
+  margin-right: 10px;
 
 }
 
@@ -89,6 +96,7 @@ span1 {
   font-size: 16px;
   white-space: nowrap;
 
+
 }
 .signInContent {
   display: flex;
@@ -96,6 +104,7 @@ span1 {
   align-items: center;
   margin-top: 5px;
   white-space: nowrap; 
+  
 
 }
 
@@ -105,10 +114,11 @@ span1 {
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+
 }
 
 .signIn:hover .signInImage {
-  background-color: #b8bcc4;  
+  background-color: #1b366c;  
 }
 
 .main-content {
@@ -150,21 +160,31 @@ span1 {
 
 
 .signOutDialog .btn-secondary {
+  position: relative;
   font-size: 14px; 
   padding: 5px 10px; 
 }
 
-.signOutDialog {
+/* .signOutDialog {
   position: absolute;
-  top: calc(100% + 10px); 
-  right: 0; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: transparent;
-  border-radius: 5px;
+  top: 100%;
+  right: 0;
+  background-color: var(--background-color, white);
+  color: var(--text-color, black);
+  border: 1px solid #ccc;
   padding: 10px;
-}
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+} */
+
+
+
+
+
 
 .user-info {
   border: 1px solid #ccc; 
@@ -205,9 +225,69 @@ span1 {
   color: var(--placeholder-color-light);
 }
 
-/* Dark mode placeholder */
-.dark-mode .form-control::placeholder {
-  color: var(--placeholder-color-dark);
+
+/* Define keyframes for slide-down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Define keyframes for slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.signOutDialog {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  align-items: right;
+  background-color: var(--background-color, white);
+  color: var(--text-color, black);
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Define dark mode styles */
+.dark-mode .signOutDialog {
+  background-color: #333;
+  color: white;
+}
+
+/* Show dialog with animation */
+.showSignOutDialog {
+  display: block;
+  animation: slideDown 0.3s forwards;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Hide dialog with animation */
+.hideSignOutDialog {
+  display: block;
+  animation: slideUp 0.3s forwards; 
+  transform: translateY(0);
+  opacity: 1;
+
+
 }
 
 /* Ensure input text colors follow the mode */

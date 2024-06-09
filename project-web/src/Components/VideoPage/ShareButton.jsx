@@ -1,4 +1,5 @@
 import React from 'react';
+import './ShareButton.css';
 
 function ShareButton() {
     const copyToClipboard = () => {
@@ -14,7 +15,10 @@ function ShareButton() {
     };
 
     return (
-        <button onClick={copyToClipboard}>Share</button>
+        <button className="share-button" onClick={copyToClipboard}>
+            <span className="share-icon">🔗</span>
+            Share
+        </button>
     );
 }
 

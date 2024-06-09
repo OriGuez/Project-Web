@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import './VideoPrev.css';
 
-function VideoPrev({ title, publisher, url, thumbnailUrl, upload_date }) {
+function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date }) {
+    const url = `/video/${vidID}`;
+
     return (
         <div className="video-prev">
             <Link to={url} className="video-link">

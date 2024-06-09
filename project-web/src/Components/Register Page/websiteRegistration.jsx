@@ -18,8 +18,8 @@ function Registration({ usersList, setUsersList }) {
       setUsersList([...usersList, newUser])
       navigate("/login")
       // resetting the newuser to the next registration that will be
-      //setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
-      //resetting the image prev for the next registration that will be
+      // setNewUser({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
+      // resetting the image prev for the next registration that will be
       // setImgPreview('');
     }
     console.log("Registration Successful");

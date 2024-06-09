@@ -1,0 +1,48 @@
+/* Basic styles */
+.share-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    background-color: #fff;
+    border: 1px solid #dadada;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #606060;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    outline: none;
+}
+
+/* Add an icon to the button */
+.share-icon {
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+/* Hover effects */
+.share-button:hover {
+    background-color: #f1f1f1;
+    border-color: #c6c6c6;
+    color: #000;
+}
+
+/* Focus effect */
+.share-button:focus {
+    border-color: #4caf50;
+}
+
+/* Active button effect */
+.share-button:active {
+    background-color: #e2e2e2;
+    border-color: #b3b3b3;
+}
+
+/* Disabled button effect */
+.share-button:disabled {
+    background-color: #f9f9f9;
+    border-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}

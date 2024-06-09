@@ -1,98 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Dropdown from '../SideBar/Dropdown';
-import videosData from '../../data/vidDB.json';
+import NavBar from '../NavBar/NavBar';
 import VideoPrev from './VideoPrev';
+import videosData from '../../data/vidDB.json';
 
-function Home({ loggedUser, handleSignOut }) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showSignOutDialog, setShowSignOutDialog] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+  const [videos, setVideos] = useState([]);
 
-    const root = document.documentElement;
-    if (!isDarkMode) {
-      root.style.setProperty('--background-color', '#1a1a1a');
-      root.style.setProperty('--text-color', '#fff');
-    } else {
-      root.style.removeProperty('--background-color');
-      root.style.removeProperty('--text-color');
-    }
-    const homeContainer = document.querySelector('.home-container');
-    homeContainer.classList.toggle('dark-mode');
-  };
 
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  useEffect(() => {
+    const storedVideos = JSON.parse(localStorage.getItem('videos')) || [];
+    setVideos(storedVideos);
+  }, []);
 
-  const handleImageClick = () => {
-    setShowSignOutDialog(!showSignOutDialog);
-  };
+  
 
-  const handleSignOutConfirm = () => {
-    setShowSignOutDialog(false);
-    handleSignOut();
+  const handleRemoveVideo = (vidID) => {
+    const updatedVideos = videos.filter(video => video.vidID !== vidID);
+    localStorage.setItem('videos', JSON.stringify(updatedVideos));
+    setVideos(updatedVideos);
   };
 
   return (
-//     <div className="home-container">
-//       <Link to="/video/5">
-//       <p>hereeee</p>
-//       </Link>
-//       <header className="navbar navbar-expand-lg navbar-light bg-light">
     <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
-      <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
-          </Link>
-          <span2 className={isDarkMode ? 'text-white' : 'text-black'}>ViewTube</span2>
-          <button
-            className={`btn ${isDarkMode ? 'btn-dark' : 'btn-light'} d-flex align-items-center dropdownToggle`}
-            onClick={handleDropdownClick}
-          >
-            <i className="bi bi-list" style={{ fontSize: '2rem', marginRight: '10px' }}></i> Explore
-          </button>
-          <form className="d-flex w-100 me-3" role="search">
-            <input
-              type="search"
-              className={`form-control ${isDarkMode ? 'bg-dark text-white' : ''}`}
-              placeholder="Search..."
-              aria-label="Search"
-            />
-          </form>
-          <div className={`user-info ${isDarkMode ? 'dark-mode' : ''}`}>
-            {loggedUser ? (
-              <div className="signOut">
-                <span1>{loggedUser.username}</span1>
-                <div style={{ position: 'relative' }}>
-                  <img src={loggedUser.image} alt="Profile" className="user-image" onClick={handleImageClick} />
-                  {showSignOutDialog && (
-                    <div className="signOutDialog">
-                      <button className="btn btn-secondary" onClick={handleSignOutConfirm}>Sign Out</button>
-                    </div>
-                  )}
-                </div>
-                <span1>{loggedUser.channelName}</span1>
-              </div>
-            ) : (
-              <div className="signIn">
-                <Link to="/login" style={{ color: isDarkMode ? 'white' : 'black', textDecoration: 'none' }}>
-                  <div className="signInContent">
-                    <img src="/default.png" alt="Sign in" className="signInImage" />
-                    <span></span>
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
+      <NavBar
+        loggedUser={loggedUser}
+        handleSignOut={handleSignOut}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+      />
       <main className="main-content">
         <section className="video-grid">
           {videosData.map((video) => (
@@ -100,20 +39,29 @@ function Home({ loggedUser, handleSignOut }) {
               key={video.url}
               title={video.title}
               publisher={video.publisher}
-              url={video.url}
+              vidID={video.vidID}
               thumbnailUrl={video.thumbnailUrl}
               upload_date={video.upload_date}
             />
           ))}
+          {videos.map((video) => (
+            <div key={video.vidID}>
+              <Link to={`/video/${video.vidID}`}>
+                <VideoPrev
+                  title={video.title}
+                  publisher={video.publisher}
+                  vidID={video.vidID}
+                  thumbnailUrl={video.thumbnailUrl}
+                  upload_date={video.upload_date}
+                />
+              </Link>
+              <button onClick={() => handleRemoveVideo(video.vidID)}>Remove</button>
+            </div>
+          ))}
         </section>
         <section className="suggested-videos"></section>
       </main>
-      <Dropdown
-        isDropdownOpen={isDropdownOpen}
-        setIsDropdownOpen={setIsDropdownOpen}
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-      />
+      
     </div>
   );
 }
