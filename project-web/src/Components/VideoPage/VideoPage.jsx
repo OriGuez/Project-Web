@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import CommentSection from "./CommentSection";
-import VideoPlayer from "./VideoPlayer";
 import ShareButton from './ShareButton';
 import NavBar from '../NavBar/NavBar'
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
@@ -11,7 +10,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState("");
     const [hasLiked, setHasLiked] = useState(false);
-    const vidInPage = videoList.find(vid => vid.vidID === id) || JSON.parse(localStorage.getItem('videos')).find(vid => vid.vidID === id);
+    const vidInPage = videoList.find(vid => vid.vidID === id);
     const isEditable = loggedUser ? "1" : "0";
 
     useEffect(() => {
@@ -21,11 +20,10 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
             setHasLiked(false);
         }
     }, [loggedUser, vidInPage]);
-
+    // Redirect to home if vidInPage is undefined
     if (!vidInPage) {
-        return <p>Video not found.</p>;
+        return <Navigate to="/" />;
     }
-
     const toggleLikedList = () => {
         if (loggedUser) {
             const updatedVideoList = videoList.map(video => {
