@@ -1,0 +1,34 @@
+/* VideoPrevNar.css */
+.video-prev-nar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .video-thumbnail-scroll {
+    width: 120px; /* Adjust thumbnail width as needed */
+    height: auto;
+    margin-right: 20px; /* Add space between thumbnail and details */
+  }
+  
+  .video-info-scroll {
+    flex: 1; /* Make info section take remaining space */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .video-title-scroll {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .video-publisher-scroll,
+  .video-upload-date-scroll {
+    font-size: 14px;
+    color: #606060;
+    margin: 0;
+  }
+  

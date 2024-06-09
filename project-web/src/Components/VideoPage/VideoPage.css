@@ -1,448 +1,189 @@
-.video-page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Updated VideoPage.css */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  padding: 0; /* Remove padding to use full width */
+  width: 100%; /* Use full width of the page */
+  align-items: center; /* Center content horizontally */
 }
 
+.home-container.dark-mode {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+
 .video-container {
-    width: 100%;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 70%; /* Use full width of the parent container */
+  max-width: 1200px; /* Allow the container to expand up to a reasonable max width */
+  margin: 20px auto; /* Center the container horizontally and add vertical margin */
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.videoplay {
+  margin-top: 100px;
+  width: 100%;
+  max-width: 1200px; /* Match the max width of the container */
+  height: 550px; /* Adjust this height as needed */
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.videoplay video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .video-details {
-    margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .video-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
 }
 
 .video-meta {
-    display: flex;
-    justify-content: space-between;
-    color: #606060;
-    font-size: 14px;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: #606060;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
 .video-description {
-    font-size: 16px;
-    color: #606060;
-    line-height: 1.5;
-    margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #606060;
 }
 
 .video-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
 }
 
-.like-button, .share-button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 20px; /* Rounded corners */
-    cursor: pointer;
-    background-color: #e0e0e0;
-    color: #606060;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background-color 0.3s, color 0.3s;
+.like-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #e0e0e0;
+  color: #606060;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.like-button:hover, .share-button:hover {
-    background-color: #d3d3d3;
-    color: #333;
+.like-button:hover {
+  background-color: #d3d3d3;
 }
 
 .like-button.liked {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.button-icon {
-    width: 16px; /* Adjust icon size */
-    height: 16px;
+  background-color: #007bff;
+  color: #fff;
 }
 
 .comment-section {
-    width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%; /* Use full width of the parent container */
+  max-width: 1000px; /* Allow the container to expand up to a reasonable max width */
+  margin: 20px auto; /* Center the container horizontally and add vertical margin */
+  margin-left: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .add-comment-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%; /* Use full width of the container */
+}
+/* Add this to VideoPage.css */
+
+/* Container for the entire video section */
+.video-section {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px 0; /* Adjust padding as needed */
+  overflow-x: hidden; /* Hide horizontal overflow */
 }
 
-.comment-input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 3px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    resize: vertical;
+/* Grid container for videos */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 0 20px; 
+  overflow-x: auto;
+  overflow-y: hidden; 
+  margin-bottom: 20px;
+  margin-top: 80px; 
 }
 
-.comment-input:focus {
-    border-color: #007bff;
-    outline: none;
+.video-grid-narrow {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); 
+  gap: 20px;
+  padding: 0 20px; /* Add horizontal padding to match the gap */
+  overflow-x: visible; /* Enable horizontal scrolling */
+  overflow-y: scroll; 
+  margin-bottom: 20px; 
+  margin-top: 100px; 
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
-.add-comment-button {
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    transition: background-color 0.3s;
+/* Style for each video item */
+.video-item {
+  width: calc(33.33% - 20px); /* Adjust item width to fit three items per row */
+  flex: 1; /* Allow items to grow to fill available space */
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.add-comment-button:hover {
-    background-color: #0056b3;
+.video-item video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
-.comment-section h2 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 5px;
+.video-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
 }
 
-.home-container {
-    display: fixed;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);}
-  
-  .navbar {
-    padding: 10px 20px;
-    background-color: var(--background-color-dark);
-  
-  }
-  
-  span2{
-    font-size: 32px;
-    color: #050505;
-    margin-bottom: 20px;
-    text-align: left; 
-    padding-top: 15px;
-    padding-right: 50px;
-    font-weight: bold;
-  }
-  .navbar-brand {
-    display: flex;
-    align-items: center;
-  
-    
-  }
-  .signOutComfirm{
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    width: 10px;
-    height: 10px;
-    padding: 20px; 
-    font-size: 16px;
-    font-weight: bold;
-    white-space: nowrap;
-  }
-  
-  .signOut {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    padding: 8px; 
-    font-size: 16px;
-    white-space: nowrap;
-    position: relative;
-  
-  }
-  span1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    padding-right: 6px;
-    white-space: pre-wrap;  
-    line-height: 1;
-    border: 2px solid #8b7a7a;
-  
-  }
-  
-  button4{
-    align-items: relative;
-    margin-top: 10px;
-    margin-right: 10px;
-  
-  }
-  
-  .user-image {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  .user-image-container {
-    position: relative;
-    display: inline-block; /* Ensure it takes up only the space it needs */
-  }
-  
-  .signOut:hover {
-    background-color: #b8bcc4; 
-  }
-  
-  .signIn {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: fixed;
-    padding: 8px; 
-    font-size: 16px;
-    white-space: nowrap;
-  
-  
-  }
-  .signInContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 5px;
-    white-space: nowrap; 
-    
-  
-  }
-  
-  .signInImage {
-    width: 60px; 
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  
-  }
-  
-  .signIn:hover .signInImage {
-    background-color: #1b366c;  
-  }
-  
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    
-  }
-  
-  .video-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 20px;
-  }
-  
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dropdown-toggle {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
-  
-  .dropdown-toggle:focus {
-    outline: none; 
-  }
-  
-  .btn-primary {
-    margin-right: 10px;
-  }
-  
-  .btn-secondary {
-    margin-left: 10px;
-  }
-  
-  
-  .signOutDialog .btn-secondary {
-    position: relative;
-    font-size: 14px; 
-    padding: 5px 10px; 
-  }
-  
-  /* .signOutDialog {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: var(--background-color, white);
-    color: var(--text-color, black);
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    transform: translateY(-20px);
-    opacity: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  } */
-  
-  
-  
-  
-  
-  
-  .user-info {
-    border: 1px solid #ccc; 
-    border-radius: 25px; 
-    width: fixed;
-    /* padding: 1px;  */
-  }
-  
-  .user-info .user-image {
-    position: relative;
-    display: inline-block; /* Ensure it takes up only the space it needs */
-  }
-  
-  .user-info .user-image img {
-    max-width: 100px; /* Adjust the maximum width of the image */
-    border-radius: 50%; /* Ensure the image is circular */
-  }
-  
-  .dark-mode {
-    background-color: var(--background-color-dark);
-    color: var(--text-color-dark);
-  }
-  .dark-mode .home-container .form-control::placeholder {
-    color: var(--placeholder-color-dark); 
-  }
-  
-  :root {
-    --input-bg-color-light: #ffffff; 
-    --input-text-color-light: #000000; 
-    --placeholder-color-light: #6c757d; 
-    --input-bg-color-dark: #1a1a1a; 
-    --input-text-color-dark: #ffffff; 
-    --placeholder-color-dark: #d3d3d3; 
-  }
-  
-  /* Light mode placeholder */
-  .form-control::placeholder {
-    color: var(--placeholder-color-light);
-  }
-  
-  
-  /* Define keyframes for slide-down animation */
-  @keyframes slideDown {
-    from {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
-  /* Define keyframes for slide-up animation */
-  @keyframes slideUp {
-    from {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-  }
-  
-  .signOutDialog {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    align-items: right;
-    background-color: var(--background-color, white);
-    color: var(--text-color, black);
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: none;
-    opacity: 0;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  }
-  
-  /* Define dark mode styles */
-  .dark-mode .signOutDialog {
-    background-color: #333;
-    color: white;
-  }
-  
-  /* Show dialog with animation */
-  .showSignOutDialog {
-    display: block;
-    animation: slideDown 0.3s forwards;
-    transform: translateY(0);
-    opacity: 1;
-  }
-  
-  /* Hide dialog with animation */
-  .hideSignOutDialog {
-    display: block;
-    animation: slideUp 0.3s forwards; 
-    transform: translateY(0);
-    opacity: 1;
-  
-  
-  }
-  
-  /* Ensure input text colors follow the mode */
-  .form-control {
-    background-color: var(--input-bg-color-light);
-    color: var(--input-text-color-light);
-  }
-  
-  .dark-mode .form-control {
-    background-color: var(--input-bg-color-dark);
-    color: var(--input-text-color-dark);
-  }
-  
-  .video-frame {
-    width: 100%;
-    max-width: 800px; /* Adjust as needed */
-    margin: 0 auto;
-    background-color: #000;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.video-player {
-    width: 100%;
-    height: 450px; /* Set a consistent height */
-    object-fit: cover; /* Ensures the video fills the frame */
+.video-description {
+  font-size: 14px;
+  color: #606060;
+  text-align: center;
+  margin-top: 5px;
 }

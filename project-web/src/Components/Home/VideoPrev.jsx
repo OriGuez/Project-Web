@@ -15,6 +15,7 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date }) {
                 </div>
             </Link>
         </div>
+        
     );
 }
 

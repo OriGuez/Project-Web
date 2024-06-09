@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import CommentSection from "./CommentSection";
-import VideoPlayer from "./VideoPlayer";
+import CommentSection from './CommentSection';
 import ShareButton from './ShareButton';
-import NavBar from '../NavBar/NavBar'
+import NavBar from '../NavBar/NavBar';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './VideoPage.css';
+import VideoPrevNar from './VideoPrevNar';
+import videosData from '../../data/vidDB.json';
 
 function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode }) {
     const { id } = useParams();
-    const [newCommentText, setNewCommentText] = useState("");
+    const [newCommentText, setNewCommentText] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
-    const vidInPage = videoList.find(vid => vid.vidID === id) || JSON.parse(localStorage.getItem('videos')).find(vid => vid.vidID === id);
-    const isEditable = loggedUser ? "1" : "0";
+    const [videoNotFound, setVideoNotFound] = useState(false);
+    
+    // Retrieve video information from state or localStorage
+    const vidInPage = videoList.find(vid => vid.vidID === id) || 
+                      JSON.parse(localStorage.getItem('videos'))?.find(vid => vid.vidID === id);
 
     useEffect(() => {
-        if (loggedUser && vidInPage && vidInPage.whoLikedList.includes(loggedUser.username)) {
-            setHasLiked(true);
+        if (!vidInPage) {
+            setVideoNotFound(true);
         } else {
-            setHasLiked(false);
+            setVideoNotFound(false);
+            if (loggedUser && vidInPage.whoLikedList.includes(loggedUser.username)) {
+                setHasLiked(true);
+            } else {
+                setHasLiked(false);
+            }
         }
     }, [loggedUser, vidInPage]);
-
-    if (!vidInPage) {
-        return <p>Video not found.</p>;
-    }
 
     const toggleLikedList = () => {
         if (loggedUser) {
@@ -48,7 +53,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
             setVList(updatedVideoList);
             setHasLiked(!hasLiked);
         } else {
-            console.log("User is not logged in.");
+            alert("Please log in to like videos.");
         }
     };
 
@@ -72,11 +77,27 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
         });
 
         setVList(updatedVideoList);
-        setNewCommentText("");
+        setNewCommentText('');
     };
 
-    return (
+    if (videoNotFound) {
+        return (
+            <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
+                <NavBar
+                    loggedUser={loggedUser}
+                    handleSignOut={handleSignOut}
+                    isDarkMode={isDarkMode}
+                    setIsDarkMode={setIsDarkMode}
+                />
+                <p>Video not found.</p>
+                <Link to="/">
+                    <p>Go back to home</p>
+                </Link>
+            </div>
+        );
+    }
 
+    return (
         <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <NavBar
                 loggedUser={loggedUser}
@@ -85,8 +106,8 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 setIsDarkMode={setIsDarkMode}
             />
             <div className="video-container">
-                <div>
-                    <video src={vidInPage.url} className="object-fit-contain" autoPlay controls></video>
+                <div className="videoplay">
+                    <video src={vidInPage.url} controls></video>
                 </div>
                 <div className="video-details">
                     <h2 className="video-title">{vidInPage.title}</h2>
@@ -110,7 +131,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 <CommentSection
                     vidId={id}
                     comments={vidInPage.comments}
-                    isEditable={isEditable}
+                    isEditable={!!loggedUser}
                     loggedUser={loggedUser}
                     videoList={videoList}
                     setVList={setVList}
@@ -128,7 +149,18 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                         </button>
                     </div>
                 )}
-
+                <div className="video-grid-narrow">
+          {videosData.map((video) => (
+            <VideoPrevNar
+              key={video.url}
+              title={video.title}
+              publisher={video.publisher}
+              vidID={video.vidID}
+              thumbnailUrl={video.thumbnailUrl}
+              upload_date={video.upload_date}
+            />
+          ))}
+          </div>
             </div>
             <Link to="/">
                 <p>Go back to home</p>
