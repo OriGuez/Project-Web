@@ -7,9 +7,8 @@ import NavBar from '../NavBar/NavBar';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
-import videosData from '../../data/vidDB.json';
 
-function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode }) {
+function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode ,setFilteredVideoList}) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
@@ -77,7 +76,6 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
             }
             return video;
         });
-
         setVList(updatedVideoList);
         setNewCommentText('');
     };
@@ -90,6 +88,8 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     handleSignOut={handleSignOut}
                     isDarkMode={isDarkMode}
                     setIsDarkMode={setIsDarkMode}
+                    videoList={videoList}
+                    setFilteredVideoList={setFilteredVideoList}
                 />
                 <p>Video not found.</p>
                 <Link to="/">
@@ -106,6 +106,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 handleSignOut={handleSignOut}
                 isDarkMode={isDarkMode}
                 setIsDarkMode={setIsDarkMode}
+                videoList={videoList}
             />
             <div className="video-container">
                 <div className="videoplay">
@@ -133,7 +134,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 <CommentSection
                     vidId={id}
                     comments={vidInPage.comments}
-                    isEditable={!!loggedUser}
+                    isEditable={isEditable}
                     loggedUser={loggedUser}
                     videoList={videoList}
                     setVList={setVList}
@@ -152,7 +153,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     </div>
                 )}
                 <div className="video-grid-narrow">
-          {videosData.map((video) => (
+          {videoList.map((video) => (
             <VideoPrevNar
               key={video.url}
               title={video.title}
@@ -164,11 +165,10 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
           ))}
           </div>
             </div>
-            <Link to="/">
+            {/* <Link to="/">
                 <p>Go back to home</p>
-            </Link>
+            </Link> */}
         </div>
     );
 }
-
 export default VideoPage;

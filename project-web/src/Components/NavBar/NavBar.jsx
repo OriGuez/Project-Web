@@ -1,13 +1,34 @@
 import './NavBar.css';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function NavBar({loggedUser, handleSignOut, isDarkMode, setIsDarkMode}) {
+function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilteredVideoList, videoList }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [videos, setVideos] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSearchInputChange = (event) => {
+
+    setSearchInput(event.target.value.toLowerCase());
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const filtered = videoList.filter(video =>
+      video.title.toLowerCase().includes(searchInput)
+    );
+    setFilteredVideoList(filtered);
+  };
+
+
+
+  const revertToVideoList = () => {
+    //setFilteredVideoList(videoList);
+  }
 
   const handleClose = () => {
     setIsDropdownOpen(false);
@@ -54,10 +75,10 @@ function NavBar({loggedUser, handleSignOut, isDarkMode, setIsDarkMode}) {
 
   return (
     // <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
-<div>
-    <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
+    <div>
+      <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
+          <Link to="/" className="navbar-brand" onClick={revertToVideoList}>
             <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
           </Link>
           <span className={isDarkMode ? 'text-white' : 'text-black'}>ViewTube</span>
@@ -67,13 +88,18 @@ function NavBar({loggedUser, handleSignOut, isDarkMode, setIsDarkMode}) {
           >
             <i className="bi bi-list" style={{ fontSize: '2rem', marginRight: '10px' }}></i> Explore
           </button>
-          <form className="d-flex w-100 me-3" role="search">
+          <form className="d-flex w-100 me-3" role="search" onSubmit={handleSearch}>
             <input
               type="search"
               className={`form-control ${isDarkMode ? 'bg-dark text-white' : ''}`}
               placeholder="Search..."
               aria-label="Search"
+              value={searchInput}
+              onChange={handleSearchInputChange}
             />
+            <button type="submit">
+              <img src="/search.svg" alt="Search" width="30px" height="30px" />
+            </button>
           </form>
           <div className={`user-info ${isDarkMode ? 'dark-mode' : ''}`}>
             {loggedUser ? (
@@ -116,53 +142,53 @@ function NavBar({loggedUser, handleSignOut, isDarkMode, setIsDarkMode}) {
             )}
           </div>
         </div>
-      </header>
-    <div className={`dropdown-container ${isDarkMode ? 'dark-mode' : ''}`}>
-    
-      <div
-        className={`offcanvas offcanvas-start ${isDropdownOpen ? 'show' : ''} ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}
-        tabIndex="-1"
-        id="offcanvasLeft"
-        aria-labelledby="offcanvasLeftLabel"
-      >
-        <div className={`offcanvas-header ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
-          <h5 className="offcanvas-title" id="offcanvasLeftLabel">Menu</h5>
-          <button
-            type="button"
-            className={`btn-close ${isDarkMode ? 'btn-close-white' : ''}`}
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-            onClick={handleClose} />
-        </div>
-        <div className={`offcanvas-body ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
-          <ul className={`list-group ${isDarkMode ? 'list-group-dark' : 'list-group-light'}`}>
-            <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-              <i className="bi bi-house-door"></i>
-              <span className="ms-2">Home</span>
-            </li>
-            <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-              <i className="bi bi-film"></i>
-              <span className="ms-2">Shorts</span>
-            </li>
-            <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-              <i className="bi bi-plus-circle"></i>
-              <span className="ms-2">Add Video</span>
-            </li>
-            <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-              <i className="bi bi-moon"></i>
-              <span className="ms-2">View Mode</span>
-              <button
-                className={`btn btn-sm ${isDarkMode ? 'btn-light border-light' : 'btn-dark border-dark'} ms-auto me-2`}
-                onClick={toggleDarkMode}
-              >
-                {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            </li>
-          </ul>
+      </header >
+      <div className={`dropdown-container ${isDarkMode ? 'dark-mode' : ''}`}>
+
+        <div
+          className={`offcanvas offcanvas-start ${isDropdownOpen ? 'show' : ''} ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}
+          tabIndex="-1"
+          id="offcanvasLeft"
+          aria-labelledby="offcanvasLeftLabel"
+        >
+          <div className={`offcanvas-header ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
+            <h5 className="offcanvas-title" id="offcanvasLeftLabel">Menu</h5>
+            <button
+              type="button"
+              className={`btn-close ${isDarkMode ? 'btn-close-white' : ''}`}
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+              onClick={handleClose} />
+          </div>
+          <div className={`offcanvas-body ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
+            <ul className={`list-group ${isDarkMode ? 'list-group-dark' : 'list-group-light'}`}>
+              <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
+                <i className="bi bi-house-door"></i>
+                <span className="ms-2">Home</span>
+              </li>
+              <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
+                <i className="bi bi-film"></i>
+                <span className="ms-2">Shorts</span>
+              </li>
+              <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
+                <i className="bi bi-plus-circle"></i>
+                <span className="ms-2">Add Video</span>
+              </li>
+              <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
+                <i className="bi bi-moon"></i>
+                <span className="ms-2">View Mode</span>
+                <button
+                  className={`btn btn-sm ${isDarkMode ? 'btn-light border-light' : 'btn-dark border-dark'} ms-auto me-2`}
+                  onClick={toggleDarkMode}
+                >
+                  {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
+    </div >
   );
 }
 

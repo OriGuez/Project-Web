@@ -16,6 +16,7 @@ function App() {
   const [usersList, setUsersList] = useState(users);
   const [videoList, setVideoList] = useState(videos);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [filteredVideoList, setFilteredVideoList] = useState(videoList);
 
   const handleSignOut = () => {
     setLoggedUser(null);
@@ -27,8 +28,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
           <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList} />} />
-          <Route path="/" element={<Home loggedUser={loggedUser} handleSignOut={handleSignOut} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList}/>} />
-          <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>} />
+          <Route path="/" element={<Home loggedUser={loggedUser} handleSignOut={handleSignOut} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList} filteredVideoList={filteredVideoList} setFilteredVideoList={setFilteredVideoList}/>} />
+          <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList}/>} />
           <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList}/>}  />
         </Routes>
       </BrowserRouter>
