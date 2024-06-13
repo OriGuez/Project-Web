@@ -1,5 +1,13 @@
-/* Basic styles */
+/* Container for the share button and menu */
+.share-button-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Basic styles for the share button */
 .share-button {
+    height: 40px;
+    width: 100px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -21,28 +29,96 @@
     font-size: 16px;
 }
 
-/* Hover effects */
+/* Hover effects for the share button */
 .share-button:hover {
     background-color: #f1f1f1;
     border-color: #c6c6c6;
     color: #000;
 }
 
-/* Focus effect */
+/* Focus effect for the share button */
 .share-button:focus {
     border-color: #4caf50;
 }
 
-/* Active button effect */
+/* Active button effect for the share button */
 .share-button:active {
     background-color: #e2e2e2;
     border-color: #b3b3b3;
 }
 
-/* Disabled button effect */
+/* Disabled button effect for the share button */
 .share-button:disabled {
     background-color: #f9f9f9;
     border-color: #e0e0e0;
     color: #a0a0a0;
     cursor: not-allowed;
+}
+
+/* Modal styles */
+.share-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.share-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Styles for the horizontal share options */
+.share-options {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.share-option {
+    flex: 0 0 auto;
+    width: 80px;
+    text-align: center;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.share-option img {
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0 auto 8px;
+}
+
+.share-option span {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #606060;
+}
+
+.share-option:hover span {
+    color: #000;
 }

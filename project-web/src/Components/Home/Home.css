@@ -1,32 +1,24 @@
+
+/* Home Container Styling */
 .home-container {
   display: fixed;
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--background-color-light);
-  color: var(--text-color-light);}
+  color: var(--text-color-light);
+}
 
 .navbar {
   padding: 10px 20px;
   background-color: var(--background-color-dark);
-
 }
 
-span2{
-  font-size: 32px;
-  color: #050505;
-  margin-bottom: 20px;
-  text-align: left; 
-  padding-top: 15px;
-  padding-right: 50px;
-  font-weight: bold;
-}
 .navbar-brand {
   display: flex;
   align-items: center;
-
-  
 }
-.signOutComfirm{
+
+.signOutComfirm {
   align-items: center;
   text-align: center;
   font-weight: bold;
@@ -49,37 +41,6 @@ span2{
   font-size: 16px;
   white-space: nowrap;
   position: relative;
-
-}
-span1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-  padding-right: 6px;
-  white-space: pre-wrap;  
-  line-height: 1;
-  border: 2px solid #8b7a7a;
-
-}
-
-button4{
-  align-items: relative;
-  margin-top: 10px;
-  margin-right: 10px;
-
-}
-
-.user-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-}
-.user-image-container {
-  position: relative;
-  display: inline-block; /* Ensure it takes up only the space it needs */
 }
 
 .signOut:hover {
@@ -95,36 +56,21 @@ button4{
   padding: 8px; 
   font-size: 16px;
   white-space: nowrap;
-
-
 }
+
 .signInContent {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
   white-space: nowrap; 
-  
-
-}
-
-.signInImage {
-  width: 60px; 
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-
-}
-
-.signIn:hover .signInImage {
-  background-color: #1b366c;  
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
-  
+  margin-top: 50px;
+
 }
 
 .video-grid {
@@ -132,12 +78,6 @@ button4{
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 20px;
-}
-
-
-.user-info {
-  display: flex;
-  align-items: center;
 }
 
 .dropdown-toggle {
@@ -158,55 +98,12 @@ button4{
   margin-left: 10px;
 }
 
-
 .signOutDialog .btn-secondary {
   position: relative;
   font-size: 14px; 
   padding: 5px 10px; 
 }
 
-/* .signOutDialog {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: var(--background-color, white);
-  color: var(--text-color, black);
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: none;
-  transform: translateY(-20px);
-  opacity: 0;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-} */
-
-
-
-
-
-
-.user-info {
-  border: 1px solid #ccc; 
-  border-radius: 25px; 
-  width: fixed;
-  /* padding: 1px;  */
-}
-
-.user-info .user-image {
-  position: relative;
-  display: inline-block; /* Ensure it takes up only the space it needs */
-}
-
-.user-info .user-image img {
-  max-width: 100px; /* Adjust the maximum width of the image */
-  border-radius: 50%; /* Ensure the image is circular */
-}
-
-.dark-mode {
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
-}
 .dark-mode .home-container .form-control::placeholder {
   color: var(--placeholder-color-dark); 
 }
@@ -224,7 +121,6 @@ button4{
 .form-control::placeholder {
   color: var(--placeholder-color-light);
 }
-
 
 /* Define keyframes for slide-down animation */
 @keyframes slideDown {
@@ -286,8 +182,6 @@ button4{
   animation: slideUp 0.3s forwards; 
   transform: translateY(0);
   opacity: 1;
-
-
 }
 
 /* Ensure input text colors follow the mode */

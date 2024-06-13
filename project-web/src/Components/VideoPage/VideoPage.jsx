@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
 import { useParams, Link, Navigate } from 'react-router-dom';
 import CommentSection from "./CommentSection";
 import ShareButton from './ShareButton';
 import NavBar from '../NavBar/NavBar';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash } from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
 import videosData from '../../data/vidDB.json';
@@ -14,8 +13,11 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
     const [newCommentText, setNewCommentText] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
     const [videoNotFound, setVideoNotFound] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
+    const [editedDescription, setEditedDescription] = useState('');
     const vidInPage = videoList.find(vid => vid.vidID === id);
-    const isEditable = loggedUser ? "1" : "0";
+
     useEffect(() => {
         if (!vidInPage) {
             setVideoNotFound(true);
@@ -26,6 +28,8 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
             } else {
                 setHasLiked(false);
             }
+            setEditedTitle(vidInPage.title);
+            setEditedDescription(vidInPage.description); // Initialize with current description
         }
     }, [loggedUser, vidInPage]);
 
@@ -33,6 +37,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
     if (!vidInPage) {
         return <Navigate to="/" />;
     }
+
     const toggleLikedList = () => {
         if (loggedUser) {
             const updatedVideoList = videoList.map(video => {
@@ -82,6 +87,34 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
         setNewCommentText('');
     };
 
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing);
+    };
+
+    const handleSaveEdit = () => {
+        const updatedVideoList = videoList.map(video => {
+            if (video.vidID === id) {
+                return {
+                    ...video,
+                    title: editedTitle,
+                    description: editedDescription
+                };
+            }
+            return video;
+        });
+
+        setVList(updatedVideoList);
+        setIsEditing(false);
+    };
+
+    const handleDeleteVideo = () => {
+        const updatedVideoList = videoList.filter(video => video.vidID !== id);
+        setVList(updatedVideoList);
+        alert("Video deleted.");
+        // Navigate to home after deletion
+        return <Navigate to="/" />;
+    };
+
     if (videoNotFound) {
         return (
             <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -117,7 +150,29 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                         <span className="video-publisher">{vidInPage.publisher}</span>
                         <span className="video-upload-date">{vidInPage.upload_date}</span>
                     </div>
-                    <p className="video-description">{vidInPage.description}</p>
+                    {isEditing ? (
+                        <div className="edit-details">
+                        <input
+                            type="text"
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                            className="edit-title-input"
+                            placeholder="Edit Title"
+                        />
+                        <textarea
+                            value={editedDescription}
+                            onChange={(e) => setEditedDescription(e.target.value)}
+                            className="edit-description-input"
+                            placeholder="Edit Description"
+                        />
+                            <button5 onClick={handleSaveEdit} className="save-edit-button">
+                                Save
+                            </button5>
+                        
+                        </div>
+                    ) : (
+                        <p className="video-description">{vidInPage.description}</p>
+                    )}
                 </div>
                 <div className="video-actions">
                     <ShareButton />
@@ -126,6 +181,16 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                             {hasLiked ? <FaThumbsDown /> : <FaThumbsUp />}
                             {hasLiked ? "Unlike" : "Like"}
                         </button>
+                    )}
+                    {loggedUser && loggedUser.username === vidInPage.publisher && (
+                        <div className="edit-delete-actions">
+                            <button onClick={handleEditToggle} className="edit-button">
+                                <FaEdit /> {isEditing ? "Cancel" : "Edit"}
+                            </button>
+                            <button onClick={handleDeleteVideo} className="delete-button">
+                                <FaTrash /> Delete
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
@@ -151,22 +216,19 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                         </button>
                     </div>
                 )}
-                <div className="video-grid-narrow">
-          {videosData.map((video) => (
-            <VideoPrevNar
-              key={video.url}
-              title={video.title}
-              publisher={video.publisher}
-              vidID={video.vidID}
-              thumbnailUrl={video.thumbnailUrl}
-              upload_date={video.upload_date}
-            />
-          ))}
-          </div>
+                <div className="video-grid-narrow" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+                    {videoList.map((video) => (
+                        <VideoPrevNar 
+                            key={video.url}
+                            title={video.title} 
+                            publisher={video.publisher}
+                            vidID={video.vidID}
+                            thumbnailUrl={video.thumbnailUrl}
+                            upload_date={video.upload_date}
+                        />
+                    ))}
+                </div>
             </div>
-            <Link to="/">
-                <p>Go back to home</p>
-            </Link>
         </div>
     );
 }
