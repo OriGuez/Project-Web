@@ -1,28 +1,60 @@
-/* Updated NavBar.css */
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%; 
+  max-width: 600px;
 
-/* Ensure the navbar takes full width */
+}
+
+.form-control {
+  border: 1px solid lightgrey; 
+  border-radius: 30px; 
+  padding: 5px 10px; 
+  height: 40px;
+  outline: none; 
+  box-shadow: 0 0 0 2px lightgrey;
+
+}
+
+.search-button {
+  background-color: lightgrey; 
+  border: 1px solid lightgrey;
+  border-radius: 0 10px 10px 0; 
+  border-left: none; 
+  width: 60px; 
+  height:44px;
+  cursor: pointer; 
+  padding: 5px; 
+  font-size: 16px; 
+  color: inherit; 
+
+}
+
+.search-button:hover {
+  background-color: red; 
+}
+
+
 .navbar {
   width: 100%;
-  padding: 10px 0; /* Adjust padding to your preference */
+  padding: 10px 0; 
   display: flex;
-  justify-content: space-between; /* Distribute space between items */
-  align-items: center; /* Vertically center items */
-  box-sizing: border-box; /* Include padding and border in element's width and height */
+  justify-content: flex-start; 
+  align-items: center;
+  box-sizing: border-box; 
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000;
 }
 
-/* Styling for light mode */
 .navbar-light {
-  background-color: var(--background-color-light, #f8f9fa); /* Use default color if variable is not set */
+  background-color: var(--background-color-light, #f8f9fa);
   color: var(--text-color-light, #000);
 }
 
-/* Styling for dark mode */
 .navbar-dark {
-  background-color: var(--background-color-dark, #343a40); /* Use default color if variable is not set */
+  background-color: var(--background-color-dark, #343a40); 
   color: var(--text-color-dark, #fff);
 }
 
@@ -30,31 +62,38 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px; /* Padding for content inside navbar */
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Adjust dropdown button */
+.navbar-brand {
+  margin-left: 10px; 
+}
+
 .dropdownToggle {
   border: none;
   background-color: transparent;
   cursor: pointer;
   color: inherit;
+  padding: 25px; 
 }
 
-/* Style user info */
 .user-info {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 .user-image, .signInImage {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   cursor: pointer;
+  border: none; 
+  padding: 0; 
+  object-fit: cover;
 }
 
 .signOutDialog {
@@ -62,31 +101,23 @@
   top: 60px;
   right: 0;
   background-color: var(--background-color, #fff);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px;
-  display: none; /* Hidden by default */
+  display: none; 
   z-index: 1000;
 }
 
 .signOutDialog.showSignOutDialog {
-  display: block; /* Show dialog */
+  display: block; 
 }
 
 .signOutDialog.hideSignOutDialog {
-  display: none; /* Hide dialog */
+  display: none; 
 }
 
-/* Adjust search input */
-.form-control {
-  width: 100%;
-  max-width: 500px; /* Adjust max width as needed */
-  margin-right: 10px;
-}
-
-/* Adjust offcanvas menu */
 .offcanvas {
-  width: 300px; /* Adjust width as needed */
+  width: 300px; 
   transition: transform 0.3s ease-in-out;
 }
 
@@ -125,4 +156,59 @@
 .dark-mode {
   background-color: var(--background-color, #1a1a1a);
   color: var(--text-color, #fff);
+}
+
+span5 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+  margin-left: -14px;
+  margin-right:180px
+}
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: lightgrey; 
+  display: flex;
+  justify-content: center;
+  margin-right: 40px;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  font-size: 1.5rem;
+  transition: background-color 0.3s;
+}
+.icon-circle:hover {
+  background-color: red;
+}
+
+.icon-circle .icon-plus {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.8rem;
+}
+
+.user-info .addVideo {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+.addVideo .menu-item {
+  text-decoration: none;
+}
+
+.user-info .signOut {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 }
