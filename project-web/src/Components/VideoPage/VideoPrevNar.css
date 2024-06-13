@@ -1,40 +1,116 @@
 /* VideoPrevNar.css */
 .video-prev-nar {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-left: 20px; /* Add padding */}
-  
-  
-  .video-thumbnail-scroll {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-right: -20px;
+    color: #333;
+    /* Omit display: flex; and flex-wrap: wrap; for this approach */
+    line-height: 1.2; /* Force two lines (adjust for different font sizes) */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Optional: Background color for better visibility */
+    background-color: #eee;
+}
+
+
+.video-thumbnail-scroll {
     width: 180px; /* Adjust thumbnail width as needed */
     height: 110px;
     margin-right: 10px; /* Add space between thumbnail and details */
-  }
-  
-  .video-info-scroll {
+    white-space: nowrap;
+    word-wrap: break-word;
+
+
+
+}
+
+.video-info-scroll {
     flex: 1; /* Make info section take remaining space */
     display: flex;
     flex-direction: column;
-  }
-  
-  .video-title-scroll {
+    white-space: nowrap;
+    word-wrap: break-word;
+
+
+}
+
+
+/* VideoPrevNar.css */
+.video-title-scroll {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
     color: #333;
-    text-decoration: none;
-  }
-  
-  .video-publisher-scroll,
-  .video-upload-date-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    white-space: nowrap !important;
+    max-width: 10px;
+    word-wrap: break-word !important;
+    text-wrap: normal !important;
+
+
+
+
+;}
+
+
+.video-publisher-scroll,
+.video-upload-date-scroll {
     font-size: 14px;
     color: #606060;
     margin: 0;
-  }
-  
-  .video-wrapper {
-    display: flex; /* Enable flexbox */
-    align-items: center; /* Vertically align content */
-  }
+}
+
+.video-wrapper {
+    display: flex;
+    align-items: center;
+    /* margin-left: 20px; */
+    white-space: nowrap;
+    justify-content: flex-start; /* Add this line */
+    word-wrap: break-word !important;
+    text-wrap: nowrap;
+
+
+
+
+}
+
+
+span6 {
+    width: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    display: flex;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    max-width: 30px;
+    word-wrap: break-word !important;
+    text-wrap: nowrap !important;
+}
+/* Container for the title */
+.title-container {
+    /* Adjust the width to control where the wrapping happens */
+    width: 100%; /* or any specific width you prefer */
+    max-width: 130px; /* Example max-width to constrain the container */
+    overflow-wrap: break-word; /* Allows words to break within the container */
+    word-wrap: break-word; /* Compatibility with older browsers */
+    white-space: normal; /* Allows normal line breaking */
+    background-color: #eee; /* Optional for visibility */
+    padding: 10px; /* Optional padding for aesthetics */
+    box-sizing: border-box; /* Ensures padding doesn't affect container width */
+}
+
+/* Title styling */
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.2; /* Adjust for desired spacing */
+    margin: 0; /* Reset margin for consistency */
+    margin-left: -12px;
+}
+
   

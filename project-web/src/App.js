@@ -1,7 +1,7 @@
 import './App.css';
 import Home from './Components/Home/Home';
 import AppLogin from './Components/Login Page/Login';
-import Registration from './Components/Register Page/websiteRegistration';
+import Registration from './Components/Register Page/Register';
 import MapVids from './Components/Home/MapVids';
 import React, { useState } from 'react';
 import users from './data/userdb.json';
