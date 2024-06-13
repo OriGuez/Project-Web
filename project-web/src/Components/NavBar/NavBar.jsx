@@ -1,13 +1,35 @@
 import './NavBar.css';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';  // Import Bootstrap Icons
 
-function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
+function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilteredVideoList, videoList }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSearchInputChange = (event) => {
+
+    setSearchInput(event.target.value.toLowerCase());
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const filtered = videoList.filter(video =>
+      video.title.toLowerCase().includes(searchInput)
+    );
+    setFilteredVideoList(filtered);
+  };
+
+
+
+  const revertToVideoList = () => {
+    //setFilteredVideoList(videoList);
+  }
 
   const handleClose = () => {
     setIsDropdownOpen(false);
@@ -53,6 +75,7 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
   };
 
   return (
+
     <div>
       <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
         <div className="container-fluid">
@@ -128,6 +151,7 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
             )}
           </div>
         </div>
+
       </header>
       <div className={`dropdown-container ${isDarkMode ? 'dark-mode' : ''}`}>
         <div
@@ -143,12 +167,14 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
               className={`btn-close ${isDarkMode ? 'btn-close-white' : ''}`}
               data-bs-dismiss="offcanvas"
               aria-label="Close"
+
               onClick={handleClose}
             />
           </div>
           <div className={`offcanvas-body ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
             <ul className={`list-group ${isDarkMode ? 'list-group-dark' : 'list-group-light'}`}>
               <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
+
                <Link to="/" style={{ color: 'black', textDecoration: 'none' }} className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                 <i className="bi bi-house-door"></i>
                 <span className="ms-2">Home</span>
@@ -174,6 +200,7 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode }) {
           </div>
         </div>
       </div>
+
     </div>
   );
 }

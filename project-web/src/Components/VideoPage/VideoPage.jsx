@@ -6,9 +6,8 @@ import NavBar from '../NavBar/NavBar';
 import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash } from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
-import videosData from '../../data/vidDB.json';
 
-function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode }) {
+function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode ,setFilteredVideoList,usersList}) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
@@ -69,7 +68,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
 
         const newComment = {
             id: `c${Date.now()}`,
-            publisher: loggedUser ? loggedUser.channelName : "Anonymous",
+            publisher: loggedUser ? loggedUser.username : "Anonymous",
             text: newCommentText.trim()
         };
 
@@ -82,7 +81,6 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
             }
             return video;
         });
-
         setVList(updatedVideoList);
         setNewCommentText('');
     };
@@ -123,6 +121,8 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     handleSignOut={handleSignOut}
                     isDarkMode={isDarkMode}
                     setIsDarkMode={setIsDarkMode}
+                    videoList={videoList}
+                    setFilteredVideoList={setFilteredVideoList}
                 />
                 <p>Video not found.</p>
                 <Link to="/">
@@ -139,6 +139,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 handleSignOut={handleSignOut}
                 isDarkMode={isDarkMode}
                 setIsDarkMode={setIsDarkMode}
+                videoList={videoList}
             />
             <div className="video-container">
                 <div className="videoplay">
@@ -198,10 +199,11 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 <CommentSection
                     vidId={id}
                     comments={vidInPage.comments}
-                    isEditable={!!loggedUser}
+                    isEditable={isEditable}
                     loggedUser={loggedUser}
                     videoList={videoList}
                     setVList={setVList}
+                    usersList={usersList}
                 />
                 {loggedUser && (
                     <div className="add-comment-container">
@@ -216,6 +218,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                         </button>
                     </div>
                 )}
+
                 <div className="video-grid-narrow" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                     {videoList.map((video) => (
                         <VideoPrevNar 
@@ -232,5 +235,4 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
         </div>
     );
 }
-
 export default VideoPage;
