@@ -37,7 +37,7 @@
   max-width: 1200px; /* Match the max width of the container */
   height: 550px; /* Adjust this height as needed */
   background-color: #000;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   margin-bottom: 20px;
 }

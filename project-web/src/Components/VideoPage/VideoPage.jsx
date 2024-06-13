@@ -8,7 +8,7 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
 
-function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode ,setFilteredVideoList}) {
+function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode ,setFilteredVideoList,usersList}) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState('');
     const [hasLiked, setHasLiked] = useState(false);
@@ -63,7 +63,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
 
         const newComment = {
             id: `c${Date.now()}`,
-            publisher: loggedUser ? loggedUser.channelName : "Anonymous",
+            publisher: loggedUser ? loggedUser.username : "Anonymous",
             text: newCommentText.trim()
         };
 
@@ -138,6 +138,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     loggedUser={loggedUser}
                     videoList={videoList}
                     setVList={setVList}
+                    usersList={usersList}
                 />
                 {loggedUser && (
                     <div className="add-comment-container">

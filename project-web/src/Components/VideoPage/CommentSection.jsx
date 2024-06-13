@@ -2,7 +2,7 @@ import React from 'react';
 import Comment from './Comment';
 import './CommentSection.css';
 
-function CommentSection({ vidId, comments, isEditable, videoList, setVList }) {
+function CommentSection({ vidId, comments, isEditable, videoList, setVList,usersList }) {
     return (
         <div className="comment-section">
             <h2>Comments</h2>
@@ -16,6 +16,7 @@ function CommentSection({ vidId, comments, isEditable, videoList, setVList }) {
                     isEditable={isEditable}
                     videoList={videoList}
                     setVList={setVList}
+                    usersList={usersList}
                 />
             ))}
         </div>

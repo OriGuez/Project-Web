@@ -1,16 +1,23 @@
 import './Comment.css';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
 import { FaThumbsDown} from 'react-icons/fa';
 
 
-
-function Comment({ vidID, commentId, commentText, uploader, isEditable, videoList, setVList }) {
+function Comment({ vidID, commentId, commentText, uploader, isEditable, videoList, setVList,usersList }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedComment, setEditedComment] = useState(commentText);
     const [likeCount, setLikeCount] = useState(0);
     const [dislikeCount, setDislikeCount] = useState(0);
-
+    const [picURL, setPicURL] = useState(null);
+    useEffect(() => {
+        const user = usersList.find(user => user.username === uploader);
+        if (user) {
+          setPicURL(user.image);
+        } else {
+          setPicURL('/default.png'); // Set default picture URL if user not found
+        }
+      }, [usersList, uploader]);
     const handleEdit = () => {
         setIsEditing(true);
     };
@@ -61,7 +68,7 @@ function Comment({ vidID, commentId, commentText, uploader, isEditable, videoLis
 
     return (
         <div className="comment">
-            <img src={"/thumbnails/thumbnail1.jpg"} alt="Profile" />
+            <img src={picURL} alt="Profile" />
             <div className="comment-details">
                 <p className="uploader">{uploader}</p>
                 {isEditing ? (
