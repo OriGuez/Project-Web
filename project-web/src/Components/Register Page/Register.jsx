@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import users from '../../data/userdb.json';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { FaSignInAlt, FaAddressCard} from 'react-icons/fa';
 
 function Registration({ usersList, setUsersList }) {
   const [newUser, setNewUser] = useState({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
@@ -141,7 +142,7 @@ function Registration({ usersList, setUsersList }) {
             Already have an account?
             <br />
             <Link to="/login">
-              <button className="small-button">Login</button>
+              <button className="small-button"><FaSignInAlt/> Login</button>
             </Link>
           </div>
         </div>
@@ -201,12 +202,12 @@ function Registration({ usersList, setUsersList }) {
             </div>
             <div className="input-group">
               <input className="input-group" type="file" onChange={handleImageChange} />
-              {imgError && <div className="error-message">{imgError}</div>}
+              {imgError && <div className="error-message1">{imgError}</div>}
             </div>
             <div className="image-container">
               {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Profile Preview" />}
             </div>
-            <button type="button" onClick={handleSubmit}>Register</button>
+            <button type="button" onClick={handleSubmit}><FaAddressCard /> Register</button>
           </form>
         </div>
       </div>

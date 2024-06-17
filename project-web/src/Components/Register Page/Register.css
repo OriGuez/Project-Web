@@ -144,3 +144,11 @@ footer a:hover {
     object-fit: cover;
   }
 }
+
+.error-message1 {
+  margin-top: -20px;
+  color: red;
+  font-size: 0.9em;
+  height: 1.2em;
+  line-height: 1.2em;
+}

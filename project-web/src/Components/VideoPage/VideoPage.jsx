@@ -3,19 +3,21 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import CommentSection from "./CommentSection";
 import ShareButton from './ShareButton';
 import NavBar from '../NavBar/NavBar';
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck, FaCommentDots, FaTimes} from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
 
-function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode ,setFilteredVideoList,usersList}) {
+function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode, setIsDarkMode, setFilteredVideoList, usersList }) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState('');
+    const [isCommentFocused, setIsCommentFocused] = useState(false);
     const [hasLiked, setHasLiked] = useState(false);
     const [videoNotFound, setVideoNotFound] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
     const vidInPage = videoList.find(vid => vid.vidID === id);
+    const isEditable = loggedUser ? "1" : "0";
 
     useEffect(() => {
         if (!vidInPage) {
@@ -32,7 +34,6 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
         }
     }, [loggedUser, vidInPage]);
 
-    // Redirect to home if vidInPage is undefined
     if (!vidInPage) {
         return <Navigate to="/" />;
     }
@@ -140,6 +141,8 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 isDarkMode={isDarkMode}
                 setIsDarkMode={setIsDarkMode}
                 videoList={videoList}
+                setFilteredVideoList={setFilteredVideoList}
+                
             />
             <div className="video-container">
                 <div className="videoplay">
@@ -148,28 +151,30 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 <div className="video-details">
                     <h2 className="video-title">{vidInPage.title}</h2>
                     <div className="video-meta">
+                        <div className="publisherDetails" >
+                        <img src="/default.png" alt="pic" width="40px" height="auto"></img>
                         <span className="video-publisher">{vidInPage.publisher}</span>
+                        </div>
                         <span className="video-upload-date">{vidInPage.upload_date}</span>
                     </div>
                     {isEditing ? (
                         <div className="edit-details">
-                        <input
-                            type="text"
-                            value={editedTitle}
-                            onChange={(e) => setEditedTitle(e.target.value)}
-                            className="edit-title-input"
-                            placeholder="Edit Title"
-                        />
-                        <textarea
-                            value={editedDescription}
-                            onChange={(e) => setEditedDescription(e.target.value)}
-                            className="edit-description-input"
-                            placeholder="Edit Description"
-                        />
-                            <button5 onClick={handleSaveEdit} className="save-edit-button">
-                                Save
-                            </button5>
-                        
+                            <input
+                                type="text"
+                                value={editedTitle}
+                                onChange={(e) => setEditedTitle(e.target.value)}
+                                className="edit-title-input"
+                                placeholder="Edit Title"
+                            />
+                            <textarea
+                                value={editedDescription}
+                                onChange={(e) => setEditedDescription(e.target.value)}
+                                className="edit-description-input"
+                                placeholder="Edit Description"
+                            />
+                            <button onClick={handleSaveEdit} className="save-edit-button">
+                                <FaCheck /> Save
+                            </button>
                         </div>
                     ) : (
                         <p className="video-description">{vidInPage.description}</p>
@@ -196,6 +201,31 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 </div>
             </div>
             <div className="comment-section">
+            {loggedUser && (
+    <div className="add-comment-container">
+        <div className="comment-input-wrapper">
+            <img src={loggedUser.image} alt="Profile" className="comment-profile-image" />
+            <textarea
+                value={newCommentText}
+                onChange={(e) => setNewCommentText(e.target.value)}
+                onFocus={() => setIsCommentFocused(true)}
+                onBlur={() => setIsCommentFocused(!!newCommentText)}
+                placeholder="Add a comment..." 
+                className="comment-input"
+            />
+        </div>
+        {isCommentFocused && (
+            <div className="comment-buttons">
+                <button onClick={addNewComment} className="add-comment-button">
+                <FaCommentDots /> Comment
+                </button>
+                <button onClick={() => setNewCommentText('')} className="cancel-comment-button">
+                <FaTimes /> Cancel
+                </button>
+            </div>
+        )}
+    </div>
+)}
                 <CommentSection
                     vidId={id}
                     comments={vidInPage.comments}
@@ -205,25 +235,12 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     setVList={setVList}
                     usersList={usersList}
                 />
-                {loggedUser && (
-                    <div className="add-comment-container">
-                        <textarea
-                            value={newCommentText}
-                            onChange={(e) => setNewCommentText(e.target.value)}
-                            placeholder="Add a comment..."
-                            className="comment-input"
-                        />
-                        <button onClick={addNewComment} className="add-comment-button">
-                            Add Comment
-                        </button>
-                    </div>
-                )}
-
+        
                 <div className="video-grid-narrow" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                     {videoList.map((video) => (
-                        <VideoPrevNar 
+                        <VideoPrevNar
                             key={video.url}
-                            title={video.title} 
+                            title={video.title}
                             publisher={video.publisher}
                             vidID={video.vidID}
                             thumbnailUrl={video.thumbnailUrl}
@@ -235,4 +252,5 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
         </div>
     );
 }
+
 export default VideoPage;

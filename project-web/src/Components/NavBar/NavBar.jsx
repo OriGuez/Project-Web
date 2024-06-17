@@ -1,8 +1,9 @@
 import './NavBar.css';
-import React, { useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';  // Import Bootstrap Icons
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 
 function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilteredVideoList, videoList }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,25 +12,26 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
 
-
   const handleSearchInputChange = (event) => {
-
-    setSearchInput(event.target.value.toLowerCase());
+    setSearchInput(event.target.value);
   };
 
   const handleSearch = (event) => {
     event.preventDefault();
-    const filtered = videoList.filter(video =>
-      video.title.toLowerCase().includes(searchInput)
-    );
+    const filtered = videoList.filter(video => video.title.toLowerCase().includes(searchInput.toLowerCase()));
     setFilteredVideoList(filtered);
+    navigate('/');
   };
 
-
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch(event);
+    }
+  };
 
   const revertToVideoList = () => {
-    //setFilteredVideoList(videoList);
-  }
+    setFilteredVideoList(videoList);
+  };
 
   const handleClose = () => {
     setIsDropdownOpen(false);
@@ -75,7 +77,6 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
   };
 
   return (
-
     <div>
       <header className={`navbar navbar-expand-lg ${isDarkMode ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
         <div className="container-fluid">
@@ -92,16 +93,22 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
             <span5 className={isDarkMode ? 'text-white' : 'text-black'}>ViewTube</span5>
           </div>
           <div className="search-container">
-            <input type="text" className="form-control" placeholder="Search..." />
-            <button type="submit" className="search-button">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              onKeyDown={handleKeyPress}
+            />
+            <button type="submit" className="search-button" onClick={handleSearch}>
               <i className="bi bi-search"></i>
             </button>
           </div>
-
           <div className={`user-info ${isDarkMode ? 'dark-mode' : ''}`}>
             {loggedUser ? (
               <>
-               <div className="addVideo">
+                <div className="addVideo">
                   <Link to="/videoadd" className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
                     <div
                       className="icon-circle"
@@ -128,30 +135,28 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
                         }`}
                     >
                       <span>{loggedUser.username}</span>
-                      <br></br>
+                      <br />
                       <span>{loggedUser.channelName}</span>
-                      <br></br>
-                      <button5 className="btn btn-secondary" onClick={handleSignOutConfirm}>
-                        Sign Out
-                      </button5>
+                      <br />
+                      <button className="btn btn-secondary" onClick={handleSignOutConfirm}>
+                        <FaSignOutAlt /> Sign Out
+                      </button>
                     </div>
                   </div>
                 </div>
-               
               </>
             ) : (
               <div className="signIn">
                 <Link to="/login" style={{ color: isDarkMode ? 'white' : 'black', textDecoration: 'none' }}>
                   <div className="signInContent">
                     <img src="/default.png" alt="Sign in" className="signInImage" />
-                    <span>Sign in</span>
+                    <FaSignInAlt />
                   </div>
                 </Link>
               </div>
             )}
           </div>
         </div>
-
       </header>
       <div className={`dropdown-container ${isDarkMode ? 'dark-mode' : ''}`}>
         <div
@@ -167,24 +172,22 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
               className={`btn-close ${isDarkMode ? 'btn-close-white' : ''}`}
               data-bs-dismiss="offcanvas"
               aria-label="Close"
-
               onClick={handleClose}
             />
           </div>
           <div className={`offcanvas-body ${isDarkMode ? 'bg-dark text-light' : 'bg-light text-dark'}`}>
             <ul className={`list-group ${isDarkMode ? 'list-group-dark' : 'list-group-light'}`}>
               <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-
-               <Link to="/" style={{ color: 'black', textDecoration: 'none' }} className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
-                <i className="bi bi-house-door"></i>
-                <span className="ms-2">Home</span>
-              </Link>
+                <Link to="/" style={{ color: 'black', textDecoration: 'none' }} className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                  <i className="bi bi-house-door"></i>
+                  <span className="ms-2">Home</span>
+                </Link>
               </li>
               <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
-              <Link  to="/videoadd" style={{ color: 'black', textDecoration: 'none' }} className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
-                <i className="bi bi-plus-circle"></i>
-                <span className="ms-2">Add Video</span>
-                </Link>  
+                <Link to="/videoadd" style={{ color: 'black', textDecoration: 'none' }} className={`menu-item ${isDarkMode ? 'dark-mode' : ''}`}>
+                  <i className="bi bi-plus-circle"></i>
+                  <span className="ms-2">Add Video</span>
+                </Link>
               </li>
               <li className={`list-group-item d-flex justify-content-start align-items-center ${isDarkMode ? 'bg-dark text-light' : ''}`}>
                 <i className="bi bi-moon"></i>
@@ -200,7 +203,6 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
           </div>
         </div>
       </div>
-
     </div>
   );
 }

@@ -35,6 +35,10 @@ function ShareButton() {
                     <div className="share-modal-content" onClick={e => e.stopPropagation()}>
                         <button1 className="close-button" onClick={closeMenu}>&times;</button1>
                         <div className="share-options">
+                        <div className="share-option" onClick={copyToClipboard}>
+                                <img src="/copy.png" alt="Copy link" className="share-icon" />
+                                <span>Copy link</span>
+                            </div>
                             <div className="share-option">
                                 <img src="/whatsapp.png" alt="WhatsApp" className="share-icon" />
                                 <span>WhatsApp</span>
@@ -54,10 +58,6 @@ function ShareButton() {
                             <div className="share-option">
                                 <img src="/mail.png" alt="Mail" className="share-icon" />
                                 <span>Mail</span>
-                            </div>
-                            <div className="share-option" onClick={copyToClipboard}>
-                                <img src="/copy.png" alt="Copy link" className="share-icon" />
-                                <span>Copy link</span>
                             </div>
                         </div>
                     </div>

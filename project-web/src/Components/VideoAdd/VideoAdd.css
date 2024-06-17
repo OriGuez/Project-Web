@@ -99,3 +99,28 @@ h2 {
     width: 85%; /* Set a consistent width */
   
 }
+/* Styling for the form group to ensure proper spacing */
+.form-group {
+    margin-bottom: 20px;
+  }
+  
+  /* Container for the thumbnail options */
+  .thumbnail-options {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* Style for each thumbnail option */
+  .thumbnail-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  /* Style for the radio buttons */
+  .thumbnail-option input[type="radio"] {
+    margin: 0;
+  }
+  
