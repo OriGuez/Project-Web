@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './VideoAdd.css';
 
-function VideoAdd({ loggedUser, videoList, setVideoList }) {
+function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList }) {
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [imgPreview, setImgPreview] = useState('');
+  const [thumbnailOption, setThumbnailOption] = useState('upload');
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +24,10 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
     const file = e.target.files[0];
     if (file) {
       setVideoFile(file);
-      setImgPreview(URL.createObjectURL(file)); // Preview for video if needed
+      if (thumbnailOption === 'generate') {
+        generateThumbnail(file);
+      }
+      setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
     }
   };
@@ -30,9 +36,42 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
     const file = e.target.files[0];
     if (file) {
       setThumbnailFile(file);
-      setImgPreview(URL.createObjectURL(file)); // Preview for image
+      setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
     }
+  };
+
+  const handleThumbnailOptionChange = (e) => {
+    const option = e.target.value;
+    setThumbnailOption(option);
+    if (option === 'generate' && videoFile) {
+      generateThumbnail(videoFile);
+    }
+  };
+
+  const generateThumbnail = (file) => {
+    const videoElement = videoRef.current;
+    const canvasElement = canvasRef.current;
+    const context = canvasElement.getContext('2d');
+
+    const url = URL.createObjectURL(file);
+    videoElement.src = url;
+    videoElement.currentTime = 2;
+
+    videoElement.onloadeddata = () => {
+      videoElement.play();
+      videoElement.pause();
+      videoElement.currentTime = 2;
+    };
+
+    videoElement.onseeked = () => {
+      canvasElement.width = videoElement.videoWidth;
+      canvasElement.height = videoElement.videoHeight;
+      context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+      const dataUrl = canvasElement.toDataURL('image/png');
+      setImgPreview(dataUrl);
+      setThumbnailFile(dataUrl);
+    };
   };
 
   const handleFormSubmit = (e) => {
@@ -44,18 +83,22 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
         publisher: loggedUser.username,
         vidID: String(Date.now()),
         url: URL.createObjectURL(videoFile),
-        thumbnailUrl: URL.createObjectURL(thumbnailFile),
+        thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
         upload_date: new Date().toISOString().split('T')[0],
         whoLikedList: [],
         comments: [],
       };
 
-      setVideoList([...videoList, newVideo]);
+      const updatedVideoList = [...videoList, newVideo];
+      setVideoList(updatedVideoList);
+      setFilteredVideoList(updatedVideoList); // Update the filtered video list
+
       setTitle('');
       setDescription('');
       setVideoFile(null);
       setThumbnailFile(null);
       setErrors({});
+      setImgPreview('');
       navigate('/');
     }
   };
@@ -108,7 +151,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
   };
 
   const validateThumbnailFile = () => {
-    if (!thumbnailFile) {
+    if (thumbnailOption === 'upload' && !thumbnailFile) {
       setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: 'Please upload a thumbnail image.' }));
       return false;
     }
@@ -127,14 +170,13 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
 
   return (
     <div className="main-container">
-      
       <div className="video-add-container">
-      <div className="logo-container">
-        <Link to="/">
-          <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
-        </Link>ViewTube
-      </div>
-      <h2>Add a New Video</h2>
+        <div className="logo-container">
+          <Link to="/">
+            <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
+          </Link>ViewTube
+        </div>
+        <h2>Add a New Video</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="title-input">
             <label htmlFor="title">Title</label>
@@ -179,23 +221,56 @@ function VideoAdd({ loggedUser, videoList, setVideoList }) {
             {errors.videoFile && <div className="error-message">{errors.videoFile}</div>}
           </div>
           <div className="form-group">
-            <label htmlFor="thumbnailFile">Thumbnail Image</label>
-            <input
-              type="file"
-              id="thumbnailFile"
-              name="thumbnailFile"
-              accept="image/*"
-              onChange={handleThumbnailChange}
-              onBlur={handleBlur}
-              className="wide-input"
-            />
-            {errors.thumbnailFile && <div className="error-message">{errors.thumbnailFile}</div>}
+            <label>Thumbnail Option</label>
+            <div className="thumbnail-options">
+              <label className="thumbnail-option">
+                <input
+                  type="radio"
+                  id="uploadThumbnail"
+                  name="thumbnailOption"
+                  value="upload"
+                  checked={thumbnailOption === 'upload'}
+                  onChange={handleThumbnailOptionChange}
+                />
+                Upload Image
+              </label>
+              <label className="thumbnail-option">
+                <input
+                  type="radio"
+                  id="generateThumbnail"
+                  name="thumbnailOption"
+                  value="generate"
+                  checked={thumbnailOption === 'generate'}
+                  onChange={handleThumbnailOptionChange}
+                />
+                Generate from Video
+              </label>
+            </div>
           </div>
+          {thumbnailOption === 'upload' && (
+            <div className="form-group">
+              <label htmlFor="thumbnailFile">Thumbnail Image</label>
+              <input
+                type="file"
+                id="thumbnailFile"
+                name="thumbnailFile"
+                accept="image/*"
+                onChange={handleThumbnailChange}
+                onBlur={handleBlur}
+                className="wide-input"
+              />
+              {errors.thumbnailFile && <div className="error-message">{errors.thumbnailFile}</div>}
+            </div>
+          )}
           <div className="image-container">
             {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />}
           </div>
           <button type="submit">Add Video</button>
         </form>
+      </div>
+      <div className="video-container">
+        <video ref={videoRef} style={{ display: 'none' }} />
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
     </div>
   );

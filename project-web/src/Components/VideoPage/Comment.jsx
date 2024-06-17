@@ -1,7 +1,7 @@
 import './Comment.css';
 import { useState,useEffect } from 'react';
-import { FaThumbsUp } from 'react-icons/fa';
-import { FaThumbsDown} from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
+
 
 
 function Comment({ vidID, commentId, commentText, uploader, isEditable, videoList, setVList,usersList }) {
@@ -85,11 +85,11 @@ function Comment({ vidID, commentId, commentText, uploader, isEditable, videoLis
                     {isEditable === "1" && (
                         <>
                             {isEditing ? (
-                                <button className="save-button" onClick={handleSaveEdit}>Save</button>
+                                <button className="save-button" onClick={handleSaveEdit}><FaCheck /> Save</button>
                             ) : (
-                                <button className="edit-button" onClick={handleEdit}>Edit</button>
+                                <button className="edit-button" onClick={handleEdit}><FaEdit /> Edit</button>
                             )}
-                            <button className="delete-button" onClick={handleDelete}>Delete</button>
+                            <button className="delete-button" onClick={handleDelete}><FaTrash /> Delete</button>
                         </>
                     )}
                     <div className="likes-dislikes">

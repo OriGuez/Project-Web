@@ -52,16 +52,16 @@ function VideoPrev({ title, publisher, description, vidID, thumbnailUrl, upload_
                     <Link to={url} className="video-link">
                         <img src={thumbnailUrl} alt={title} className="video-thumbnail" />
                         <div className="video-info">
-                            <h3 className="video-title">{title}</h3>
+                            <h3 className="video-title">{title} </h3>
                             <p className="video-publisher">{publisher}</p>
                             <p className="video-upload-date">{upload_date}</p>
                         </div>
                     </Link>
-                    {loggedUser &&<button onClick={() => setIsEditing(true)}>Edit</button>}
+                    {/* {loggedUser &&<button onClick={() => setIsEditing(true)}>Edit</button>} */}
                 </div>
             )
             }
-            {loggedUser && <button onClick={handleDelete} className="delete-button">Delete</button>}
+            {/* {loggedUser && <button onClick={handleDelete} className="delete-button">Delete</button>} */}
         </div>
     );
 }

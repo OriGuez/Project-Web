@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from './VideoPrev';
 
-function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode,videoList,setVideoList,setFilteredVideoList,filteredVideoList }) {
-  //const [filteredVideoList, setFilteredVideoList] = useState(videoList);
-
+function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList }) {
   return (
     <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <NavBar
@@ -20,7 +18,7 @@ function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode,videoList,s
       />
       <main className="main-content">
         <section className="video-grid">
-          {videoList.map((video) => (
+          {filteredVideoList.map((video) => (
             <VideoPrev
               key={video.url}
               title={video.title}

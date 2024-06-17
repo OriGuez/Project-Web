@@ -3,17 +3,18 @@
     border-radius: 8px;
     margin: 10px;
     overflow: hidden;
-    width: 205px;
+    width: 220px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
     background-color: var(--background-color-light);
     color: var(--text-color-light);
+
 }
 .textarea-description {
     width: 100%; /* Make it take the full width of its container */
     height: 100px; /* Increase the height as needed */
-    padding: 8px; /* Add some padding for better readability */
+    padding: 1px; /* Add some padding for better readability */
     font-size: 16px; /* Adjust the font size */
     box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
 }
@@ -53,3 +54,6 @@
     background-color: var(--background-color-dark);
     color: var(--text-color-dark);
   }
+  .video-prev .video-info .video-title {
+    font-size: 18px;
+}

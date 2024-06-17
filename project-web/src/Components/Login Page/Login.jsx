@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../../App.css';
 import './Login.css'; 
 import { Link, useNavigate } from 'react-router-dom';
+import { FaSignInAlt } from 'react-icons/fa';
+
 
 function AppLogin({ usersList, loggedUser, setLoggedUser }) {
   const usernameInput = useRef();
@@ -99,7 +101,7 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
             />
             {passwordError && <div className="error-message">{passwordError}</div>}
           </div>
-          <button type="submit" onClick={signIn}>Sign in</button>
+          <button type="submit" onClick={signIn}> <FaSignInAlt/> Sign in</button>
           {loginError && <div className="error-login">{loginError}</div>}
         </form>
         <div className="create-account">
