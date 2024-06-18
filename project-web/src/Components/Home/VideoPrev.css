@@ -3,7 +3,8 @@
     border-radius: 8px;
     margin: 10px;
     overflow: hidden;
-    width: 220px;
+    width: 300px;
+    height: 220px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
@@ -12,11 +13,11 @@
 
 }
 .textarea-description {
-    width: 100%; /* Make it take the full width of its container */
-    height: 100px; /* Increase the height as needed */
-    padding: 1px; /* Add some padding for better readability */
-    font-size: 16px; /* Adjust the font size */
-    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    width: 100%; 
+    height: 100px; 
+    padding: 1px; 
+    font-size: 14px; 
+    box-sizing: border-box; 
 }
 .video-prev:hover {
     transform: scale(1.05);
@@ -29,31 +30,53 @@
 
 .video-thumbnail {
     width: 100%;
-    height: auto;
+    height: 140px;
     display: block;
 }
 
 .video-info {
     padding: 10px;
-}
+    line-height: 0.3;
+    flex-direction: column; 
+    justify-content: space-between;
+    align-items: flex-start;
 
-.video-title {
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-.video-publisher,
-.video-upload-date {
-    font-size: 0.9em;
-    color: #555;
 }
 
 
-/* Dark mode styles */
+
 .dark-mode {
     background-color: var(--background-color-dark);
     color: var(--text-color-dark);
   }
   .video-prev .video-info .video-title {
-    font-size: 18px;
+    font-size: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: -7px;
+    color: black;
+}
+.video-prev .video-info .video-publisher {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    margin-top: -12px;
+    margin-right: -40px;
+    margin-left: -7px;
+    text-overflow: ellipsis;
+
+}
+.video-prev .video-info .video-upload-date {
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+    margin-top: -15px;
+    text-overflow: ellipsis;
+
+}
+.video-prev .video-info .video-publisher .user-image {
+    width: 28px;        
+    height:28px;
+    margin-right: 2px;
+
 }

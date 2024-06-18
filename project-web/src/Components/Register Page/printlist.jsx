@@ -1,6 +1,6 @@
 import './websiteRegistration.css'
 import React from 'react';
-//this is a temporary debug list of user
+
 function UserList({ users }) {
     return (
         <div>
@@ -10,6 +10,7 @@ function UserList({ users }) {
                     <li key={index}>
                         {user.image && <img src={user.image} width="60px" height="60px" 
                          alt={`${user.username}'s profile`} className="user-profile-image" />}
+                    
                         <p><strong>Username:</strong> {user.username}</p>
                         <p><strong>Password:</strong> {user.password}</p>
                         <p><strong>Confirm Password:</strong> {user.confirmPassword}</p>

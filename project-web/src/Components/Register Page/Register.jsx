@@ -130,7 +130,6 @@ function Registration({ usersList, setUsersList }) {
             <Link to="/">
               <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />
             </Link>ViewTube
-            {/* <span> ViewTube </span> */}
           </div>
           <div className="create">Create a ViewTube account</div>
           <div className="Enter">Enter your details, <br />

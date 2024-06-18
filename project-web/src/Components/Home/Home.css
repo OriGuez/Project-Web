@@ -1,5 +1,4 @@
 
-/* Home Container Styling */
 .home-container {
   display: fixed;
   flex-direction: column;
@@ -96,9 +95,6 @@
   margin-right: 10px;
 }
 
-.btn-secondary {
-  margin-left: 10px;
-}
 
 .signOutDialog .btn-secondary {
   position: relative;
@@ -164,13 +160,11 @@
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-/* Define dark mode styles */
 .dark-mode .signOutDialog {
   background-color: #333;
   color: white;
 }
 
-/* Show dialog with animation */
 .showSignOutDialog {
   display: block;
   animation: slideDown 0.3s forwards;
@@ -178,7 +172,6 @@
   opacity: 1;
 }
 
-/* Hide dialog with animation */
 .hideSignOutDialog {
   display: block;
   animation: slideUp 0.3s forwards; 
@@ -186,7 +179,6 @@
   opacity: 1;
 }
 
-/* Ensure input text colors follow the mode */
 .form-control {
   background-color: var(--input-bg-color-light);
   color: var(--input-text-color-light);

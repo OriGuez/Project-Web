@@ -4,7 +4,7 @@ import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck } from 'react-icons/
 
 
 
-function Comment({ vidID, commentId, commentText, uploader, isEditable, videoList, setVList,usersList }) {
+function Comment({ vidID, commentId, commentText, uploader, isDarkMode, isEditable, videoList, setVList,usersList }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedComment, setEditedComment] = useState(commentText);
     const [likeCount, setLikeCount] = useState(0);
@@ -67,7 +67,7 @@ function Comment({ vidID, commentId, commentText, uploader, isEditable, videoLis
     };
 
     return (
-        <div className="comment">
+        <div className={`comment ${isDarkMode ? 'dark-mode' : ''}`}>
             <img src={picURL} alt="Profile" />
             <div className="comment-details">
                 <p className="uploader">{uploader}</p>
