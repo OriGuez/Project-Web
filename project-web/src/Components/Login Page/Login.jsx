@@ -74,7 +74,6 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
           <Link to='/'>
             <img src="/logo.png" alt="ViewTube Logo" width="100px" height="auto" />  
           </Link>ViewTube
-          {/* <span> ViewTube </span> */}
         </div>
         <form>
           <div className="input-container">

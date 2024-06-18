@@ -1,10 +1,8 @@
-/* Container for the share button and menu */
 .share-button-container {
     position: relative;
     display: inline-block;
 }
 
-/* Basic styles for the share button */
 .share-button {
     height: 40px;
     width: 120px;
@@ -23,31 +21,26 @@
     outline: none;
 }
 
-/* Add an icon to the button */
 .share-icon {
     margin-right: 6px;
     font-size: 16px;
 }
 
-/* Hover effects for the share button */
 .share-button:hover {
     background-color: #f1f1f1;
     border-color: #c6c6c6;
     color: #000;
 }
 
-/* Focus effect for the share button */
 .share-button:focus {
     border-color: #4caf50;
 }
 
-/* Active button effect for the share button */
 .share-button:active {
     background-color: #e2e2e2;
     border-color: #b3b3b3;
 }
 
-/* Disabled button effect for the share button */
 .share-button:disabled {
     background-color: #f9f9f9;
     border-color: #e0e0e0;
@@ -55,7 +48,7 @@
     cursor: not-allowed;
 }
 
-/* Modal styles */
+
 .share-modal {
     position: fixed;
     top: 0;
@@ -79,7 +72,6 @@
     position: relative;
 }
 
-/* Close button */
 .close-button {
     position: absolute;
     top: 10px;
@@ -88,9 +80,9 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
+    color:red;
 }
 
-/* Styles for the horizontal share options */
 .share-options {
     display: flex;
     overflow-x: auto;

@@ -3,7 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import CommentSection from "./CommentSection";
 import ShareButton from './ShareButton';
 import NavBar from '../NavBar/NavBar';
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck, FaCommentDots, FaTimes} from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck, FaCommentDots, FaTimes } from 'react-icons/fa';
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
 
@@ -30,7 +30,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 setHasLiked(false);
             }
             setEditedTitle(vidInPage.title);
-            setEditedDescription(vidInPage.description); // Initialize with current description
+            setEditedDescription(vidInPage.description);
         }
     }, [loggedUser, vidInPage]);
 
@@ -109,10 +109,34 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
     const handleDeleteVideo = () => {
         const updatedVideoList = videoList.filter(video => video.vidID !== id);
         setVList(updatedVideoList);
+        setFilteredVideoList(updatedVideoList);
         alert("Video deleted.");
-        // Navigate to home after deletion
         return <Navigate to="/" />;
+    
     };
+
+    const publisherImages = {
+        "NatGeo": "/natgeo.png",
+        "CookingChannel": "/cookingchannel.png",
+        "EnergyTalk": "/energytalk.png",
+        "HistoryChannel": "/historychannel.png",
+        "NASAHub": "/nasahub.png",
+        "PsychologyInsights": "/psychologyinsights.png",
+        "PhotoGuru": "/photoguru.png",
+        "CommunicationSkills": "/communication.png",
+        "Euroleague": "/euroleague.png",
+        "UEFA": "/uefa.png"
+      }; 
+
+    const getPublisherPicture = (username) => {
+        const user = usersList.find(user => user.username === username);
+        if (user) {
+          return user.image;
+        }
+        return publisherImages[username] || '/default.png'; // Use default image if not found
+      };
+
+    const publisherPicture = getPublisherPicture(vidInPage.publisher);
 
     if (videoNotFound) {
         return (
@@ -142,7 +166,6 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 setIsDarkMode={setIsDarkMode}
                 videoList={videoList}
                 setFilteredVideoList={setFilteredVideoList}
-                
             />
             <div className="video-container">
                 <div className="videoplay">
@@ -151,9 +174,9 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 <div className="video-details">
                     <h2 className="video-title">{vidInPage.title}</h2>
                     <div className="video-meta">
-                        <div className="publisherDetails" >
-                        <img src="/default.png" alt="pic" width="40px" height="auto"></img>
-                        <span className="video-publisher">{vidInPage.publisher}</span>
+                        <div className="publisherDetails">
+                            <img src={publisherPicture} alt={`${vidInPage.publisher}'s profile`} width="40px" height="auto" />
+                            <span className="video-publisher">{vidInPage.publisher}</span>
                         </div>
                         <span className="video-upload-date">{vidInPage.upload_date}</span>
                     </div>
@@ -201,31 +224,31 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                 </div>
             </div>
             <div className="comment-section">
-            {loggedUser && (
-    <div className="add-comment-container">
-        <div className="comment-input-wrapper">
-            <img src={loggedUser.image} alt="Profile" className="comment-profile-image" />
-            <textarea
-                value={newCommentText}
-                onChange={(e) => setNewCommentText(e.target.value)}
-                onFocus={() => setIsCommentFocused(true)}
-                onBlur={() => setIsCommentFocused(!!newCommentText)}
-                placeholder="Add a comment..." 
-                className="comment-input"
-            />
-        </div>
-        {isCommentFocused && (
-            <div className="comment-buttons">
-                <button onClick={addNewComment} className="add-comment-button">
-                <FaCommentDots /> Comment
-                </button>
-                <button onClick={() => setNewCommentText('')} className="cancel-comment-button">
-                <FaTimes /> Cancel
-                </button>
-            </div>
-        )}
-    </div>
-)}
+                {loggedUser && (
+                    <div className="add-comment-container">
+                        <div className="comment-input-wrapper">
+                            <img src={loggedUser.image} alt="Profile" className="comment-profile-image" />
+                            <textarea
+                                value={newCommentText}
+                                onChange={(e) => setNewCommentText(e.target.value)}
+                                onFocus={() => setIsCommentFocused(true)}
+                                onBlur={() => setIsCommentFocused(!!newCommentText)}
+                                placeholder="Add a comment..." 
+                                className="comment-input"
+                            />
+                        </div>
+                        {isCommentFocused && (
+                            <div className="comment-buttons">
+                                <button onClick={addNewComment} className="add-comment-button">
+                                    <FaCommentDots /> Comment
+                                </button>
+                                <button onClick={() => setNewCommentText('')} className="cancel-comment-button">
+                                    <FaTimes /> Cancel
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
                 <CommentSection
                     vidId={id}
                     comments={vidInPage.comments}
@@ -235,8 +258,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, setVList, isDarkMode,
                     setVList={setVList}
                     usersList={usersList}
                 />
-        
-                <div className="video-grid-narrow" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+                <div className="video-grid-narrow">
                     {videoList.map((video) => (
                         <VideoPrevNar
                             key={video.url}

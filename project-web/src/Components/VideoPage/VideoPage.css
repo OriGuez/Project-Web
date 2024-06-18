@@ -50,13 +50,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  border-radius: 20px;
+  background-color: #f3f3f3;
   width: 100%; 
 }
 
 .video-title {
   font-size: 24px;
   font-weight: bold;
-  margin-top: -10px;
   margin-bottom: 15px;
   color: #333;
   text-align: left;
@@ -93,7 +94,6 @@
   color: #606060;
   text-align: left;
   margin-top: 10px;
-  background-color: #f5f5f5;
 }
 
 .video-actions {
@@ -121,10 +121,13 @@
 
 .like-button:hover {
   background-color: #d3d3d3;
+  
+}.dislike-button:hover {
+  background-color: #d3d3d3;
 }
 
 .like-button.liked {
-  background-color: #007bff;
+  background-color: #606060;
   color: #fff;
 }
 
@@ -160,7 +163,7 @@
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   padding: 0 20px; 
   overflow-x: auto;
@@ -260,7 +263,7 @@
 }
 
 .save-edit-button, .cancel-edit-button {
-  background-color: var(--button-bg-color, #c9c9c9);
+  background-color: var(--button-bg-color, #606060);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -275,14 +278,13 @@
   background-color: var(--button-hover-bg-color, #c9c9c9);
 }
 
-.add-comment-button, .cancel-comment-button {
+.comment-buttons .add-comment-button  {
   height: 40px;
   width: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 6px 16px;
-  margin-left: 5px;
   background-color: #fff;
   border: 1px solid #dadada;
   border-radius: 20px;
@@ -292,7 +294,23 @@
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
   outline: none;
-  gap: 5px;
+}
+.comment-buttons .cancel-comment-button {
+  height: 40px;
+  width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  background-color: #fff;
+  border: 1px solid #dadada;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #606060;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  outline: none;
 }
 
 .add-comment-button:hover, .cancel-comment-button:hover {
@@ -314,17 +332,16 @@
 
 .comment-input {
   flex: 1;
-  height: 40px; /* Same height as the profile picture */
+  height: 40px; 
   padding: 10px;
   border-radius: 5px;
   border: none;
-  border-bottom: 1px solid #ccc; /* Underline only */
+  border-bottom: 1px solid #ccc; 
   resize: none;
 }
 
 .comment-buttons {
   display: flex;
-  /* gap: 10px; */
   margin-top: 10px;
 }
 
@@ -333,4 +350,184 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+}
+
+
+.dark-mode .video-container {
+  background-color: #2c2c2c;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.videoplay {
+  width: 100%;
+  height: auto;
+}
+
+.videoplay video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+
+
+.video-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.video-meta {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.dark-mode .video-meta {
+  color: #cccccc;
+}
+
+.publisherDetails {
+  display: flex;
+  align-items: center;
+}
+
+.video-publisher {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+
+.video-upload-date {
+  margin-left: 20px;
+  font-style: italic;
+}
+
+
+.video-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+
+.edit-details {
+  margin-top: 20px;
+}
+
+.edit-title-input, .edit-description-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dark-mode .edit-title-input, .dark-mode .edit-description-input {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+.edit-title-input {
+  font-size: 18px;
+}
+
+.edit-description-input {
+  height: 100px;
+  font-size: 16px;
+  resize: none;
+}
+
+
+.comment-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.add-comment-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment-profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.comment-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+  min-height: 60px;
+}
+
+.dark-mode .comment-input {
+  background-color: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+.comment-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.add-comment-button, .cancel-comment-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dark-mode .video-details{
+  background-color: #727272;
+}
+
+.video-details .video-title {
+  background-color: transparent;
+  margin-left: 10px;
+}
+.video-details .video-description {
+  margin-left: 10px;
+}
+.video-details .publisherDetails{
+  margin-left: 10px;
+}
+.video-details .video-upload-date {
+  margin-right: 10px;
+}
+
+.dark-mode .video-details .video-title {
+color: #DDDDDD;
+}
+
+.dark-mode .video-details .video-publisher {
+  color: #CCCCCC;
+}
+
+.dark-mode .video-details .video-description {
+    color: #CCCCCC;
+}
+
+.dark-mode .video-details .video-upload-date {
+  color: #CCCCCC;
+}
+.video-details .publisherDetails img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }

@@ -91,7 +91,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
 
       const updatedVideoList = [...videoList, newVideo];
       setVideoList(updatedVideoList);
-      setFilteredVideoList(updatedVideoList); // Update the filtered video list
+      setFilteredVideoList(updatedVideoList); 
 
       setTitle('');
       setDescription('');
@@ -111,12 +111,6 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
         break;
       case 'description':
         validateDescription(value);
-        break;
-      case 'videoFile':
-        validateVideoFile(value);
-        break;
-      case 'thumbnailFile':
-        validateThumbnailFile(value);
         break;
       default:
         break;
@@ -189,7 +183,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
               onBlur={handleBlur}
               placeholder="Title"
               required
-              className="title-input"
+              className="wide-input"
             />
             {errors.title && <div className="error-message">{errors.title}</div>}
           </div>
@@ -215,7 +209,6 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
               name="videoFile"
               accept="video/*"
               onChange={handleVideoChange}
-              onBlur={handleBlur}
               className="wide-input"
             />
             {errors.videoFile && <div className="error-message">{errors.videoFile}</div>}
@@ -256,7 +249,6 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
                 name="thumbnailFile"
                 accept="image/*"
                 onChange={handleThumbnailChange}
-                onBlur={handleBlur}
                 className="wide-input"
               />
               {errors.thumbnailFile && <div className="error-message">{errors.thumbnailFile}</div>}
@@ -272,7 +264,9 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
         <video ref={videoRef} style={{ display: 'none' }} />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
-    </div>
+      <video ref={videoRef} style={{ display: 'none' }} />
+        <canvas ref={canvasRef} style={{ display: 'none' }} />
+      </div>
   );
 }
 

@@ -1,10 +1,9 @@
+
 .search-container {
   display: flex;
   align-items: center;
   width: 100%; 
   max-width: 600px;
-  /* margin-left: 100px; */
-
 }
 
 .form-control {
@@ -32,7 +31,11 @@
 }
 
 .search-button:hover {
-  background-color: red; 
+  background-color: #d3d3d3; 
+}
+
+.dark-mode .search-button:hover {
+  background-color: #6a6a6a; 
 }
 
 
@@ -87,9 +90,14 @@
   margin-left: auto;
 }
 
+.btn-secondary {
+  margin-right: 10px;
+}
+
 .user-image, .signInImage {
   width: 50px;
   height: 50px;
+  border: 1px solid #909090;
   border-radius: 50%;
   cursor: pointer;
   border: none; 
@@ -165,12 +173,12 @@ span5 {
   text-align: left;
   margin-left: -14px;
   margin-right:180px
-}
+  }
+  
 .icon-circle {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: lightgrey; 
   display: flex;
   justify-content: center;
   margin-right: 40px;
@@ -181,8 +189,16 @@ span5 {
   font-size: 1.5rem;
   transition: background-color 0.3s;
 }
+.dark-mode .icon-circle{
+  color: rgb(221, 221, 221);
+
+}
+.dark-mode .icon-circle:hover {
+  background-color: #6a6a6a; 
+}
+
 .icon-circle:hover {
-  background-color: red;
+  background-color: #d3d3d3;
 }
 
 .icon-circle .icon-plus {
@@ -215,3 +231,45 @@ span5 {
 }
 
 
+:root {
+  --background-color-light: #f8f9fa;
+  --text-color-light: #000;
+  --background-color-dark: #343a40;
+  --text-color-dark: #fff;
+}
+
+.search-container input {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+.dark-mode .search-container input {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+  
+}
+
+.dark-mode .offcanvas {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.search-container button {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+.dark-mode .search-container button {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.list-group-item {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+.dark-mode .list-group-item {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}

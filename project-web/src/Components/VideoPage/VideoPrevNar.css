@@ -1,42 +1,33 @@
-/* VideoPrevNar.css */
+
 .video-prev-nar {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
     margin-right: -20px;
     color: #333;
-    /* Omit display: flex; and flex-wrap: wrap; for this approach */
-    line-height: 1.2; /* Force two lines (adjust for different font sizes) */
+    line-height: 1.2; 
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Optional: Background color for better visibility */
     background-color: #eee;
 }
 
 
 .video-thumbnail-scroll {
-    width: 180px; /* Adjust thumbnail width as needed */
+    width: 180px; 
     height: 110px;
-    margin-right: 10px; /* Add space between thumbnail and details */
+    margin-right: 10px; 
     white-space: nowrap;
     word-wrap: break-word;
-
-
-
 }
 
 .video-info-scroll {
-    flex: 1; /* Make info section take remaining space */
+    flex: 1;
     display: flex;
     flex-direction: column;
     white-space: nowrap;
     word-wrap: break-word;
-
-
 }
 
-
-/* VideoPrevNar.css */
 .video-title-scroll {
     font-size: 16px;
     font-weight: bold;
@@ -48,10 +39,6 @@
     max-width: 10px;
     word-wrap: break-word !important;
     text-wrap: normal !important;
-
-
-
-
 ;}
 
 
@@ -65,15 +52,10 @@
 .video-wrapper {
     display: flex;
     align-items: center;
-    /* margin-left: 20px; */
     white-space: nowrap;
-    justify-content: flex-start; /* Add this line */
+    justify-content: flex-start;
     word-wrap: break-word !important;
     text-wrap: nowrap;
-
-
-
-
 }
 
 
@@ -90,26 +72,23 @@ span6 {
     word-wrap: break-word !important;
     text-wrap: nowrap !important;
 }
-/* Container for the title */
 .title-container {
-    /* Adjust the width to control where the wrapping happens */
-    width: 100%; /* or any specific width you prefer */
-    max-width: 130px; /* Example max-width to constrain the container */
-    overflow-wrap: break-word; /* Allows words to break within the container */
-    word-wrap: break-word; /* Compatibility with older browsers */
-    white-space: normal; /* Allows normal line breaking */
-    background-color: #eee; /* Optional for visibility */
-    padding: 10px; /* Optional padding for aesthetics */
-    box-sizing: border-box; /* Ensures padding doesn't affect container width */
+    width: 100%; 
+    max-width: 130px;
+    overflow-wrap: break-word; 
+    word-wrap: break-word; 
+    white-space: normal; 
+    background-color: #eee; 
+    padding: 10px;
+    box-sizing: border-box; 
 }
 
-/* Title styling */
 .title {
     font-size: 16px;
     font-weight: bold;
     color: #333;
-    line-height: 1.2; /* Adjust for desired spacing */
-    margin: 0; /* Reset margin for consistency */
+    line-height: 1.2; 
+    margin: 0;
     margin-left: -12px;
 }
 

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from './VideoPrev';
 
-function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList }) {
+function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
   return (
     <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <NavBar
@@ -30,6 +30,7 @@ function Home({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList,
               videoList={videoList}
               setVideoList={setVideoList}
               loggedUser={loggedUser}
+              users={usersList}
             />
           ))}
         </section>
