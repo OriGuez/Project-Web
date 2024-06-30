@@ -7,12 +7,10 @@ const videoSchema = new mongoose.Schema({
     thumbnail: String,
     views: Number,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Array of user IDs who liked the video
     createdAt: { type: Date, default: Date.now },
 });
 
-const Video = mongoose.model('Video', videoSchema);
-
-module.exports = { Video };
-
+module.exports = mongoose.model('Video', videoSchema);
 
 

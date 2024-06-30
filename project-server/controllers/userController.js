@@ -1,8 +1,8 @@
 const User = require('../models/user');
-exports.register = async (req, res) => {
+exports.addUser = async (req, res) => {
     try {
-        const { username, email, password } = req.body;
-        const user = new User({ username, email, password });
+        const { username, password, displayName, profilePic } = req.body;
+        const user = new User({ username, password, displayName, profilePic });
         await user.save();
         res.status(201).json(user);
     } catch (error) {
