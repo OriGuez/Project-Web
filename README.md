@@ -1,7 +1,15 @@
-# React-Web
-This is Exercise 1 submission by Matan Sabag and Ori Guez.
+# React-Web App + Server
+This is Exercise 2 submission by Matan Sabag and Ori Guez.
+React Web App + Server
 
-React Web App.
+# Exercise 1
+Exercise 1 main branch is called "main" and is here:
+https://github.com/OriGuez/Project-Web/tree/main
+
+# Exercise 2
+Exercise 2 main branch is called "main-Exercise2" and is here:
+https://github.com/OriGuez/Project-Web/tree/main-Exercise2
+
 
 We splitted our work at first to register and login pages, and later to home and video pages,
 created components to items like the navbar, video-add and different sections in the site like comment section and etc.

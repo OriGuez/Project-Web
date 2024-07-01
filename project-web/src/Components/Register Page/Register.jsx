@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import users from '../../data/userdb.json';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { FaSignInAlt, FaAddressCard} from 'react-icons/fa';
+import { FaSignInAlt, FaAddressCard } from 'react-icons/fa';
+import axios from 'axios';
 
 function Registration({ usersList, setUsersList }) {
   const [newUser, setNewUser] = useState({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
@@ -16,12 +17,40 @@ function Registration({ usersList, setUsersList }) {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
-      setUsersList([...usersList, newUser]);
-      navigate("/login");
-      setImgPreview('');
-      console.log("Registration Successful");
+
+      try {
+                // Map newUser to the desired field names
+                const userPayload = {
+                  username: newUser.username,
+                  password: newUser.password,
+                  displayName: newUser.channelName,
+                  profilePic: newUser.image
+                };
+        const response = await fetch('/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userPayload),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          setUsersList([...usersList, newUser]);
+          navigate("/login");
+          setImgPreview('');
+          console.log("Registration Successful");
+        } else {
+          console.error('Registration failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+
+
+
     }
   };
 
@@ -135,67 +164,67 @@ function Registration({ usersList, setUsersList }) {
           <div className="Enter">Enter your details, <br />
             <span> password must contain at least 8 characters </span>
             <br />
-            <span> and at least one non-digit letter</span> 
+            <span> and at least one non-digit letter</span>
           </div>
           <div className='LoginReg'>
             Already have an account?
             <br />
             <Link to="/login">
-              <button className="small-button"><FaSignInAlt/> Login</button>
+              <button className="small-button"><FaSignInAlt /> Login</button>
             </Link>
           </div>
         </div>
         <div className="right-section">
           <form>
             <div className="input-group">
-              <input 
-                type="text" 
-                id="username" 
-                name="username" 
-                value={newUser.username} 
-                onChange={handleChange} 
-                onBlur={() => validateUsername(newUser.username)} 
-                placeholder="Username" 
-                required 
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={newUser.username}
+                onChange={handleChange}
+                onBlur={() => validateUsername(newUser.username)}
+                placeholder="Username"
+                required
               />
               {usernameError && <div className="error-message">{usernameError}</div>}
             </div>
             <div className="input-group">
-              <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                value={newUser.password} 
-                onChange={handleChange} 
-                onBlur={() => validatePassword(newUser.password)} 
-                placeholder="Password" 
-                required 
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={newUser.password}
+                onChange={handleChange}
+                onBlur={() => validatePassword(newUser.password)}
+                placeholder="Password"
+                required
               />
               {passwordError && <div className="error-message">{passwordError}</div>}
             </div>
             <div className="input-group">
-              <input 
-                type="password" 
-                id="confirmPassword" 
-                name="confirmPassword" 
-                value={newUser.confirmPassword} 
-                onChange={handleChange} 
-                onBlur={() => validateConfirmPassword(newUser.confirmPassword)} 
-                placeholder="Confirm Password" 
-                required 
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={newUser.confirmPassword}
+                onChange={handleChange}
+                onBlur={() => validateConfirmPassword(newUser.confirmPassword)}
+                placeholder="Confirm Password"
+                required
               />
               {confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
             </div>
             <div className="input-group">
-              <input 
-                type="text" 
-                id="channelName" 
-                name="channelName" 
-                value={newUser.channelName} 
-                onChange={handleChange} 
-                onBlur={() => validateChannelName(newUser.channelName)} 
-                placeholder="Channel Name" 
-                required 
+              <input
+                type="text"
+                id="channelName"
+                name="channelName"
+                value={newUser.channelName}
+                onChange={handleChange}
+                onBlur={() => validateChannelName(newUser.channelName)}
+                placeholder="Channel Name"
+                required
               />
               {channelNameError && <div className="error-message">{channelNameError}</div>}
             </div>

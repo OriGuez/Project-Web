@@ -9,13 +9,15 @@ const {
 } = require('../controllers/videoController');
 
 const router = express.Router();
-
+//public routes:
 router.get('/users/:id/videos', getUserVideos);
-router.post('/users/:id/videos', createVideo);
 router.get('/users/:id/videos/:pid', getVideo);
+router.get('/videos',get20videos);
+
+//private routes:
+router.post('/users/:id/videos', createVideo);
 router.put('/users/:id/videos/:pid', updateVideo);
 router.patch('/users/:id/videos/:pid', updateVideo);
 router.delete('/users/:id/videos/:pid', deleteVideo);
-router.get('/videos',get20videos);
 
 module.exports = router;
