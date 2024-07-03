@@ -29,7 +29,7 @@ exports.addComment = async (req, res) => {
 exports.updateComment = async (req, res) => {
     try {
         const userId = req.params.id;
-        const commentId = req.params.commentId;
+        const commentId = req.params.cid;
         const { content } = req.body;
 
         // Check if userId and commentId are valid ObjectIds
@@ -56,13 +56,12 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
     try {
         const userId = req.params.id;
-        const commentId = req.params.commentId;
+        const commentId = req.params.cid;
 
         // Check if userId and commentId are valid ObjectIds
         if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(commentId)) {
             return res.status(400).json({ error: 'Invalid userId or commentId' });
         }
-
         const deletedComment = await Comment.findByIdAndDelete(commentId);
 
         if (!deletedComment) {
@@ -91,7 +90,7 @@ exports.getVideoComments = async (req, res) => {
             return res.status(204).json(comments);
         }
         else
-        res.status(200).json(comments);
+            res.status(200).json(comments);
     } catch (error) {
         console.error('Error getting video comments:', error);
         res.status(500).json({ error: 'Server error', details: error.message });
