@@ -1,5 +1,6 @@
 const express = require('express');
 const authenticateToken = require('../utils/auth');
+//const checkUser = require('../utils/checkUser');
 const {
     getVideoComments,
     addComment,
@@ -9,10 +10,11 @@ const {
 
 const router = express.Router();
 //public routes:
-router.get('/users/:id/videos/:pid/comments', getVideoComments);
+router.get('/videos/:pid/comments', getVideoComments);
 //private routes:
-router.post('/users/:id/videos/:pid/comments',authenticateToken, addComment);
-router.put('/users/:id/videos/:pid/:cid',authenticateToken, updateComment);
-router.patch('/users/:id/videos/:pid/:cid',authenticateToken, updateComment);
-router.delete('/users/:id/videos/:pid/:cid',authenticateToken, deleteComment);
+router.post('/videos/:pid/comments',authenticateToken, addComment);
+//need to make a special check inside them
+router.put('/comments/:cid',authenticateToken, updateComment);
+router.patch('/comments/:cid',authenticateToken, updateComment);
+router.delete('/comments/:cid',authenticateToken, deleteComment);
 module.exports = router;

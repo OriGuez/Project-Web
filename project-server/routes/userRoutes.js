@@ -1,5 +1,6 @@
 const express = require('express');
 const authenticateToken = require('../utils/auth');
+const checkUser = require('../utils/checkUser');
 const uploadImage = require('../utils/uploadImages');
 const {
     getUser,
@@ -17,8 +18,8 @@ router.get('/users/:id', getUser);
 router.post('/tokens', login);
 
 //authorized routes:
-router.put('/users/:id',authenticateToken, updateUser);
-router.patch('/users/:id',authenticateToken, updateUser);
-router.delete('/users/:id',authenticateToken,deleteUser);
+router.put('/users/:id',authenticateToken,checkUser, updateUser);
+router.patch('/users/:id',authenticateToken,checkUser, updateUser);
+router.delete('/users/:id',authenticateToken,checkUser,deleteUser);
 
 module.exports = router;

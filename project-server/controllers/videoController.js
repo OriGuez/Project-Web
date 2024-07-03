@@ -5,38 +5,31 @@ const upload = require('../utils/uploadVideo');
 const path = require('path');
 
 exports.createVideo = async (req, res) => {
-    let user
-    try {
-        //not supposed to happen
-        user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        // Check if the username in req.user matches the username of the fetched user (a user can only add to his own videos)
-        if (user.username !== req.user.username) {
-            return res.status(403).json({ error: 'Forbidden: Username does not match the user ID' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: 'Server error', details: error.message });
-    }
     //video file needs to be sent with "video" tag.and the rest of items in "body"
     upload(req, res, async (err) => {
         if (err) {
             return res.status(400).json({ error: err });
         }
 
-        if (!req.file) {
-            return res.status(400).json({ error: 'No video file uploaded' });
+        if (!req.files || !req.files.video || !req.files.image) {
+            return res.status(400).json({ error: 'Both video and thumbnail files are required' });
         }
 
         try {
-            const fileName = path.basename(req.file.path);
-            const relativePath = path.join('uploads', 'videos', fileName);
+            const videoFile = req.files.video[0];
+            const imageFile = req.files.image[0];
+
+            const videoFileName = path.basename(videoFile.path);
+            const imageFileName = path.basename(imageFile.path);
+
+            const videoRelativePath = path.join('uploads', 'videos', videoFileName);
+            const imageRelativePath = path.join('uploads', 'images', imageFileName);
             // Create a new video with the uploaded file path and other details
             const video = new Video({
                 ...req.body,
                 userId: req.params.id,
-                url: relativePath // Save the file path in the database
+                thumbnail:imageRelativePath,
+                url: videoRelativePath // Save the file path in the database
             });
             await video.save();
             res.status(201).json(video);

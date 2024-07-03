@@ -1,10 +1,20 @@
 const mongoose = require('mongoose');
 const Comment = require('../models/comment');
+const User = require('../models/user');
 const jwt = require("jsonwebtoken")
 exports.addComment = async (req, res) => {
     try {
+        //I have in req.user the username of the uploader.
+        //I need to find the ID of the user.
+        const username = req.user.username
+        const user = await User.findOne({ username: username }).select('_id').exec();
+        let userId
+        if (!user) {
+            return res.status(400).json({ error: 'Error in Finding User' });
+        }
+        userId = user._id;
         const { content } = req.body;
-        const userId = req.params.id;
+        // const userId = req.params.id;
         const videoId = req.params.pid;
 
         // Check if userId and videoId are valid ObjectIds
@@ -28,24 +38,33 @@ exports.addComment = async (req, res) => {
 
 exports.updateComment = async (req, res) => {
     try {
-        const userId = req.params.id;
+        //I have in req.user the username of the uploader.
+        //I need to find the ID of the user.
+        const username = req.user.username
+        const user = await User.findOne({ username: username }).select('_id').exec();
+        let userId
+        if (!user) {
+            return res.status(400).json({ error: 'Error in Finding User' });
+        }
+        userId = user._id;
         const commentId = req.params.cid;
         const { content } = req.body;
 
-        // Check if userId and commentId are valid ObjectIds
-        if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(commentId)) {
-            return res.status(400).json({ error: 'Invalid userId or commentId' });
+        // Check if commentId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(commentId)) {
+            return res.status(400).json({ error: 'Invalid commentId' });
         }
-
-        const updatedComment = await Comment.findByIdAndUpdate(
-            commentId,
-            { content },
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedComment) {
+        const comment = await Comment.findById(commentId).exec();
+        if (!comment) {
             return res.status(404).json({ error: 'Comment not found' });
         }
+
+        if (comment.userId.toString() !== userId.toString()) {
+            return res.status(403).json({ error: 'You do not have permission to update this comment' });
+        }
+        //applying new content to comment.
+        comment.content = content;
+        const updatedComment = await comment.save();
 
         res.status(200).json(updatedComment);
     } catch (error) {
@@ -55,19 +74,31 @@ exports.updateComment = async (req, res) => {
 };
 exports.deleteComment = async (req, res) => {
     try {
-        const userId = req.params.id;
-        const commentId = req.params.cid;
-
-        // Check if userId and commentId are valid ObjectIds
-        if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(commentId)) {
-            return res.status(400).json({ error: 'Invalid userId or commentId' });
+        //I have in req.user the username of the uploader.
+        //I need to find the ID of the user.
+        const username = req.user.username
+        const user = await User.findOne({ username: username }).select('_id').exec();
+        let userId
+        if (!user) {
+            return res.status(400).json({ error: 'Error in Finding User' });
         }
-        const deletedComment = await Comment.findByIdAndDelete(commentId);
+        userId = user._id;
 
-        if (!deletedComment) {
+
+        const commentId = req.params.cid;
+        // Check if commentId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(commentId)) {
+            return res.status(400).json({ error: 'Invalid commentId' });
+        }
+
+        const comment = await Comment.findById(commentId).exec();
+        if (!comment) {
             return res.status(404).json({ error: 'Comment not found' });
         }
-
+        if (comment.userID.toString() !== userId.toString()) {
+            return res.status(403).json({ error: 'You do not have permission to delete this comment' });
+        }
+        await comment.deleteOne();
         res.status(200).json({ message: 'Comment deleted successfully' });
     } catch (error) {
         console.error('Error deleting comment:', error);
@@ -77,14 +108,11 @@ exports.deleteComment = async (req, res) => {
 
 exports.getVideoComments = async (req, res) => {
     try {
-        const userId = req.params.id;
         const videoId = req.params.pid;
-
-        // Check if userId and videoId are valid ObjectIds
-        if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(videoId)) {
-            return res.status(400).json({ error: 'Invalid userId or videoId' });
+        // Check if videoId is valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(videoId)) {
+            return res.status(400).json({ error: 'Invalid videoId' });
         }
-
         const comments = await Comment.find({ videoId });
         if (comments.length === 0) {
             return res.status(204).json(comments);
