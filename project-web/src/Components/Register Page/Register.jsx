@@ -4,7 +4,6 @@ import users from '../../data/userdb.json';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt, FaAddressCard } from 'react-icons/fa';
-import axios from 'axios';
 
 function Registration({ usersList, setUsersList }) {
   const [newUser, setNewUser] = useState({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
@@ -12,6 +11,9 @@ function Registration({ usersList, setUsersList }) {
   const [usernameError, setUsernameError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [channelNameError, setChannelNameError] = useState('');
+  const [registerError, setRegisterError] = useState('');
+  const [picFile, setPicFile] = useState('');
+
   const [imgError, setImgError] = useState('');
   const [imgPreview, setImgPreview] = useState('');
 
@@ -21,36 +23,49 @@ function Registration({ usersList, setUsersList }) {
     if (validateForm()) {
 
       try {
-                // Map newUser to the desired field names
-                const userPayload = {
-                  username: newUser.username,
-                  password: newUser.password,
-                  displayName: newUser.channelName,
-                  profilePic: newUser.image
-                };
+        // Map newUser to the desired field names
+        const userPayload = new FormData();
+        userPayload.append('username', newUser.username);
+        userPayload.append('password', newUser.password);
+        userPayload.append('displayName', newUser.channelName);
+        userPayload.append('image', picFile);
+        // userPayload.append('profilePic', newUser.image);
         const response = await fetch('/api/users', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userPayload),
+          body: userPayload,
         });
-
-        if (response.ok) {
-          const result = await response.json();
+        //if user created successfully
+        if (response.status === 201) {
+          //const result = await response.json();
           setUsersList([...usersList, newUser]);
           navigate("/login");
           setImgPreview('');
+          setPicFile('');
           console.log("Registration Successful");
         } else {
-          console.error('Registration failed');
+          switch (response.status) {
+            case 409:
+              {
+                setRegisterError('Username Already Exists');
+                break;
+              }
+            case 403:
+              {
+                setRegisterError('No Profile Picture');
+                break;
+              }
+            case 500:
+              {
+                setRegisterError('Internal Server Error');
+                break;
+              }
+            default:
+              setRegisterError('Something went wrong');
+          }
         }
       } catch (error) {
         console.error('Error:', error);
       }
-
-
-
     }
   };
 
@@ -83,12 +98,13 @@ function Registration({ usersList, setUsersList }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setPicFile(e.target.files[0]);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImgPreview(reader.result);
         setNewUser({
           ...newUser,
-          image: reader.result
+          image: file
         });
         setImgError('');
       };
@@ -100,10 +116,11 @@ function Registration({ usersList, setUsersList }) {
     if (value.trim() === '') {
       setUsernameError('Username cannot be empty');
       return false;
-    } else if (usersList.some(user => user.username === value)) {
-      setUsernameError('Username already exists');
-      return false;
     }
+    // else if (usersList.some(user => user.username === value)) {
+    //   setUsernameError('Username already exists');
+    //   return false;
+    // }
     setUsernameError('');
     return true;
   };
@@ -137,17 +154,14 @@ function Registration({ usersList, setUsersList }) {
 
   const validateForm = () => {
     let isValid = true;
-
     if (!validateUsername(newUser.username)) isValid = false;
     if (!validatePassword(newUser.password)) isValid = false;
     if (!validateConfirmPassword(newUser.confirmPassword)) isValid = false;
     if (!validateChannelName(newUser.channelName)) isValid = false;
-
     if (!imgPreview) {
       setImgError('Please upload an image');
       isValid = false;
     }
-
     return isValid;
   };
 
@@ -237,6 +251,7 @@ function Registration({ usersList, setUsersList }) {
             </div>
             <button type="button" onClick={handleSubmit}><FaAddressCard /> Register</button>
           </form>
+          {registerError && <div className="error-message">{registerError}</div>}
         </div>
       </div>
     </div>
