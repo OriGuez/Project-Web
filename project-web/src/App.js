@@ -18,7 +18,10 @@ function App() {
   const [filteredVideoList, setFilteredVideoList] = useState(videoList);
 
   const handleSignOut = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('jwt');
     setLoggedUser(null);
+    //navigate('/login');
   };
 
   return (

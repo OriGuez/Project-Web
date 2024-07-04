@@ -10,6 +10,12 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
   const [errors, setErrors] = useState({});
   const [imgPreview, setImgPreview] = useState('');
   const [thumbnailOption, setThumbnailOption] = useState('upload');
+
+
+  const [thumbFileServer, setThumbFileServer] = useState(null);
+  const [vidFileServer, setVidFileServer] = useState(null);
+
+
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -23,6 +29,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setVidFileServer(e.target.files[0])
       setVideoFile(file);
       if (thumbnailOption === 'generate') {
         generateThumbnail(file);
@@ -35,6 +42,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setThumbFileServer(e.target.files[0])
       setThumbnailFile(file);
       setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
@@ -46,6 +54,10 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
     setThumbnailOption(option);
     if (option === 'generate' && videoFile) {
       generateThumbnail(videoFile);
+    }
+    else if (option === 'upload') {
+      setImgPreview('');
+      //setThumbFileServer(null);
     }
   };
 
@@ -68,38 +80,88 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
       canvasElement.width = videoElement.videoWidth;
       canvasElement.height = videoElement.videoHeight;
       context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-      const dataUrl = canvasElement.toDataURL('image/png');
+      const dataUrl = canvasElement.toDataURL('image/jpeg');
       setImgPreview(dataUrl);
-      setThumbnailFile(dataUrl);
+      canvasElement.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
+          console.log('File created:', file);
+          setThumbFileServer(file);
+        }
+      }, 'image/jpeg');
     };
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const newVideo = {
-        title,
-        description,
-        publisher: loggedUser.username,
-        vidID: String(Date.now()),
-        url: URL.createObjectURL(videoFile),
-        thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
-        upload_date: new Date().toISOString().split('T')[0],
-        whoLikedList: [],
-        comments: [],
-      };
+      try {
+        // Map to the desired field names
+        const vidPayload = new FormData();
+        vidPayload.append('title', title);
+        vidPayload.append('description', description);
+        vidPayload.append('video', vidFileServer);
+        vidPayload.append('image', thumbFileServer);
+        const userID = localStorage.getItem('loggedUserID');
+        const jwtToken = localStorage.getItem('jwt');
+        const response = await fetch(`/api/users/${userID}/videos`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${jwtToken}` // Add the Authorization header
+          },
+          body: vidPayload,
+        });
+        //if user created successfully
+        if (response.status === 201) {
+          const newVideo = {
+            title,
+            description,
+            publisher: loggedUser.username,
+            vidID: String(Date.now()),
+            url: URL.createObjectURL(videoFile),
+            thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
+            upload_date: new Date().toISOString().split('T')[0],
+            whoLikedList: [],
+            comments: [],
+          };
 
-      const updatedVideoList = [...videoList, newVideo];
-      setVideoList(updatedVideoList);
-      setFilteredVideoList(updatedVideoList); 
+          const updatedVideoList = [...videoList, newVideo];
+          setVideoList(updatedVideoList);
+          setFilteredVideoList(updatedVideoList);
+          setTitle('');
+          setDescription('');
+          setVideoFile(null);
+          setThumbnailFile(null);
+          setVidFileServer(null)
+          setThumbFileServer(null)
+          setErrors({});
+          setImgPreview('');
+          navigate('/');
+          console.log("Video Upload Successful");
+        } else {
+          switch (response.status) {
+            case 400:
+              {
+                break;
+              }
+            case 403:
+              {
+                //setRegisterError('No Profile Picture');
+                break;
+              }
+            case 500:
+              {
+                //setRegisterError('Internal Server Error');
+                break;
+              }
+            default:
+            //setRegisterError('Something went wrong');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
 
-      setTitle('');
-      setDescription('');
-      setVideoFile(null);
-      setThumbnailFile(null);
-      setErrors({});
-      setImgPreview('');
-      navigate('/');
     }
   };
 
@@ -265,8 +327,8 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
         <canvas ref={canvasRef} style={{ display: 'none' }} />
       </div>
       <video ref={videoRef} style={{ display: 'none' }} />
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-      </div>
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+    </div>
   );
 }
 

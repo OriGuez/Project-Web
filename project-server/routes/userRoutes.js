@@ -1,25 +1,28 @@
 const express = require('express');
-//const auth = require('../utils/auth');
+const authenticateToken = require('../utils/auth');
+const checkUser = require('../utils/checkUser');
+const uploadImage = require('../utils/uploadImages');
 const {
     getUser,
+    getUserID,
     updateUser,
     deleteUser,
     addUser,
-    getUserVideoList,
     login
 } = require('../controllers/userController');
 
 const router = express.Router();
 //it will be localhost:xx/users/...
 //public routes:
-router.post('/users', addUser);
-//authorized routes:
-router.get('/users/:id',authenticateToken, getUser);
-router.put('/users/:id',authenticateToken, updateUser);
-router.patch('/users/:id',authenticateToken, updateUser);
-router.delete('/users/:id',authenticateToken, deleteUser);
-//router.get('/users/:id/videos', getUserVideoList);
-router.post('/tokens', login);
+router.post('/users', uploadImage, addUser);
+router.get('/users/:id', getUser);
+router.get('/users/getID/:username', getUserID);
 
+router.post('/tokens', login);
+router.get('/tokens', login);
+//authorized routes:
+router.put('/users/:id',authenticateToken,checkUser, updateUser);
+router.patch('/users/:id',authenticateToken,checkUser, updateUser);
+router.delete('/users/:id',authenticateToken,checkUser,deleteUser);
 
 module.exports = router;
