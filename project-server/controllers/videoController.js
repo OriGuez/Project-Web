@@ -58,6 +58,7 @@ exports.getUserVideos = async (req, res) => {
 };
 
 exports.getVideo = async (req, res) => {
+    //make here a check if the id of user that was attached is valid to this video or not
     try {
         const video = await Video.findById(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });

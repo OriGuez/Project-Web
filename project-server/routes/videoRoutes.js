@@ -16,6 +16,7 @@ const router = express.Router();
 //public routes:
 router.get('/users/:id/videos', getUserVideos);
 router.get('/users/:id/videos/:pid', getVideo);
+router.get('/videos/:pid', getVideo);
 router.get('/videos',get20videos);
 
 //private routes - only for logged User:

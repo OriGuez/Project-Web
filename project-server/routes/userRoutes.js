@@ -4,6 +4,7 @@ const checkUser = require('../utils/checkUser');
 const uploadImage = require('../utils/uploadImages');
 const {
     getUser,
+    getUserID,
     updateUser,
     deleteUser,
     addUser,
@@ -15,8 +16,10 @@ const router = express.Router();
 //public routes:
 router.post('/users', uploadImage, addUser);
 router.get('/users/:id', getUser);
-router.post('/tokens', login);
+router.get('/users/getID/:username', getUserID);
 
+router.post('/tokens', login);
+router.get('/tokens', login);
 //authorized routes:
 router.put('/users/:id',authenticateToken,checkUser, updateUser);
 router.patch('/users/:id',authenticateToken,checkUser, updateUser);
