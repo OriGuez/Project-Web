@@ -7,6 +7,7 @@ import users from './data/userdb.json';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import VideoPage from './Components/VideoPage/VideoPage';
 import VideoAdd from './Components/VideoAdd/VideoAdd';
+import UserPage from './Components/UserPage/UserPage';
 import videos from './data/vidDB.json';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Home loggedUser={loggedUser} handleSignOut={handleSignOut} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList} filteredVideoList={filteredVideoList} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />} />
           <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} handleSignOut={handleSignOut}/>} />
           <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />}  />
+          <Route path="/userpage/:username" component={UserPage} element={<UserPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />}  />
         </Routes>
       </BrowserRouter>
     </div>

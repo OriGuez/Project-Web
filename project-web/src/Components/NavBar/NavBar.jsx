@@ -114,6 +114,10 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
                       <br />
                       <span>{loggedUser.channelName}</span>
                       <br />
+                      <Link to={`/userpage/${loggedUser.username}`} className="user">
+                         <img src="/logo.png" alt="ViewTube Logo" width="40px" height="auto" />
+                      </Link>
+                      <br />
                       <button className="btn btn-secondary" onClick={handleSignOutConfirm}>
                         <FaSignOutAlt /> Sign Out
                       </button>
