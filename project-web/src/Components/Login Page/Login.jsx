@@ -24,12 +24,12 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
       setUsernameError('Username cannot be empty');
       return false;
     }
-    const user = usersList.find(user => user.username === val);
-    if (!user) {
-      //setUsernameError('Username not found');
-      return false;
-    }
-    setFoundUser(user);
+    // const user = usersList.find(user => user.username === val);
+    // if (!user) {
+    //   //setUsernameError('Username not found');
+    //   return false;
+    // }
+    // setFoundUser(user);
     setUsernameError('');
     return true;
   };
@@ -74,8 +74,6 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
           const token = data.token;
           //saving the token that we got inside localStorage
           localStorage.setItem('jwt', token);
-
-
           const responseID = await fetch(`/api/users/getID/${usernameInput.current.value}`, {
             method: 'GET',
             headers: {
@@ -87,7 +85,11 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
             const userID = data.userID;
             //saving the userID inside localStorage
             localStorage.setItem('loggedUserID', userID);
-            // Now you can use the userID as needed
+            const user='';
+            user.username=usernameInput.current.value;
+            user._id=userID;
+            setFoundUser(user);
+
           } else {
             const errorData = await responseID.json();
             console.error('Error:', errorData.message);

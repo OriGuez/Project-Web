@@ -95,7 +95,7 @@ exports.deleteComment = async (req, res) => {
         if (!comment) {
             return res.status(404).json({ error: 'Comment not found' });
         }
-        if (comment.userID.toString() !== userId.toString()) {
+        if (comment.userId.toString() !== userId.toString()) {
             return res.status(403).json({ error: 'You do not have permission to delete this comment' });
         }
         await comment.deleteOne();
@@ -115,7 +115,7 @@ exports.getVideoComments = async (req, res) => {
         }
         const comments = await Comment.find({ videoId });
         if (comments.length === 0) {
-            return res.status(204).json(comments);
+            return res.status(204).json({});
         }
         else
             res.status(200).json(comments);

@@ -28,7 +28,7 @@ exports.createVideo = async (req, res) => {
             const video = new Video({
                 ...req.body,
                 userId: req.params.id,
-                thumbnail:imageRelativePath,
+                thumbnail: imageRelativePath,
                 url: videoRelativePath // Save the file path in the database
             });
             await video.save();
@@ -51,6 +51,17 @@ exports.getVideos = async (req, res) => {
 exports.getUserVideos = async (req, res) => {
     try {
         const videos = await Video.find({ userId: req.params.id });
+        res.status(200).json(videos);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+exports.getUserVideosByUsername = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        if (!user)
+            return res.status(404).json({ error: 'user Not Found' })
+        const videos = await Video.find({ userId: user._id });
         res.status(200).json(videos);
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
@@ -82,6 +93,7 @@ exports.deleteVideo = async (req, res) => {
     try {
         const video = await Video.findByIdAndDelete(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });
+        //delete all comments of the video
         await Comment.deleteMany({ videoID: req.params.pid });
         res.status(200).json({ message: 'Video deleted' });
     } catch (error) {
@@ -153,5 +165,28 @@ exports.unlikeVideo = async (req, res) => {
     } catch (error) {
         console.error('Error unliking video:', error);
         res.status(500).json({ error: 'Server error', details: error.message });
+    }
+};
+
+
+exports.searchVideos = async (req, res) => {
+    try {
+        let { query } = req.query; // Extract query from req.query
+        if (query) {
+            query = decodeURIComponent(query); // Decode the query string
+        }
+        const criteria = {
+            $or: []
+        };
+
+        if (query) {
+            criteria.$or.push({ title: { $regex: query, $options: 'i' } });
+            criteria.$or.push({ description: { $regex: query, $options: 'i' } });
+        }
+
+        const videos = await Video.find(criteria);
+        res.status(200).json(videos);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error in search', details: error.message });
     }
 };
