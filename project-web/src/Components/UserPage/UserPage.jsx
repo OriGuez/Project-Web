@@ -4,8 +4,8 @@ import NavBar from '../NavBar/NavBar';
 import VideoPrev from '../Home/VideoPrev';
 import './UserPage.css';
 
-function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
-  const { username } = useParams();
+function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
+  const { userid } = useParams();
   const [user, setUser] = useState(null);
   const [userVideos, setUserVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,13 +14,13 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const loggedUserID = localStorage.getItem('loggedUserID');
-        
-        if (!loggedUserID) {
-          throw new Error('No logged user ID found in localStorage');
-        }
+        // //const loggedUserID = localStorage.getItem('loggedUserID');
 
-        const userUrl = `/api/users/${loggedUserID}`;
+        // if (!loggedUserID) {
+        //   throw new Error('No logged user ID found in localStorage');
+        // }
+
+        const userUrl = `/api/users/${userid}`;
         const response = await fetch(userUrl);
         if (!response.ok) {
           throw new Error(`Failed to fetch user data: ${response.statusText}`);
@@ -29,7 +29,7 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
         const userData = await response.json();
         setUser(userData);
 
-        const videosUrl = `/api/users/${loggedUserID}/videos`;
+        const videosUrl = `/api/users/${userid}/videos`;
         const videosResponse = await fetch(videosUrl);
         if (!videosResponse.ok) {
           throw new Error(`Failed to fetch user videos: ${videosResponse.statusText}`);
@@ -47,7 +47,7 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
     }
 
     fetchUserData();
-  }, [username]);
+  }, [userid]);
 
 
   if (loading) {
@@ -68,7 +68,7 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
       />
       {user && (
         <div className="user-info">
-          <img src={user.profilePic} alt="User" className="user-image" />
+          <img src={user.profilePic} alt="User" className="userpage-image" />
           <p className="username">@{user.username}</p>
           <p>{user.displayName}</p>
         </div>
@@ -77,15 +77,15 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
       <div className="user-videos">
         {userVideos.length > 0 ? (
           userVideos.map((video) => {
-            const thumbnailUrl = video.thumbnail ? `/uploads/images/${video.thumbnail}` : "/default.png";
+            // const thumbnailUrl = video.thumbnail ? `/uploads/images/${video.thumbnail}` : "/default.png";
             return (
               <VideoPrev
                 key={video._id}
                 title={video.title}
-                publisher={user.username}  // Use the username of the user as the publisher
+                publisher={user._id}  // Use the username of the user as the publisher
                 description={video.description}
                 vidID={video._id}
-                thumbnailUrl={thumbnailUrl}
+                thumbnailUrl={"/" + video.thumbnail}
                 upload_date={video.createdAt}
                 videoList={videoList}
                 setVideoList={setVideoList}
