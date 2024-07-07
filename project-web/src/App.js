@@ -31,9 +31,9 @@ function App() {
           <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
           <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList} />} />
           <Route path="/" element={<Home loggedUser={loggedUser} handleSignOut={handleSignOut} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList} filteredVideoList={filteredVideoList} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />} />
-          <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} handleSignOut={handleSignOut}/>} />
-          <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />}  />
-          <Route path="/userpage/:username" component={UserPage} element={<UserPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />}  />
+          <Route path="/video/:id" element={<VideoPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} handleSignOut={handleSignOut} />} />
+          <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />} />
+          <Route path="/userpage/:username" element={<UserPage loggedUser={loggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />} />
         </Routes>
       </BrowserRouter>
     </div>

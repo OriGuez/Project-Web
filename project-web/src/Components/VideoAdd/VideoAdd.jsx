@@ -10,6 +10,7 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
   const [errors, setErrors] = useState({});
   const [imgPreview, setImgPreview] = useState('');
   const [thumbnailOption, setThumbnailOption] = useState('upload');
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
 
 
   const [thumbFileServer, setThumbFileServer] = useState(null);
@@ -21,10 +22,17 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loggedUser) {
-      navigate('/login');
+    const jwtToken = localStorage.getItem('jwt');
+    if (!jwtToken) {
+      setIsAuthenticated(false);
     }
-  }, [loggedUser, navigate]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (!loggedUser) {
+  //     navigate('/login');
+  //   }
+  // }, [loggedUser, navigate]);
 
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
@@ -223,7 +231,16 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
 
     return isTitleValid && isDescriptionValid && isVideoFileValid && isThumbnailFileValid;
   };
-
+  if (!isAuthenticated) {
+    return (
+      <div className="main-container">
+        <div className="video-add-container">
+          <h2>Please log in to access this page</h2>
+          <Link to="/">Go to Homepage</Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="main-container">
       <div className="video-add-container">

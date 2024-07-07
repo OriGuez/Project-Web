@@ -6,47 +6,55 @@ import './UserPage.css';
 
 function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
   const { username } = useParams();
-  const [user, setUser] = useState(null); // State to hold user data
+  const [user, setUser] = useState(null);
   const [userVideos, setUserVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- 
-  console.log('UserPage component mounted');
-  console.log('Username from params:', username);
 
-//   useEffect(() => {
-//     async function fetchUserData() {
-//       try {
-//         const response = await fetch(`/api/users/${username}`);
-
-//         if (!response.ok) {
-//           throw new Error(`Failed to fetch user data: ${response.statusText}`);
-//         }
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const loggedUserID = localStorage.getItem('loggedUserID');
         
-//         const userData = await response.json();
-//         console.log('Fetched user data:', userData);
+        if (!loggedUserID) {
+          throw new Error('No logged user ID found in localStorage');
+        }
 
-//         // Update user state with fetched data
-//         setUser(userData);
+        const userUrl = `/api/users/${loggedUserID}`;
+        const response = await fetch(userUrl);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        }
 
-//       } catch (error) {
-//         console.error('Error fetching user data:', error);
-//         setError(error.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
+        const userData = await response.json();
+        setUser(userData);
 
-//     fetchUserData();
-//   }, [username]);
+        const videosUrl = `/api/users/${loggedUserID}/videos`;
+        const videosResponse = await fetch(videosUrl);
+        if (!videosResponse.ok) {
+          throw new Error(`Failed to fetch user videos: ${videosResponse.statusText}`);
+        }
 
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
+        const userVideosData = await videosResponse.json();
+        setUserVideos(userVideosData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-//   if (error) {
-//     return <p>Error: {error}</p>;
-//   }
+    fetchUserData();
+  }, [username]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className="user-page">
@@ -61,19 +69,35 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
       />
       {user && (
         <div className="user-info">
-          <img src={user.image} alt="User" className="user-image" />
-          <p>{user.username}</p>
-          <p>{user.bio}</p>
+          <img src={user.profilePic} alt="User" className="user-image" />
+          <p className="username">@{user.username}</p>
+          <p className="channelName">{user.channelName || 'Channel Name Not Set'}</p>
+          <p className="bio">{user.bio}</p>
         </div>
       )}
 
       <div className="user-videos">
         {userVideos.length > 0 ? (
-          userVideos.map((video) => (
-            <VideoPrev key={video._id} video={video} />
-          ))
+          userVideos.map((video) => {
+            const thumbnailUrl = video.thumbnail ? `/uploads/images/${video.thumbnail}` : "/default.png";
+            return (
+              <VideoPrev
+                key={video._id}
+                title={video.title}
+                publisher={user.username}  // Use the username of the user as the publisher
+                description={video.description}
+                vidID={video._id}
+                thumbnailUrl={thumbnailUrl}
+                upload_date={video.createdAt}
+                videoList={videoList}
+                setVideoList={setVideoList}
+                loggedUser={loggedUser}
+                users={usersList}
+              />
+            );
+          })
         ) : (
-          <p>No videos found</p>
+          <p>No videos found!</p>
         )}
       </div>
     </div>

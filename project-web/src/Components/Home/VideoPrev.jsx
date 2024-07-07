@@ -9,10 +9,11 @@ function VideoPrev({
   vidID,
   thumbnailUrl,
   upload_date,
-  videoList,
+  views = 1,
+  videoList = [],
   setVideoList,
   loggedUser,
-  users
+  users = []
 }) {
   const url = `/video/${vidID}`;
   const [isEditing, setIsEditing] = useState(false);
@@ -63,7 +64,8 @@ function VideoPrev({
     "CommunicationSkills": "/communication.png",
     "Euroleague": "/euroleague.png",
     "UEFA": "/uefa.png"
-  }; 
+  };
+
   const publisherPicture = getPublisherPicture(publisher);
 
   return (
@@ -92,11 +94,11 @@ function VideoPrev({
                 {publisher}
               </p>
               <p className="video-upload-date">{upload_date}</p>
+              <p className="video-views">{views} views</p> {/* Display views */}
             </div>
           </Link>
         </div>
-      )
-      }
+      )}
     </div>
   );
 }
