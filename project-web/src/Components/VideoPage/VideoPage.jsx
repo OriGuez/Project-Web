@@ -281,7 +281,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, isDarkMode, setIsDark
         }
         else {
             setIsEditing(false);
-            updateVidFromServer(editedTitle,editedDescription);
+            updateVidFromServer(editedTitle, editedDescription);
         }
 
 
@@ -354,12 +354,14 @@ function VideoPage({ loggedUser, handleSignOut, videoList, isDarkMode, setIsDark
                 <div className="video-details">
                     <h2 className="video-title">{vidFromServer.title}</h2>
                     <div className="video-meta">
-                        <div className="publisherDetails">
-                            <img src={userFromServer.profilePic} alt={`profile pic`} width="40px" height="auto" />
-                            <span className="video-publisher">{userFromServer.displayName}</span>
-                        </div>
+                        <Link to={`/userpage/${userFromServer._id}`}>
+                            <div className="publisherDetails">
+                                <img src={userFromServer.profilePic} alt="profile pic" width="40px" height="auto" />
+                                <span className="video-publisher">{userFromServer.displayName}</span>
+                            </div>
+                        </Link>
                         <span className="video-upload-date">{vidFromServer.createdAt}</span>
-                        <span className="video-views">{vidInPage.views || 1} views</span> 
+                        <span className="video-views">{vidFromServer.views || 1} views</span>
                     </div>
                     {isEditing ? (
                         <div className="edit-details">
@@ -444,7 +446,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, isDarkMode, setIsDark
                             vidID={video._id}
                             thumbnailUrl={video.thumbnail}
                             upload_date={video.createdAt}
-                            views={video.views || 1}  
+                            views={video.views || 1}
                         />
                     ))}
                 </div>

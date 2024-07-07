@@ -41,31 +41,6 @@ function VideoPrev({
     if (error) return <div>Error: {error}</div>;
     if (!userData) return <div>No user data found.</div>;
 
-
-  // const getPublisherPicture = (username) => {
-  //   // const user = users.find(user => user.username === username);
-  //   // if (user) {
-  //   //   return user.image;
-  //   // }
-  //   // return publisherImages[username] || '/default.png'; // Use default image if not found
-  //   return '/default.png'; // Use default image if not found
-
-  // };
-
-  // // const publisherImages = {
-  // //   "NatGeo": "/natgeo.png",
-  // //   "CookingChannel": "/cookingchannel.png",
-  // //   "EnergyTalk": "/energytalk.png",
-  // //   "HistoryChannel": "/historychannel.png",
-  // //   "NASAHub": "/nasahub.png",
-  // //   "PsychologyInsights": "/psychologyinsights.png",
-  // //   "PhotoGuru": "/photoguru.png",
-  // //   "CommunicationSkills": "/communication.png",
-  // //   "Euroleague": "/euroleague.png",
-  // //   "UEFA": "/uefa.png"
-  // // };
-  // const publisherPicture = getPublisherPicture(publisher);
-
   return (
     <div className="video-prev">
       <div>
@@ -73,10 +48,12 @@ function VideoPrev({
           <img src={thumbnailUrl} alt={title} className="video-thumbnail" />
           <div className="video-info">
             <h3 className="video-title">{title}</h3>
+            <Link to={`/userpage/${userData._id}`} className="video-link">
             <p className="video-publisher">
               <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
               {userData.displayName}
             </p>
+            </Link>
             <p className="video-upload-date">{upload_date}</p>
           </div>
         </Link>

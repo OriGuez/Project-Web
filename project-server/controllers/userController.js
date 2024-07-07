@@ -39,6 +39,7 @@ exports.getUser = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         //public data only ,without password
         res.status(200).json({
+            _id:user._id,
             username: user.username,
             displayName: user.displayName,
             profilePic: user.profilePic,
