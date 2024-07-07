@@ -37,6 +37,7 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
 
         const userVideosData = await videosResponse.json();
         setUserVideos(userVideosData);
+
       } catch (error) {
         console.error('Error fetching user data:', error);
         setError(error.message);
@@ -47,6 +48,7 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
 
     fetchUserData();
   }, [username]);
+
 
   if (loading) {
     return <p>Loading...</p>;
@@ -60,19 +62,15 @@ function UserPage({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoL
     <div className="user-page">
       <NavBar
         loggedUser={loggedUser}
-        handleSignOut={handleSignOut}
+        setLoggedUser={setLoggedUser}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
-        videoList={videoList}
-        setFilteredVideoList={setFilteredVideoList}
-        usersList={usersList}
       />
       {user && (
         <div className="user-info">
           <img src={user.profilePic} alt="User" className="user-image" />
           <p className="username">@{user.username}</p>
-          <p className="channelName">{user.channelName || 'Channel Name Not Set'}</p>
-          <p className="bio">{user.bio}</p>
+          <p>{user.displayName}</p>
         </div>
       )}
 
