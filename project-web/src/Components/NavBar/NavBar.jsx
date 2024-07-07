@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 import './NavBar.css';
 
-function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilteredVideoList, videoList }) {
+function NavBar({loggedUser,setLoggedUser,isDarkMode, setIsDarkMode }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
+  //const [loggedUser, setLoggedUser] = useState(null);
+  const userId=localStorage.getItem('loggedUserID');
   const linkStyle = {
     color: isDarkMode ? 'white' : 'black',
     textDecoration: 'none',
@@ -23,15 +25,45 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
     }
   }, [isDarkMode]);
 
+  // useEffect(() => {
+  //   const fetchLoggedUser = async () => {
+  //     try {
+  //       const response = await fetch(`/api/users/${userId}`);
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       const data = await response.json();
+  //       setLoggedUser(data);
+  //     } catch (error) {
+  //       console.error('Error fetching user data:', error);
+  //     }
+  //   };
+
+  //   if (userId) {
+  //     fetchLoggedUser();
+  //   }
+  // }, [userId]);
+
+  const handleSignOut = () => {
+    // Clear the token from local storage
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('loggedUserID');
+    setLoggedUser(null);
+    //navigate('/login');
+  };
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
 
   const handleSearch = (event) => {
     event.preventDefault();
-    const filtered = videoList.filter(video => video.title.toLowerCase().includes(searchInput.toLowerCase()));
-    setFilteredVideoList(filtered);
-    navigate('/');
+
+    const query = searchInput.toLowerCase();
+    if (query === '') {
+      return; // Break if input is empty
+    }
+    const encodedQuery = encodeURIComponent(query);
+    navigate(`/search/${encodedQuery}`);
   };
 
   const handleKeyPress = (event) => {
@@ -108,14 +140,14 @@ function NavBar({ loggedUser, handleSignOut, isDarkMode, setIsDarkMode, setFilte
                 </div>
                 <div className="signOut">
                   <div style={{ position: 'relative' }}>
-                    <img src={loggedUser.image} alt="Profile" className="user-image" onClick={handleImageClick} />
+                    <img src={loggedUser.profilePic} alt="Profile" className="user-image" onClick={handleImageClick} />
                     <div className={`signOutDialog ${showSignOutDialog ? 'showSignOutDialog' : 'hideSignOutDialog'}`}>
                       <span>{loggedUser.username}</span>
                       <br />
-                      <span>{loggedUser.channelName}</span>
+                      <span>{loggedUser.displayName}</span>
                       <br />
-                      <Link to={`/userpage/${loggedUser.username}`} className="user">
-                         <img src="/logo.png" alt="ViewTube Logo" width="40px" height="auto" />
+                      <Link to={`/userpage/${loggedUser._id}`} className="user">
+                         <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
                       </Link>
                       <br />
                       <button className="btn btn-secondary" onClick={handleSignOutConfirm}>

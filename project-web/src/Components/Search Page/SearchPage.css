@@ -1,0 +1,190 @@
+
+.home-container {
+  display: fixed;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  
+}
+
+.navbar {
+  padding: 10px 20px;
+  background-color: var(--background-color-dark);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.signOutComfirm {
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  width: 10px;
+  height: 10px;
+  padding: 20px; 
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.signOut {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  padding: 8px; 
+  font-size: 16px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.signOut:hover {
+  background-color: #b8bcc4; 
+}
+
+.signIn {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: fixed;
+  padding: 8px; 
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.signInContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+  white-space: nowrap; 
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin-top: 50px;
+
+}
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+  
+}
+
+.dropdown-toggle {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dropdown-toggle:focus {
+  outline: none; 
+}
+
+.btn-primary {
+  margin-right: 10px;
+}
+
+
+.signOutDialog .btn-secondary {
+  position: relative;
+  font-size: 14px; 
+  padding: 5px 10px; 
+}
+
+.dark-mode .home-container .form-control::placeholder {
+  color: var(--placeholder-color-dark); 
+}
+
+:root {
+  --input-bg-color-light: #ffffff; 
+  --input-text-color-light: #000000; 
+  --placeholder-color-light: #6c757d; 
+  --input-bg-color-dark: #1a1a1a; 
+  --input-text-color-dark: #ffffff; 
+  --placeholder-color-dark: #d3d3d3; 
+}
+
+/* Light mode placeholder */
+.form-control::placeholder {
+  color: var(--placeholder-color-light);
+}
+
+/* Define keyframes for slide-down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Define keyframes for slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+.signOutDialog {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  align-items: right;
+  background-color: var(--background-color, white);
+  color: var(--text-color, black);
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.dark-mode .signOutDialog {
+  background-color: #333;
+  color: white;
+}
+
+.showSignOutDialog {
+  display: block;
+  animation: slideDown 0.3s forwards;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hideSignOutDialog {
+  display: block;
+  animation: slideUp 0.3s forwards; 
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.form-control {
+  background-color: var(--input-bg-color-light);
+  color: var(--input-text-color-light);
+}
+
+.dark-mode .form-control {
+  background-color: var(--input-bg-color-dark);
+  color: var(--input-text-color-dark);
+}
