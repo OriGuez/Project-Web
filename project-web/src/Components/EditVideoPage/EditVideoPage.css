@@ -1,0 +1,139 @@
+/* Ensure body and html take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure App takes full height */
+.App {
+    height: 100%;
+}
+
+/* Main container styling */
+.main-container-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Full height */
+    width: 100%;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+/* Video add container styling */
+.video-edit-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 40%;
+    max-width: 1200px;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Description container styling */
+.description-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Description textarea styling */
+.description-textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Image container styling */
+.image-container-edit {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Rounded scalable image styling */
+.rounded-scalable-image-edit {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Wide input styling */
+.wide-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Logo container styling */
+.logo-container {
+    font-size: 32px;
+    text-align: right;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+/* Heading styling */
+h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Title input styling */
+.title-input {
+    width: 100%;
+}
+
+/* Form group styling */
+.form-group-edit {
+    margin-bottom: -12px;
+}
+.videoplay{
+    margin-top: -10px;
+}
+
+/* Thumbnail options styling */
+.thumbnail-options {
+    display: flex;
+    flex-direction: line;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+/* Thumbnail option styling */
+.thumbnail-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Thumbnail option input styling */
+.thumbnail-option input[type="radio"] {
+    margin: 0;
+}

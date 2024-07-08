@@ -319,14 +319,6 @@ function VideoPage({ loggedUser, handleSignOut, videoList, isDarkMode, setIsDark
         navigate('/');
     }
 
-
-
-
-
-
-
-
-
     if (videoNotFound) {
         return (
             <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -354,7 +346,7 @@ function VideoPage({ loggedUser, handleSignOut, videoList, isDarkMode, setIsDark
                 <div className="video-details">
                     <h2 className="video-title">{vidFromServer.title}</h2>
                     <div className="video-meta">
-                        <Link to={`/userpage/${userFromServer._id}`}>
+                        <Link to={`/userpage/${userFromServer._id}`} className="link-no-style">
                             <div className="publisherDetails">
                                 <img src={userFromServer.profilePic} alt="profile pic" width="40px" height="auto" />
                                 <span className="video-publisher">{userFromServer.displayName}</span>

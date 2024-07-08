@@ -107,12 +107,14 @@
 
 .signOutDialog {
   position: absolute;
+  align-items: center;
   top: 60px;
-  right: 0;
   background-color: var(--background-color, #fff);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   padding: 10px;
+  height: 200px;
+  width: 150px;
   display: none; 
   z-index: 1000;
 }
@@ -166,6 +168,10 @@
   background-color: var(--background-color, #1a1a1a);
   color: var(--text-color, #fff);
 }
+.dialogUsername{
+  font-size: 20px;
+  font-weight: bold;
+}
 
 span5 {
   font-size: 20px;
@@ -189,6 +195,32 @@ span5 {
   font-size: 1.5rem;
   transition: background-color 0.3s;
 }
+
+/* Tooltip styling */
+.tooltipAdd {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 125%; /* Position the tooltip above the button */
+  left: 50%;
+  margin-left: -30px; /* Center the tooltip */
+  width: 60px;
+  height: 25px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip on hover */
+.icon-circle:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .dark-mode .icon-circle{
   color: rgb(221, 221, 221);
 
@@ -196,6 +228,78 @@ span5 {
 .dark-mode .icon-circle:hover {
   background-color: #6a6a6a; 
 }
+/* Define the button styles */
+.myChannelButton {
+  display: inline-block;
+  overflow: visible; /* Ensure the enlarged image doesn't get cut off */
+  position: relative; /* Ensure the tooltip is positioned relative to the button */
+  margin-bottom: 40px;
+  margin-top: 20px;
+}
+
+/* Define the animation for enlarging the image */
+@keyframes enlargeImage {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.5); /* Adjust the scale factor as needed */
+  }
+}
+
+/* Apply the animation on hover */
+.myChannelButton:hover img {
+  animation: enlargeImage 0.3s forwards; /* 0.3s for the duration of the animation */
+  z-index: 1; /* Ensure the enlarged image is on top */
+}
+
+/* Tooltip styling */
+.tooltip {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 125%; /* Position the tooltip above the button */
+  left: 50%;
+  height: 25px;
+  width: 120px;
+  margin-bottom: 20px;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip on hover */
+.myChannelButton:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.search-button:hover .tooltipSearch {
+  visibility: visible;
+  opacity: 1;
+}
+.tooltipSearch {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 80%; /* Position the tooltip above the button */
+  /* left: 50%; */
+  height: 25px;
+  width: 120px;
+  margin-bottom: 20px;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
 
 .icon-circle:hover {
   background-color: #d3d3d3;
@@ -228,6 +332,9 @@ span5 {
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+}
+.user-image:hover {
+  box-shadow: 0 0 0 4px #d3d3d3;
 }
 
 

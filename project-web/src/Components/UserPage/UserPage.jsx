@@ -67,11 +67,13 @@ function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsD
         setIsDarkMode={setIsDarkMode}
       />
       {user && (
-        <div className="user-info">
-          <img src={user.profilePic} alt="User" className="userpage-image" />
-          <p className="username">@{user.username}</p>
-          <p>{user.displayName}</p>
-        </div>
+           <div className="userpage-info">
+           <img src={user.profilePic} alt="User" className="userpage-image" />
+           <div className="user-details">
+             <div className="username">@{user.username}</div>
+             <div className="channel">{user.displayName}</div>
+           </div>
+         </div>
       )}
 
       <div className="user-videos">
