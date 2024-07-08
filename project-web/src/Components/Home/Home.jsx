@@ -64,6 +64,7 @@ if (error) {
               vidID={video._id}
               thumbnailUrl={video.thumbnail}
               upload_date={video.createdAt}
+              views={video.views}
             />
           ))}
         </section>

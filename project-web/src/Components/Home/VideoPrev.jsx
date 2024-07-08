@@ -8,6 +8,7 @@ function VideoPrev({
   vidID,
   thumbnailUrl,
   upload_date,
+  views
 }) {
   const url = `/video/${vidID}`;
 
@@ -57,13 +58,16 @@ function VideoPrev({
           <div className="video-info">
             <h3 className="video-title">{title}</h3>
 
+
             <Link to={`/userpage/${userData._id}`} className="link-no-style">
               <p className="video-publisher">
                 <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
                 {userData.displayName}
               </p>
+
             </Link>
-            <p className="video-upload-date">{formatDate(upload_date)}</p>
+
+            <p className="video-views-upload-date">{views} views • {formatDate(upload_date)}</p>
           </div>
         </Link>
       </div>

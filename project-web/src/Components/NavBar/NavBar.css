@@ -168,7 +168,7 @@
   background-color: var(--background-color, #1a1a1a);
   color: var(--text-color, #fff);
 }
-.dialogUsername{
+.dialogChannelName{
   font-size: 20px;
   font-weight: bold;
 }

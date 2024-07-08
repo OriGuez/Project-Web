@@ -114,8 +114,8 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
         <div className="userpage-info">
           <img src={user.profilePic} alt="User" className="userpage-image" />
           <div className="user-details">
-          <p className="username">@{user.username}</p>
-          <p>{user.displayName}</p>
+          <p className="channelName">{user.displayName}</p>
+          <p>@{user.username}</p>
            </div>
           {canEdit && (
             <button onClick={() => setEditing(true)} className="edit-user-button">
