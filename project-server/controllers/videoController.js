@@ -74,6 +74,10 @@ exports.getVideo = async (req, res) => {
     try {
         const video = await Video.findById(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });
+        // Increment the views count
+        video.views = (video.views || 0) + 1;
+        // Save the updated video
+        await video.save();
         res.status(200).json(video);
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
@@ -82,7 +86,12 @@ exports.getVideo = async (req, res) => {
 
 exports.updateVideo = async (req, res) => {
     try {
-        const video = await Video.findByIdAndUpdate(req.params.pid, req.body, { new: true });
+        const updateData = { ...req.body };
+        // Set the profilePic URL if an image was uploaded
+        if (req.file) {
+            updateData.thumbnail = `/uploads/images/${req.file.filename}`;
+        }
+        const video = await Video.findByIdAndUpdate(req.params.pid, updateData, { new: true });
         if (!video) return res.status(404).json({ message: 'Video not found' });
         res.status(200).json(video);
     } catch (error) {

@@ -9,13 +9,15 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
   const [title, setTitle] = useState('');
   const [videoPreview, setVideoPreview] = useState('');
   const [thumbnailPreview, setThumbnailPreview] = useState('');
+  const [currentThumb, setCurrentThumb] = useState('');
+
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
-  const [imgPreview, setImgPreview] = useState('');
+  // const [imgPreview, setImgPreview] = useState('');
   const [thumbnailOption, setThumbnailOption] = useState('none'); // Default option to 'none'
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
-  const [thumbFileServer, setThumbFileServer] = useState(null);
-  const [vidFileServer, setVidFileServer] = useState(null);
+  // const [thumbFileServer, setThumbFileServer] = useState(null);
+  // const [vidFileServer, setVidFileServer] = useState(null);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -38,12 +40,11 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
         }
 
         const data = await response.json();
-        setVidFileServer(data);
         setTitle(data.title); // Set the title state with fetched data
         setDescription(data.description); // Set the description state with fetched data
-        setThumbFileServer(data.thumbnail);
-        setVideoPreview(data.url);
         setThumbnailPreview(data.thumbnail);
+        setCurrentThumb(data.thumbnail);
+        setVideoPreview(data.url);
 
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -62,25 +63,11 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     }
   }, []);
 
-  const handleVideoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setVidFileServer(file);
-      setVideoFile(file);
-      if (thumbnailOption === 'generate') {
-        generateThumbnail(file);
-      }
-      setImgPreview(URL.createObjectURL(file));
-      setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
-    }
-  };
-
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setThumbFileServer(file);
       setThumbnailFile(file);
-      setImgPreview(URL.createObjectURL(file));
+      setThumbnailPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
     }
   };
@@ -89,19 +76,18 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     const option = e.target.value;
     setThumbnailOption(option);
     if (option === 'generate' && videoPreview) {
-      generateThumbnail(videoPreview);
+      generateThumbnail();
     } else if (option === 'upload') {
-      setImgPreview('');
+      setThumbnailPreview('');
     }
   };
 
-  const generateThumbnail = (file) => {
+  const generateThumbnail = () => {
     const videoElement = videoRef.current;
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
-
     // const url = URL.createObjectURL(file);
-    videoElement.src = videoPreview;
+    videoElement.src = "/"+videoPreview;
     videoElement.currentTime = 2;
 
     videoElement.onloadeddata = () => {
@@ -115,11 +101,11 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
       canvasElement.height = videoElement.videoHeight;
       context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
       const dataUrl = canvasElement.toDataURL('image/jpeg');
-      setImgPreview(dataUrl);
+      setThumbnailPreview(dataUrl);
       canvasElement.toBlob((blob) => {
         if (blob) {
           const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
-          setThumbFileServer(file);
+          setThumbnailFile(file);
         }
       }, 'image/jpeg');
     };
@@ -132,9 +118,9 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
         const vidPayload = new FormData();
         vidPayload.append('title', title);
         vidPayload.append('description', description);
-        vidPayload.append('video', vidFileServer);
+        //vidPayload.append('video', vidFileServer);
         if (thumbnailOption !== 'none') {
-          vidPayload.append('image', thumbFileServer);
+          vidPayload.append('image', thumbnailFile);
         }
         const userID = localStorage.getItem('loggedUserID');
         const jwtToken = localStorage.getItem('jwt');
@@ -150,10 +136,9 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
           setDescription('');
           setVideoFile(null);
           setThumbnailFile(null);
-          setVidFileServer(null);
-          setThumbFileServer(null);
+          setThumbnailPreview(null);
+          setThumbnailOption('none');
           setErrors({});
-          setImgPreview('');
           navigate('/');
         } else {
           switch (response.status) {
@@ -210,31 +195,31 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     return true;
   };
 
-  const validateVideoFile = () => {
-    if (!videoFile) {
-      setErrors((prevErrors) => ({ ...prevErrors, videoFile: 'Please upload a video file.' }));
-      return false;
-    }
-    setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
-    return true;
-  };
+  // const validateVideoFile = () => {
+  //   if (!videoFile) {
+  //     setErrors((prevErrors) => ({ ...prevErrors, videoFile: 'Please upload a video file.' }));
+  //     return false;
+  //   }
+  //   setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
+  //   return true;
+  // };
 
-  const validateThumbnailFile = () => {
-    if (thumbnailOption === 'upload' && !thumbnailFile) {
-      setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: 'Please upload a thumbnail image.' }));
-      return false;
-    }
-    setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
-    return true;
-  };
+  // const validateThumbnailFile = () => {
+  //   if (thumbnailOption === 'upload' && !thumbnailFile) {
+  //     setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: 'Please upload a thumbnail image.' }));
+  //     return false;
+  //   }
+  //   setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
+  //   return true;
+  // };
 
   const validateForm = () => {
     const isTitleValid = validateTitle(title);
     const isDescriptionValid = validateDescription(description);
-    const isVideoFileValid = validateVideoFile();
-    const isThumbnailFileValid = validateThumbnailFile();
+    // const isVideoFileValid = validateVideoFile();
+    // const isThumbnailFileValid = validateThumbnailFile();
 
-    return isTitleValid && isDescriptionValid && isVideoFileValid && isThumbnailFileValid;
+    return isTitleValid && isDescriptionValid;
   };
 
   if (!isAuthenticated) {
@@ -292,7 +277,7 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
           <div className="form-group">
             <label>Current Thumbnail</label>
             <div className="thumbnail-options">
-              <img src={"/" + thumbnailPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />
+              <img src={"/" + currentThumb} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />
               <label className="thumbnail-option">
                 <input
                   type="radio"
@@ -343,13 +328,11 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
             </div>
           )}
           <div className="image-container-edit">
-            {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image-edit' alt="Preview" />}
+            {thumbnailPreview && <img src={thumbnailPreview} width="100px" height="100px" className='rounded-scalable-image-edit' alt="Preview" />}
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
-        <Link to='/'>
-          <button type="submit">Submit</button>
-        </Link>       
+        <button type="submit">Submit</button>    
        </form>
       </div>
     </div>
