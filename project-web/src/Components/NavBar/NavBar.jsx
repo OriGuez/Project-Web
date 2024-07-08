@@ -148,9 +148,9 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                   <div className="signOut" style={{ position: 'relative' }}>
                     <img src={loggedUser.profilePic} alt="Profile" className="user-image" onClick={handleImageClick} />
                     <div className={`signOutDialog ${showSignOutDialog ? 'showSignOutDialog' : 'hideSignOutDialog'}`}>
-                      <span className="dialogUsername">@{loggedUser.username}</span>
+                      <span className="dialogChannelName">{loggedUser.displayName}</span>
                       <br />
-                      <span>{loggedUser.displayName}</span>
+                      <span>@{loggedUser.username}</span>
                       <br />
                       <Link to={`/userpage/${loggedUser._id}`} className="myChannelButton">
                         <span className="tooltip">My Channel</span>

@@ -56,7 +56,9 @@ function Search({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
             />
             <main className="main-content">
                 <section className="video-grid">
-                <p>Search results for "{decodedQuery}":</p>
+                <div className="searchText">Search results for "{decodedQuery}":</div>
+            
+
                     {foundVideosServer.length === 0 ? (
                         <div>No videos found</div>
                     ) : (
