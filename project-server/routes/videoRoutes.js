@@ -1,6 +1,7 @@
 const express = require('express');
 const authenticateToken = require('../utils/auth');
 const checkUser = require('../utils/checkUser');
+const uploadImage = require('../utils/uploadImages');
 const {
     getUserVideos,
     getUserVideosByUsername,
@@ -25,8 +26,8 @@ router.get('/searchvideo', searchVideos);
 
 //private routes - only for logged User:
 router.post('/users/:id/videos', authenticateToken, checkUser, createVideo);
-router.put('/users/:id/videos/:pid', authenticateToken, checkUser, updateVideo);
-router.patch('/users/:id/videos/:pid', authenticateToken, checkUser, updateVideo);
+router.put('/users/:id/videos/:pid', authenticateToken, checkUser,uploadImage, updateVideo);
+router.patch('/users/:id/videos/:pid', authenticateToken, checkUser,uploadImage, updateVideo);
 router.delete('/users/:id/videos/:pid', authenticateToken, checkUser, deleteVideo);
 //likes
 router.post('/users/:id/videos/:pid/likes', authenticateToken, checkUser, likeVideo);
