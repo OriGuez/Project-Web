@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from './VideoPrev';
 
-function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
+function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode,videoList, setVideoList}) {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,7 +26,6 @@ function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode, setVideoLis
 
         const data = await response.json();
         setVideoList(data);  // Update the videoList state
-        setFilteredVideoList(data);  // Optionally update the filtered list if necessary
         setLoading(false);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
@@ -57,7 +56,7 @@ if (error) {
       />
       <main className="main-content">
         <section className="video-grid">
-          {filteredVideoList.map((video) => (
+          {videoList.map((video) => (
             <VideoPrev
               key={video.url}
               title={video.title}

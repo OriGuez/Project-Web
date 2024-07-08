@@ -28,6 +28,7 @@ exports.createVideo = async (req, res) => {
             const video = new Video({
                 ...req.body,
                 userId: req.params.id,
+                views: 0,
                 thumbnail: imageRelativePath,
                 url: videoRelativePath // Save the file path in the database
             });

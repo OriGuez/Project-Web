@@ -3,18 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
 import './NavBar.css';
 
-function NavBar({loggedUser,setLoggedUser,isDarkMode, setIsDarkMode }) {
+function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showSignOutDialog, setShowSignOutDialog] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
   //const [loggedUser, setLoggedUser] = useState(null);
-  const userId=localStorage.getItem('loggedUserID');
+  const userId = localStorage.getItem('loggedUserID');
   const linkStyle = {
     color: isDarkMode ? 'white' : 'black',
     textDecoration: 'none',
-  }; 
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -77,6 +77,10 @@ function NavBar({loggedUser,setLoggedUser,isDarkMode, setIsDarkMode }) {
   };
 
   const toggleDarkMode = () => {
+    if (isDarkMode)
+      localStorage.removeItem('isDarkMode');
+    else
+      localStorage.setItem('isDarkMode', 1);
     setIsDarkMode(!isDarkMode);
   };
 
@@ -147,7 +151,7 @@ function NavBar({loggedUser,setLoggedUser,isDarkMode, setIsDarkMode }) {
                       <span>{loggedUser.displayName}</span>
                       <br />
                       <Link to={`/userpage/${loggedUser._id}`} className="user">
-                         <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
+                        <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
                       </Link>
                       <br />
                       <button className="btn btn-secondary" onClick={handleSignOutConfirm}>

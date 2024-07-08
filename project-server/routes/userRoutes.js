@@ -21,8 +21,8 @@ router.get('/users/getID/:username', getUserID);
 router.post('/tokens', login);
 router.get('/tokens', login);
 //authorized routes:
-router.put('/users/:id',authenticateToken,checkUser, updateUser);
-router.patch('/users/:id',authenticateToken,checkUser, updateUser);
+router.put('/users/:id',authenticateToken,checkUser,uploadImage, updateUser);
+router.patch('/users/:id',authenticateToken,checkUser,uploadImage, updateUser);
 router.delete('/users/:id',authenticateToken,checkUser,deleteUser);
 
 module.exports = router;
