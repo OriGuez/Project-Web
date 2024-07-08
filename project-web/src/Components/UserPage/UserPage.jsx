@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from '../Home/VideoPrev';
 import './UserPage.css';
-import {FaEdit, FaTrash} from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const { userid } = useParams();
@@ -12,6 +12,12 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [canEdit, setCanEdit] = useState(false);
+  // of editing user.
+  const [editing, setEditing] = useState(false);
+  const [newDisplayName, setNewDisplayName] = useState('');
+  const [newProfilePic, setNewProfilePic] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchUserData() {
@@ -24,6 +30,7 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
 
         const userData = await response.json();
         setUser(userData);
+        setNewDisplayName(userData.displayName);
 
         const videosUrl = `/api/users/${userid}/videos`;
         const videosResponse = await fetch(videosUrl);
@@ -45,7 +52,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
     fetchUserData();
   }, [userid]);
 
-
   useEffect(() => {
     if (user && loggedUser && loggedUser._id === user._id) {
       setCanEdit(true);
@@ -53,6 +59,38 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
       setCanEdit(false);
     }
   }, [user, loggedUser]);
+
+  const handleEdit = (videoId) => {
+    navigate(`/video/${videoId}/edit`);
+  };
+
+  const handleEditUser = async () => {
+    const token = localStorage.getItem('jwt'); // Get the JWT token from localStorage
+    try {
+      const vidPayload = new FormData();
+      vidPayload.append('displayName', newDisplayName);
+      if (newProfilePic)
+        vidPayload.append('image', newProfilePic);
+      const response = await fetch(`/api/users/${userid}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: vidPayload,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update user: ${response.statusText}`);
+      }
+
+      const updatedUser = await response.json();
+      setUser(updatedUser);
+      setEditing(false);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      setError(error.message);
+    }
+  };
 
 
   if (loading) {
@@ -76,10 +114,35 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
           <img src={user.profilePic} alt="User" className="userpage-image" />
           <p className="username">@{user.username}</p>
           <p>{user.displayName}</p>
-          {canEdit && (<p>canEdit!!!!!!!!!!!!!!</p>)}
+          {canEdit && (
+            <button onClick={() => setEditing(true)} className="edit-user-button">
+              Edit User
+            </button>
+          )}
         </div>
       )}
-
+      {editing && (
+        <div className="edit-user-form">
+          <label>
+            New Display Name:
+            <input
+              type="text"
+              value={newDisplayName}
+              onChange={(e) => setNewDisplayName(e.target.value)}
+            />
+          </label>
+          <label>
+            New Profile Picture:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewProfilePic(e.target.files[0])}
+            />
+          </label>
+          <button onClick={handleEditUser}>Save</button>
+          <button onClick={() => setEditing(false)}>Cancel</button>
+        </div>
+      )}
       <div className="user-videos">
         {userVideos.length > 0 ? (
           userVideos.map((video) => {
@@ -95,14 +158,13 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                   thumbnailUrl={"/" + video.thumbnail}
                   upload_date={video.createdAt}
                 />
-                {canEdit && (<div className="edit-delete-actions">
-                  <button className="edit-button">
-                    <FaEdit /> {"Edit"}
-                  </button>
-                  <button className="delete-button">
-                    <FaTrash /> Delete
-                  </button>
-                </div>)}
+                {canEdit && (
+                  <div className="edit-delete-actions">
+                    <button onClick={() => handleEdit(video._id)} className="edit-button">
+                      <FaEdit /> {"Edit/Delete"}
+                    </button>
+                  </div>
+                )}
               </>
             );
           })

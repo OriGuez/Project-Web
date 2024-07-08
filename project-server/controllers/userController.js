@@ -59,7 +59,12 @@ exports.getUserID = async (req, res) => {
 };
 exports.updateUser = async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updateData = { ...req.body };
+        // Set the profilePic URL if an image was uploaded
+        if (req.file) {
+            updateData.profilePic = `/uploads/images/${req.file.filename}`;
+        }
+        const user = await User.findByIdAndUpdate(req.params.id, updateData, { new: true });
         if (!user) return res.status(404).json({ message: 'User not found' });
         res.status(200).json(user);
     } catch (error) {

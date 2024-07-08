@@ -13,15 +13,15 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
     const [isCommentFocused, setIsCommentFocused] = useState(false);
     const [hasLiked, setHasLiked] = useState(false);
     const [videoNotFound, setVideoNotFound] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    // const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
     const [vidFromServer, setVidFromServer] = useState('');
     const [userFromServer, setUserFromServer] = useState('');
     const [commentsFromServer, setCommentsFromServer] = useState('');
     const [vidPrevList, setvidPrevList] = useState([]);
-    const [shouldNavigate, setShouldNavigate] = useState(false);
-    const navigate = useNavigate();
+    // const [shouldNavigate, setShouldNavigate] = useState(false);
+    // const navigate = useNavigate();
 
     //const isEditable = loggedUser ? "1" : "0";
     const isEditable = "0"
@@ -96,11 +96,11 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
         //reset the new comment if i passed a video
         setNewCommentText('');
         //reset isEditing if i passed a video
-        setIsEditing(false);
+        // setIsEditing(false);
         //reset edited title and description
         setEditedTitle('');
         setEditedDescription('');
-        setShouldNavigate(false);
+        // setShouldNavigate(false);
     }, [id,loggedUser]);
     //}, [id, loggedUser]);
 
@@ -210,9 +210,9 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
         setNewCommentText('');
     };
 
-    const handleEditToggle = () => {
-        setIsEditing(!isEditing);
-    };
+    // const handleEditToggle = () => {
+    //     setIsEditing(!isEditing);
+    // };
 
     const handleSaveEdit = async () => {
 
@@ -233,7 +233,7 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
             throw new Error(`Failed to update comment: ${errorMessage}`);
         }
         else {
-            setIsEditing(false);
+            // setIsEditing(false);
             updateVidFromServer(editedTitle, editedDescription);
         }
 
@@ -247,21 +247,21 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
 
     };
 
-    const handleDeleteVideo = async () => {
-        const token = localStorage.getItem('jwt');
-        const response = await fetch(`/api/users/${vidFromServer.userId}/videos/${vidFromServer._id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-        });
-        if (!response.ok) {
-            const errorMessage = await response.text();
-            throw new Error(`Failed to update comment: ${errorMessage}`);
-        }
-        else
-        setShouldNavigate(true);
-    };
+    // const handleDeleteVideo = async () => {
+    //     const token = localStorage.getItem('jwt');
+    //     const response = await fetch(`/api/users/${vidFromServer.userId}/videos/${vidFromServer._id}`, {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`
+    //         },
+    //     });
+    //     if (!response.ok) {
+    //         const errorMessage = await response.text();
+    //         throw new Error(`Failed to update comment: ${errorMessage}`);
+    //     }
+    //     // else
+    //     // setShouldNavigate(true);
+    // };
 
     const formatDate = (isoString) => {
         // Check if isoString is undefined or null
@@ -275,9 +275,9 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
 
 
 
-    if (shouldNavigate) {
-        navigate('/');
-    }
+    // if (shouldNavigate) {
+    //     navigate('/');
+    // }
 
 
     if (videoNotFound) {
@@ -315,7 +315,7 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
                         <span className="video-upload-date">{formatDate(vidFromServer.createdAt)}</span>
                         <span className="video-views">{vidFromServer.views} views</span>
                     </div>
-                    {isEditing ? (
+                    {/* {isEditing ? (
                         <div className="edit-details">
                             <input
                                 type="text"
@@ -336,7 +336,7 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
                         </div>
                     ) : (
                         <p className="video-description">{vidFromServer.description}</p>
-                    )}
+                    )} */}
                 </div>
                 <div className="video-actions">
                     <ShareButton />
@@ -346,7 +346,7 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
                             {hasLiked ? "Unlike" : "Like"}
                         </button>
                     )}
-                    {loggedUser && loggedUser._id === userFromServer._id && (
+                    {/* {loggedUser && loggedUser._id === userFromServer._id && (
                         <div className="edit-delete-actions">
                             <button onClick={handleEditToggle} className="edit-button">
                                 <FaEdit /> {isEditing ? "Cancel" : "Edit"}
@@ -355,7 +355,7 @@ function VideoPage({ loggedUser, isDarkMode, setIsDarkMode }) {
                                 <FaTrash /> Delete
                             </button>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
             <div className="comment-section">
