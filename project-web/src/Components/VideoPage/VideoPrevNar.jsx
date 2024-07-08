@@ -34,7 +34,15 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date }) {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     if (!userData) return <div>No user data found.</div>;
-
+    const formatDate = (isoString) => {
+        // Check if isoString is undefined or null
+        if (!isoString) {
+          return null;
+        }
+        // Extract the date part (YYYY-MM-DD)
+        const datePart = isoString.split('T')[0];
+        return datePart;
+      };
     return (
         <div className="video-prev-nar" style={{ marginTop: '20px' }} >
             <div className="video-wrapper">
@@ -46,7 +54,7 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date }) {
                         <h1 className="title" >{title}</h1>
                     </div>
                     <p className="video-publisher-scroll">{userData.displayName}</p>
-                    <p className="video-upload-date-scroll">{upload_date}</p>
+                    <p className="video-upload-date-scroll">{formatDate(upload_date)}</p>
                     {/* <p className="video-views-scroll">{views} views</p>  */}
                 </div>
             </div>

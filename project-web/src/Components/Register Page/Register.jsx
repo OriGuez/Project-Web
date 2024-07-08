@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt, FaAddressCard } from 'react-icons/fa';
 
-function Registration({ usersList, setUsersList }) {
+function Registration() {
   const [newUser, setNewUser] = useState({ username: '', password: '', confirmPassword: '', channelName: '', image: '' });
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
@@ -37,7 +37,7 @@ function Registration({ usersList, setUsersList }) {
         //if user created successfully
         if (response.status === 201) {
           //const result = await response.json();
-          setUsersList([...usersList, newUser]);
+          // setUsersList([...usersList, newUser]);
           navigate("/login");
           setImgPreview('');
           setPicFile('');

@@ -5,18 +5,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaSignInAlt } from 'react-icons/fa';
 
 
-function AppLogin({ usersList, loggedUser, setLoggedUser }) {
+function AppLogin() {
   const usernameInput = useRef();
   const passwordInput = useRef();
-  const [foundUser, setFoundUser] = useState({ username: '', password: '' });
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("Logged User:", loggedUser);
-  }, [loggedUser]);
 
   const validateUsername = () => {
     const val = usernameInput.current.value;
@@ -24,12 +19,6 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
       setUsernameError('Username cannot be empty');
       return false;
     }
-    // const user = usersList.find(user => user.username === val);
-    // if (!user) {
-    //   //setUsernameError('Username not found');
-    //   return false;
-    // }
-    // setFoundUser(user);
     setUsernameError('');
     return true;
   };
@@ -85,17 +74,12 @@ function AppLogin({ usersList, loggedUser, setLoggedUser }) {
             const userID = data.userID;
             //saving the userID inside localStorage
             localStorage.setItem('loggedUserID', userID);
-            const user='';
-            user.username=usernameInput.current.value;
-            user._id=userID;
-            setFoundUser(user);
-
+            //onLogin(userID);
+            navigate("/");
           } else {
             const errorData = await responseID.json();
             console.error('Error:', errorData.message);
           }
-          setLoggedUser(foundUser);
-          navigate("/");
         } else {
           // Handle different status codes
           switch (response.status) {

@@ -3,23 +3,19 @@ import { useParams } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from '../Home/VideoPrev';
 import './UserPage.css';
+import {FaEdit, FaTrash} from 'react-icons/fa';
 
-function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsDarkMode, videoList, setVideoList, setFilteredVideoList, filteredVideoList, usersList }) {
+function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const { userid } = useParams();
   const [user, setUser] = useState(null);
   const [userVideos, setUserVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     async function fetchUserData() {
       try {
-        // //const loggedUserID = localStorage.getItem('loggedUserID');
-
-        // if (!loggedUserID) {
-        //   throw new Error('No logged user ID found in localStorage');
-        // }
-
         const userUrl = `/api/users/${userid}`;
         const response = await fetch(userUrl);
         if (!response.ok) {
@@ -50,6 +46,15 @@ function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsD
   }, [userid]);
 
 
+  useEffect(() => {
+    if (user && loggedUser && loggedUser._id === user._id) {
+      setCanEdit(true);
+    } else {
+      setCanEdit(false);
+    }
+  }, [user, loggedUser]);
+
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -71,6 +76,7 @@ function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsD
           <img src={user.profilePic} alt="User" className="userpage-image" />
           <p className="username">@{user.username}</p>
           <p>{user.displayName}</p>
+          {canEdit && (<p>canEdit!!!!!!!!!!!!!!</p>)}
         </div>
       )}
 
@@ -79,19 +85,25 @@ function UserPage({ loggedUser, setLoggedUser, handleSignOut, isDarkMode, setIsD
           userVideos.map((video) => {
             // const thumbnailUrl = video.thumbnail ? `/uploads/images/${video.thumbnail}` : "/default.png";
             return (
-              <VideoPrev
-                key={video._id}
-                title={video.title}
-                publisher={user._id}  // Use the username of the user as the publisher
-                description={video.description}
-                vidID={video._id}
-                thumbnailUrl={"/" + video.thumbnail}
-                upload_date={video.createdAt}
-                videoList={videoList}
-                setVideoList={setVideoList}
-                loggedUser={loggedUser}
-                users={usersList}
-              />
+              <>
+                <VideoPrev
+                  key={video._id}
+                  title={video.title}
+                  publisher={user._id}  // Use the username of the user as the publisher
+                  description={video.description}
+                  vidID={video._id}
+                  thumbnailUrl={"/" + video.thumbnail}
+                  upload_date={video.createdAt}
+                />
+                {canEdit && (<div className="edit-delete-actions">
+                  <button className="edit-button">
+                    <FaEdit /> {"Edit"}
+                  </button>
+                  <button className="delete-button">
+                    <FaTrash /> Delete
+                  </button>
+                </div>)}
+              </>
             );
           })
         ) : (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './VideoPrev.css';
 
 function VideoPrev({
@@ -36,11 +36,19 @@ function VideoPrev({
     fetchUserData();
   }, [publisher]); // Re-run the effect if 'publisher' changes
 
-    // Handling different states: loading, error, and successful data fetch
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (!userData) return <div>No user data found.</div>;
-
+  // Handling different states: loading, error, and successful data fetch
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!userData) return <div>No user data found.</div>;
+  const formatDate = (isoString) => {
+    // Check if isoString is undefined or null
+    if (!isoString) {
+      return null;
+    }
+    // Extract the date part (YYYY-MM-DD)
+    const datePart = isoString.split('T')[0];
+    return datePart;
+  };
   return (
     <div className="video-prev">
       <div>
@@ -49,12 +57,12 @@ function VideoPrev({
           <div className="video-info">
             <h3 className="video-title">{title}</h3>
             <Link to={`/userpage/${userData._id}`} className="video-link">
-            <p className="video-publisher">
-              <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
-              {userData.displayName}
-            </p>
+              <p className="video-publisher">
+                <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
+                {userData.displayName}
+              </p>
             </Link>
-            <p className="video-upload-date">{upload_date}</p>
+            <p className="video-upload-date">{formatDate(upload_date)}</p>
           </div>
         </Link>
       </div>

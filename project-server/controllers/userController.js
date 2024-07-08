@@ -39,7 +39,7 @@ exports.getUser = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         //public data only ,without password
         res.status(200).json({
-            _id:user._id,
+            _id: user._id,
             username: user.username,
             displayName: user.displayName,
             profilePic: user.profilePic,
@@ -67,12 +67,20 @@ exports.updateUser = async (req, res) => {
     }
 };
 exports.deleteUser = async (req, res) => {
+    //deletes user and all of his data including comments,videos and comments on his videos.
     try {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) return res.status(404).json({ message: 'User not found' });
+        //delete user comments
         await Comment.deleteMany({ userId: req.params.id });
+        // Find all videos by the user
+        const userVideos = await Video.find({ userId: req.params.id });
+        // Delete comments on the user's videos
+        const videoIds = userVideos.map(video => video._id);
+        await Comment.deleteMany({ videoId: { $in: videoIds } });
+        //delete user videos
         await Video.deleteMany({ userId: req.params.id });
-        res.status(200).json({ message: 'User and associated data deleted' });
+        res.status(200).json({ message: 'User and associated data deleted successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
     }

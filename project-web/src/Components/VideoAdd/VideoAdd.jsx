@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './VideoAdd.css';
 
-function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList }) {
+function VideoAdd({ loggedUser}) {
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
@@ -121,21 +121,21 @@ function VideoAdd({ loggedUser, videoList, setVideoList, setFilteredVideoList })
         });
         //if user created successfully
         if (response.status === 201) {
-          const newVideo = {
-            title,
-            description,
-            publisher: loggedUser.username,
-            vidID: String(Date.now()),
-            url: URL.createObjectURL(videoFile),
-            thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
-            upload_date: new Date().toISOString().split('T')[0],
-            whoLikedList: [],
-            comments: [],
-          };
+          // const newVideo = {
+          //   title,
+          //   description,
+          //   publisher: loggedUser.username,
+          //   vidID: String(Date.now()),
+          //   url: URL.createObjectURL(videoFile),
+          //   thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
+          //   upload_date: new Date().toISOString().split('T')[0],
+          //   whoLikedList: [],
+          //   comments: [],
+          // };
 
-          const updatedVideoList = [...videoList, newVideo];
-          setVideoList(updatedVideoList);
-          setFilteredVideoList(updatedVideoList);
+          // const updatedVideoList = [...videoList, newVideo];
+          // setVideoList(updatedVideoList);
+          // setFilteredVideoList(updatedVideoList);
           setTitle('');
           setDescription('');
           setVideoFile(null);
