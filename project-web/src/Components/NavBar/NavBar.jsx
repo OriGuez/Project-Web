@@ -128,6 +128,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
               onKeyDown={handleKeyPress}
             />
             <button type="submit" className="search-button" onClick={handleSearch}>
+            <span className="tooltipSearch">Search</span>
               <i className="bi bi-search"></i>
             </button>
           </div>
@@ -136,21 +137,24 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
               <>
                 <div className="addVideo">
                   <Link to="/videoadd" className="menu-item">
-                    <div className="icon-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add a video">
+                    <div className="icon-circle">
                       <i className="bi bi-camera-video"></i>
                       <i className="bi bi-plus icon-plus"></i>
+                      <span className="tooltip">Create</span>
                     </div>
                   </Link>
                 </div>
-                <div className="signOut">
-                  <div style={{ position: 'relative' }}>
+
+                  <div className="signOut" style={{ position: 'relative' }}>
                     <img src={loggedUser.profilePic} alt="Profile" className="user-image" onClick={handleImageClick} />
                     <div className={`signOutDialog ${showSignOutDialog ? 'showSignOutDialog' : 'hideSignOutDialog'}`}>
-                      <span>{loggedUser.username}</span>
+                      <span className="dialogUsername">@{loggedUser.username}</span>
                       <br />
                       <span>{loggedUser.displayName}</span>
                       <br />
-                      <Link to={`/userpage/${loggedUser._id}`} className="user">
+                      <Link to={`/userpage/${loggedUser._id}`} className="myChannelButton">
+                        <span className="tooltip">My Channel</span>
+
                         <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
                       </Link>
                       <br />
@@ -159,7 +163,6 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                       </button>
                     </div>
                   </div>
-                </div>
               </>
             ) : (
               <div className="signIn">
@@ -188,18 +191,18 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
           </div>
           <div className="offcanvas-body">
             <ul className="list-group">
-              <li className="list-group-item d-flex justify-content-start align-items-center">
-                <Link to="/" style={linkStyle} className="menu-item">
+              <Link to="/" style={linkStyle} className="menu-item">
+                <li className="list-group-item d-flex justify-content-start align-items-center">
                   <i className="bi bi-house-door"></i>
                   <span className="ms-2">Home</span>
-                </Link>
-              </li>
-              <li className="list-group-item d-flex justify-content-start align-items-center"  >
-                <Link to="/videoadd" style={linkStyle} className="menu-item" >
+                </li>
+              </Link>
+              <Link to="/videoadd" style={linkStyle} className="menu-item" >
+                <li className="list-group-item d-flex justify-content-start align-items-center"  >
                   <i className="bi bi-plus-circle"></i>
                   <span className="ms-2">Add Video</span>
-                </Link>
-              </li>
+                </li>
+              </Link>
               <li className="list-group-item d-flex justify-content-start align-items-center">
                 <i className="bi bi-moon"></i>
                 <span className="ms-2">View Mode</span>

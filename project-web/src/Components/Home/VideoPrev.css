@@ -87,4 +87,8 @@
     margin-top: -15px;
     text-overflow: ellipsis;
   }
-  
+  .video-prev .video-link .link-no-style .video-publisher{
+    font-size: 16px;
+    color: #000; /* or any color you prefer */
+    text-decoration: none; /* Ensure no underline */
+  }

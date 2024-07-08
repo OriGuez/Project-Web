@@ -52,11 +52,12 @@ function VideoPrev({
   return (
     <div className="video-prev">
       <div>
-        <Link to={url} className="video-link">
+        <Link to={url}  style={{ textDecoration: 'none', color: 'inherit' }} className="video-link">
           <img src={thumbnailUrl} alt={title} className="video-thumbnail" />
           <div className="video-info">
             <h3 className="video-title">{title}</h3>
-            <Link to={`/userpage/${userData._id}`} className="video-link">
+
+            <Link to={`/userpage/${userData._id}`} className="link-no-style">
               <p className="video-publisher">
                 <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
                 {userData.displayName}

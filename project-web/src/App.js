@@ -10,6 +10,7 @@ import VideoAdd from './Components/VideoAdd/VideoAdd';
 import UserPage from './Components/UserPage/UserPage';
 import videos from './data/vidDB.json';
 import Search from './Components/Search Page/SearchPage';
+import EditVideoPage from './Components/EditVideoPage/EditVideoPage';
 
 function App() {
   const [loggedUser, setLoggedUser] = useState(null);
@@ -60,6 +61,7 @@ function App() {
           <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} />} />
           <Route path="/userpage/:userid" component={UserPage} element={<UserPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route path="/search/:query" component={Search} element={<Search loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          <Route path="/video/:id/edit" component={EditVideoPage} element={<EditVideoPage loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />} />
         </Routes>
       </BrowserRouter>
     </div>

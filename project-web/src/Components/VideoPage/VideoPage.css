@@ -160,7 +160,10 @@
   padding: 20px 0; 
   overflow-x: hidden; 
 }
-
+.link-no-style {
+  text-decoration: none;
+  color: inherit;
+}
 .video-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

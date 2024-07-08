@@ -1,25 +1,59 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import './VideoAdd.css';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import './EditVideoPage.css';
 
-function VideoAdd({ loggedUser}) {
+function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoList }) {
+  const { id } = useParams();
   const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
+  const [videoPreview, setVideoPreview] = useState('');
+  const [thumbnailPreview, setThumbnailPreview] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [imgPreview, setImgPreview] = useState('');
-  const [thumbnailOption, setThumbnailOption] = useState('upload');
+  const [thumbnailOption, setThumbnailOption] = useState('none'); // Default option to 'none'
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
-
-
   const [thumbFileServer, setThumbFileServer] = useState(null);
   const [vidFileServer, setVidFileServer] = useState(null);
-
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+      try {
+        const response = await fetch(`/api/videos/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+
+        const data = await response.json();
+        setVidFileServer(data);
+        setTitle(data.title); // Set the title state with fetched data
+        setDescription(data.description); // Set the description state with fetched data
+        setThumbFileServer(data.thumbnail);
+        setVideoPreview(data.url);
+        setThumbnailPreview(data.thumbnail);
+
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+        setError(error);
+      } finally {
+        setLoading(false); // Ensure loading state is set to false after fetch
+      }
+    };
+    fetchVideo();
+  }, [id]); // Ensure effect re-runs if id changes
 
   useEffect(() => {
     const jwtToken = localStorage.getItem('jwt');
@@ -28,16 +62,10 @@ function VideoAdd({ loggedUser}) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!loggedUser) {
-  //     navigate('/login');
-  //   }
-  // }, [loggedUser, navigate]);
-
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setVidFileServer(e.target.files[0])
+      setVidFileServer(file);
       setVideoFile(file);
       if (thumbnailOption === 'generate') {
         generateThumbnail(file);
@@ -50,7 +78,7 @@ function VideoAdd({ loggedUser}) {
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setThumbFileServer(e.target.files[0])
+      setThumbFileServer(file);
       setThumbnailFile(file);
       setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
@@ -60,12 +88,10 @@ function VideoAdd({ loggedUser}) {
   const handleThumbnailOptionChange = (e) => {
     const option = e.target.value;
     setThumbnailOption(option);
-    if (option === 'generate' && videoFile) {
-      generateThumbnail(videoFile);
-    }
-    else if (option === 'upload') {
+    if (option === 'generate' && videoPreview) {
+      generateThumbnail(videoPreview);
+    } else if (option === 'upload') {
       setImgPreview('');
-      //setThumbFileServer(null);
     }
   };
 
@@ -74,8 +100,8 @@ function VideoAdd({ loggedUser}) {
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
 
-    const url = URL.createObjectURL(file);
-    videoElement.src = url;
+    // const url = URL.createObjectURL(file);
+    videoElement.src = videoPreview;
     videoElement.currentTime = 2;
 
     videoElement.onloadeddata = () => {
@@ -93,7 +119,6 @@ function VideoAdd({ loggedUser}) {
       canvasElement.toBlob((blob) => {
         if (blob) {
           const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
-          console.log('File created:', file);
           setThumbFileServer(file);
         }
       }, 'image/jpeg');
@@ -104,48 +129,32 @@ function VideoAdd({ loggedUser}) {
     e.preventDefault();
     if (validateForm()) {
       try {
-        // Map to the desired field names
         const vidPayload = new FormData();
         vidPayload.append('title', title);
         vidPayload.append('description', description);
         vidPayload.append('video', vidFileServer);
-        vidPayload.append('image', thumbFileServer);
+        if (thumbnailOption !== 'none') {
+          vidPayload.append('image', thumbFileServer);
+        }
         const userID = localStorage.getItem('loggedUserID');
         const jwtToken = localStorage.getItem('jwt');
-        const response = await fetch(`/api/users/${userID}/videos`, {
-          method: 'POST',
+        const response = await fetch(`/api/users/${userID}/videos/${id}`, {
+          method: 'PATCH',
           headers: {
             'Authorization': `Bearer ${jwtToken}` // Add the Authorization header
           },
           body: vidPayload,
         });
-        //if user created successfully
-        if (response.status === 201) {
-          // const newVideo = {
-          //   title,
-          //   description,
-          //   publisher: loggedUser.username,
-          //   vidID: String(Date.now()),
-          //   url: URL.createObjectURL(videoFile),
-          //   thumbnailUrl: thumbnailOption === 'generate' ? imgPreview : URL.createObjectURL(thumbnailFile),
-          //   upload_date: new Date().toISOString().split('T')[0],
-          //   whoLikedList: [],
-          //   comments: [],
-          // };
-
-          // const updatedVideoList = [...videoList, newVideo];
-          // setVideoList(updatedVideoList);
-          // setFilteredVideoList(updatedVideoList);
+        if (response.status === 200) {
           setTitle('');
           setDescription('');
           setVideoFile(null);
           setThumbnailFile(null);
-          setVidFileServer(null)
-          setThumbFileServer(null)
+          setVidFileServer(null);
+          setThumbFileServer(null);
           setErrors({});
           setImgPreview('');
           navigate('/');
-          console.log("Video Upload Successful");
         } else {
           switch (response.status) {
             case 400:
@@ -154,22 +163,18 @@ function VideoAdd({ loggedUser}) {
               }
             case 403:
               {
-                //setRegisterError('No Profile Picture');
                 break;
               }
             case 500:
               {
-                //setRegisterError('Internal Server Error');
                 break;
               }
             default:
-            //setRegisterError('Something went wrong');
           }
         }
       } catch (error) {
         console.error('Error:', error);
       }
-
     }
   };
 
@@ -231,25 +236,27 @@ function VideoAdd({ loggedUser}) {
 
     return isTitleValid && isDescriptionValid && isVideoFileValid && isThumbnailFileValid;
   };
+
   if (!isAuthenticated) {
     return (
       <div className="main-container">
-        <div className="video-add-container">
+        <div className="video-edit-container">
           <h2>Please log in to access this page</h2>
           <Link to="/">Go to Homepage</Link>
         </div>
       </div>
     );
   }
+
   return (
-    <div className="main-container">
-      <div className="video-add-container">
+    <div className="main-container-edit">
+      <div className="video-edit-container">
         <div className="logo-container">
           <Link to="/">
             <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
           </Link>ViewTube
         </div>
-        <h2>Add a New Video</h2>
+        <h2>Edit your video</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="title-input">
             <label htmlFor="title">Title</label>
@@ -260,7 +267,6 @@ function VideoAdd({ loggedUser}) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               onBlur={handleBlur}
-              placeholder="Title"
               required
               className="wide-input"
             />
@@ -280,21 +286,24 @@ function VideoAdd({ loggedUser}) {
             />
             {errors.description && <div className="error-message">{errors.description}</div>}
           </div>
+            <div className="videoplay">
+              <video src={"/" + videoPreview} controls></video>
+            </div>           
           <div className="form-group">
-            <label htmlFor="videoFile">Video File</label>
-            <input
-              type="file"
-              id="videoFile"
-              name="videoFile"
-              accept="video/*"
-              onChange={handleVideoChange}
-              className="wide-input"
-            />
-            {errors.videoFile && <div className="error-message">{errors.videoFile}</div>}
-          </div>
-          <div className="form-group">
-            <label>Thumbnail Option</label>
+            <label>Current Thumbnail</label>
             <div className="thumbnail-options">
+              <img src={"/" + thumbnailPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />
+              <label className="thumbnail-option">
+                <input
+                  type="radio"
+                  id="noneThumbnail"
+                  name="thumbnailOption"
+                  value="none"
+                  checked={thumbnailOption === 'none'}
+                  onChange={handleThumbnailOptionChange}
+                />
+                Keep Current
+              </label>
               <label className="thumbnail-option">
                 <input
                   type="radio"
@@ -304,7 +313,7 @@ function VideoAdd({ loggedUser}) {
                   checked={thumbnailOption === 'upload'}
                   onChange={handleThumbnailOptionChange}
                 />
-                Upload Image
+                Upload Other
               </label>
               <label className="thumbnail-option">
                 <input
@@ -320,7 +329,7 @@ function VideoAdd({ loggedUser}) {
             </div>
           </div>
           {thumbnailOption === 'upload' && (
-            <div className="form-group">
+            <div className="form-group-edit">
               <label htmlFor="thumbnailFile">Thumbnail Image</label>
               <input
                 type="file"
@@ -333,16 +342,18 @@ function VideoAdd({ loggedUser}) {
               {errors.thumbnailFile && <div className="error-message">{errors.thumbnailFile}</div>}
             </div>
           )}
-          <div className="image-container">
-            {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />}
+          <div className="image-container-edit">
+            {imgPreview && <img src={imgPreview} width="100px" height="100px" className='rounded-scalable-image-edit' alt="Preview" />}
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
-          <button type="submit">Add Video</button>
-        </form>
+        <Link to='/'>
+          <button type="submit">Submit</button>
+        </Link>       
+       </form>
       </div>
     </div>
   );
 }
 
-export default VideoAdd;
+export default EditVideoPage;

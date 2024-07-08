@@ -24,4 +24,7 @@ router.get('/video/:id', (req, res) => {
 router.get('/search/:query', (req, res) => {
     res.sendFile(path.join(__dirname, '..','..', 'project-web', 'build', 'index.html'));
 });
+router.get('/video/:id/edit', (req, res) => {
+    res.sendFile(path.join(__dirname, '..','..', 'project-web', 'build', 'index.html'));
+});
 module.exports = router;
