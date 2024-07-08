@@ -56,10 +56,10 @@ function App() {
         <Routes>
           <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
           <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList} />} />
-          <Route path="/" element={<Home loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList} filteredVideoList={filteredVideoList} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />} />
-          <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} filteredVideoList = {filteredVideoList} />} />
-          <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />} />
-          <Route path="/userpage/:userid" component={UserPage} element={<UserPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} videoList={videoList} setVList={setVideoList} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} setFilteredVideoList={setFilteredVideoList} usersList={usersList} />} />
+          <Route path="/" element={<Home loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList}/>} />
+          <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
+          <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} />} />
+          <Route path="/userpage/:userid" component={UserPage} element={<UserPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route path="/search/:query" component={Search} element={<Search loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route path="/video/:id/edit" component={EditVideoPage} element={<EditVideoPage loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />} />
         </Routes>

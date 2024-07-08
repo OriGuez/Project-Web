@@ -77,6 +77,10 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   };
 
   const toggleDarkMode = () => {
+    if (isDarkMode)
+      localStorage.removeItem('isDarkMode');
+    else
+      localStorage.setItem('isDarkMode', 1);
     setIsDarkMode(!isDarkMode);
   };
 
@@ -150,6 +154,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                       <br />
                       <Link to={`/userpage/${loggedUser._id}`} className="myChannelButton">
                         <span className="tooltip">My Channel</span>
+
                         <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
                       </Link>
                       <br />
