@@ -40,3 +40,8 @@
   font-size: 20px;
   display: block;
 }
+.edit-delete-actions-user {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}

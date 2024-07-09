@@ -114,6 +114,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
               <i className="bi bi-list" style={{ fontSize: '1.5rem' }}></i>
             </button>
             <Link to="/" className="navbar-brand ms-2">
+              <span className="tooltipLogo">Home</span>
               <img src="/logo.png" alt="ViewTube Logo" width="40px" height="auto" />
             </Link>
             <span5 className={`span5 ${isDarkMode ? 'text-white' : 'text-black'}`}>ViewTube</span5>
@@ -140,7 +141,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                     <div className="icon-circle">
                       <i className="bi bi-camera-video"></i>
                       <i className="bi bi-plus icon-plus"></i>
-                      <span className="tooltip">Create</span>
+                      <span className="tooltipAdd">Create</span>
                     </div>
                   </Link>
                 </div>
@@ -167,8 +168,10 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
             ) : (
               <div className="signIn">
                 <Link to="/login" className="signInLink">
+                <span className="tooltipSignIn">Sign In</span>
                   <div className="signInContent">
                     <img src="/default.png" alt="Sign in" className="signInImage" />
+
                     <FaSignInAlt />
                   </div>
                 </Link>

@@ -142,7 +142,7 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
     );
   }
   return (
-    <div className="user-page">
+    <div className={`user-page ${isDarkMode ? 'dark-mode' : ''}`}>
       <NavBar
         loggedUser={loggedUser}
         setLoggedUser={setLoggedUser}
@@ -209,7 +209,7 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                   views={video.views}
                 />
                 {canEdit && (
-                  <div className="edit-delete-actions">
+                  <div className="edit-delete-actions-user">
                     <button onClick={() => handleEdit(video._id)} className="edit-button">
                       <FaEdit /> {"Edit/Delete"}
                     </button>

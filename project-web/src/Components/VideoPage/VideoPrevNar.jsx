@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './VideoPrevNar.css'
 
-function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date }) {
+function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date, views }) {
     const url = `/video/${vidID}`;
 
     const [userData, setUserData] = useState(null);
@@ -54,8 +54,8 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date }) {
                         <h1 className="title" >{title}</h1>
                     </div>
                     <p className="video-publisher-scroll">{userData.displayName}</p>
-                    <p className="video-upload-date-scroll">{formatDate(upload_date)}</p>
-                    {/* <p className="video-views-scroll">{views} views</p>  */}
+                    <p className="video-views-upload-date-scroll">{views} views • {formatDate(upload_date)}</p>
+
                 </div>
             </div>
         </div>
