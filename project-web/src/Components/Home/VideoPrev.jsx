@@ -31,6 +31,31 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, 
     fetchUserData();
   }, [publisher]); // Re-run the effect if 'publisher' changes
 
+
+  const formatNum = (num) => {
+    //notice that the number is limited to 2 billion views
+    if(!num)
+      return num;
+    if (num < 1000) {
+      return num.toString();
+    } else if (num >= 1000 && num < 10000) {
+      return (num / 1000).toFixed(1) + 'k';
+    } else if (num >= 10000 && num < 1000000) {
+      return (num / 1000).toFixed(0) + 'k';
+    } else if (num >= 1000000 && num < 10000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 10000000 && num < 1000000000) {
+      return (num / 1000000).toFixed(0) + 'M';
+    } else if (num >= 1000000000 && num < 10000000000) {
+      return (num / 1000000000).toFixed(1) + 'B';
+    } else {
+      return (num / 1000000000).toFixed(0) + 'B';
+    }
+    //return number.toLocaleString();
+  };
+
+
+
   // Handling different states: loading, error, and successful data fetch
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -61,7 +86,7 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, 
                 {userData.displayName}
               </p>
             </Link>
-            <p className="video-views-upload-date">{views} views • {formatDate(upload_date)}</p>
+            <p className="video-views-upload-date">{formatNum(views)} views • {formatDate(upload_date)}</p>
           </div>
         </Link>
       </div>

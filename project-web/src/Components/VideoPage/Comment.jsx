@@ -1,25 +1,18 @@
 import './Comment.css';
 import { useState, useEffect } from 'react';
-import { FaThumbsUp, FaThumbsDown, FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaCheck } from 'react-icons/fa';
 
 
 
-function Comment({ commentId, commentText, uploader, isDarkMode, onDelete }) {
+function Comment({ loggedUser, commentId, commentText, uploader, isDarkMode, onDelete }) {
     const [isEditing, setIsEditing] = useState(false);
     const [isEditable, setIsEditable] = useState(false);
     const [editedComment, setEditedComment] = useState(commentText);
     const [currentCommentText, setCurrentCommentText] = useState(commentText);
-    // const [likeCount, setLikeCount] = useState(0);
-    // const [dislikeCount, setDislikeCount] = useState(0);
     const [picURL, setPicURL] = useState('');
     const [writer, setWriter] = useState('');
 
     useEffect(() => {
-        const loggedUserID = localStorage.getItem('loggedUserID');
-        if (loggedUserID === uploader)
-            setIsEditable(true);
-        else
-            setIsEditable(false);
         const loadUserData = async () => {
             const userData = await fetchUser(uploader);
             setWriter(userData);
@@ -40,6 +33,13 @@ function Comment({ commentId, commentText, uploader, isDarkMode, onDelete }) {
         loadUserData();
     }, []);
 
+    useEffect(() => {
+        const loggedUserID = localStorage.getItem('loggedUserID');
+        if (loggedUserID === uploader)
+            setIsEditable(true);
+        else
+            setIsEditable(false);
+    }, [uploader]);
 
     useEffect(() => {
         if (writer) {
@@ -47,7 +47,7 @@ function Comment({ commentId, commentText, uploader, isDarkMode, onDelete }) {
         } else {
             setPicURL('/default.png'); // Set default picture URL if user not found
         }
-    });
+    }, [writer]);
 
 
     const handleEdit = () => {
@@ -102,14 +102,6 @@ function Comment({ commentId, commentText, uploader, isDarkMode, onDelete }) {
         deleteComment(commentId);
     };
 
-    // const handleLike = () => {
-    //     setLikeCount(likeCount + 1);
-    // };
-
-    // const handleDislike = () => {
-    //     setDislikeCount(dislikeCount + 1);
-    // };
-
     return (
         <div className={`comment ${isDarkMode ? 'dark-mode' : ''}`}>
             <img src={picURL} alt="Profile" />
@@ -136,14 +128,6 @@ function Comment({ commentId, commentText, uploader, isDarkMode, onDelete }) {
                             <button className="delete-button" onClick={handleDelete}><FaTrash /> Delete</button>
                         </>
                     )}
-                    {/* <div className="likes-dislikes">
-                        <button className="like-button" onClick={handleLike}>
-                            <FaThumbsUp /> {likeCount}
-                        </button>
-                        <button className="dislike-button" onClick={handleDislike}>
-                            <FaThumbsDown /> {dislikeCount}
-                        </button>
-                    </div> */}
                 </div>
             </div>
         </div>

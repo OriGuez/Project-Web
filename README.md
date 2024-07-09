@@ -10,6 +10,12 @@ https://github.com/OriGuez/Project-Web/tree/main
 Exercise 2 main branch is called "main-Exercise2" and is here:
 https://github.com/OriGuez/Project-Web/tree/main-Exercise2
 
+the search fields are video title and description.
+
+
+
+
+
 
 We splitted our work at first to register and login pages, and later to home and video pages,
 created components to items like the navbar, video-add and different sections in the site like comment section and etc.

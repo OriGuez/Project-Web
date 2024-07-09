@@ -8,7 +8,7 @@ function VideoAdd({ loggedUser}) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
-  const [imgPreview, setImgPreview] = useState('');
+  const [imgPreview, setImgPreview] = useState(null);
   const [thumbnailOption, setThumbnailOption] = useState('upload');
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
 
@@ -42,7 +42,7 @@ function VideoAdd({ loggedUser}) {
       if (thumbnailOption === 'generate') {
         generateThumbnail(file);
       }
-      setImgPreview(URL.createObjectURL(file));
+      //setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
     }
   };
@@ -64,7 +64,7 @@ function VideoAdd({ loggedUser}) {
       generateThumbnail(videoFile);
     }
     else if (option === 'upload') {
-      setImgPreview('');
+      setImgPreview(null);
       //setThumbFileServer(null);
     }
   };
@@ -73,30 +73,46 @@ function VideoAdd({ loggedUser}) {
     const videoElement = videoRef.current;
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
-
+  
     const url = URL.createObjectURL(file);
     videoElement.src = url;
-    videoElement.currentTime = 2;
-
-    videoElement.onloadeddata = () => {
-      videoElement.play();
-      videoElement.pause();
-      videoElement.currentTime = 2;
-    };
-
-    videoElement.onseeked = () => {
-      canvasElement.width = videoElement.videoWidth;
-      canvasElement.height = videoElement.videoHeight;
-      context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-      const dataUrl = canvasElement.toDataURL('image/jpeg');
-      setImgPreview(dataUrl);
-      canvasElement.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
-          console.log('File created:', file);
-          setThumbFileServer(file);
+  
+    // Load metadata to get video dimensions
+    videoElement.onloadedmetadata = () => {
+      // Set the current time to a point where we are sure we have a frame
+      videoElement.currentTime = 0;
+  
+      // Wait for the frame to be ready
+      videoElement.onseeked = () => {
+        // Ensure the video dimensions are available
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+  
+        // Draw the frame on the canvas
+        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+  
+        // Convert the canvas content to a Data URL
+        const dataUrl = canvasElement.toDataURL('image/jpeg');
+        setImgPreview(dataUrl);
+  
+        // Convert the canvas content to a Blob
+        canvasElement.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
+            console.log('File created:', file);
+            setThumbFileServer(file);
+          }
+        }, 'image/jpeg');
+      };
+  
+      // Ensure seeked event is triggered for very short videos
+      videoElement.onloadeddata = () => {
+        if (videoElement.currentTime !== 0) {
+          videoElement.currentTime = 0;
+        } else {
+          videoElement.dispatchEvent(new Event('seeked'));
         }
-      }, 'image/jpeg');
+      };
     };
   };
 
@@ -143,7 +159,7 @@ function VideoAdd({ loggedUser}) {
           setVidFileServer(null)
           setThumbFileServer(null)
           setErrors({});
-          setImgPreview('');
+          setImgPreview(null);
           navigate('/');
           console.log("Video Upload Successful");
         } else {
@@ -326,7 +342,8 @@ function VideoAdd({ loggedUser}) {
                 type="file"
                 id="thumbnailFile"
                 name="thumbnailFile"
-                accept="image/*"
+                // accept="image/*"
+                accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
                 onChange={handleThumbnailChange}
                 className="wide-input"
               />

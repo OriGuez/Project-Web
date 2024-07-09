@@ -68,8 +68,9 @@ function Search({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                                 title={video.title}
                                 publisher={video.userId}
                                 vidID={video._id}
-                                thumbnailUrl={"/" + video.thumbnail}
+                                thumbnailUrl={video.thumbnail}
                                 upload_date={video.createdAt}
+                                views={video.views}
                             />
                         ))
                     )}
