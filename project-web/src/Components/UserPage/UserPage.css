@@ -45,3 +45,30 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+.dark-mode .user-page {
+  background-color: #343A40;
+
+}
+
+.dark-mode .home-container {
+  background-color: #343A40;
+}
+
+.dark-mode .App {
+  background-color: #343A40;
+}
+
+/* .dark-mode .vsc-initialized {
+  background-color: #343A40;
+}  */
+/* .dark-mode .body.vsc-initialized {
+  background-color: #343A40;
+} */
+/* Ensure body and html take full height */
+
+
+/* Ensure App takes full height */
+/* .App {
+  height: 100%;
+} */

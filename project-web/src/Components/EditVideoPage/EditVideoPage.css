@@ -1,13 +1,13 @@
 /* Ensure body and html take full height */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+/* html {
+    height: 0%;
 }
-
+body{
+    height: 0%;
+} */
 /* Ensure App takes full height */
 .App {
-    height: 100%;
+    height: 250%;
 }
 
 /* Main container styling */
