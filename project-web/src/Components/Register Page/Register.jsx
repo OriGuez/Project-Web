@@ -1,5 +1,5 @@
 import './Register.css';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import users from '../../data/userdb.json';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -13,12 +13,20 @@ function Registration() {
   const [channelNameError, setChannelNameError] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [picFile, setPicFile] = useState('');
-
   const [imgError, setImgError] = useState('');
   const [imgPreview, setImgPreview] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to true for initial render
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwt');
+    if (jwtToken) {
+      setIsAuthenticated(true);
+    }
+    else
+    setIsAuthenticated(false);
+  }, []);
   const handleSubmit = async () => {
     if (validateForm()) {
 
@@ -165,6 +173,17 @@ function Registration() {
     return isValid;
   };
 
+  if (isAuthenticated) {
+    return (
+      <div className="main-container">
+        <div className="video-add-container">
+          <h2>You Are Already Logged-In</h2>
+          <Link to="/">Go to Homepage</Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="create-account-container">
       <div className="create-account-box">
@@ -243,7 +262,7 @@ function Registration() {
               {channelNameError && <div className="error-message">{channelNameError}</div>}
             </div>
             <div className="input-group">
-              <input className="input-group" type="file" onChange={handleImageChange} />
+              <input className="input-group" type="file" accept=".jpeg,.jpg,.png,.gif,.svg" onChange={handleImageChange} />
               {imgError && <div className="error-message1">{imgError}</div>}
             </div>
             <div className="image-container">

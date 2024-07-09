@@ -23,7 +23,7 @@ function checkFileType(file, cb) {
     if (file.fieldname === 'video') {
         filetypes = /mp4|avi|mkv|mov/;
     } else if (file.fieldname === 'image') {
-        filetypes = /jpeg|jpg|png|gif|svg/;
+        filetypes = /jpeg|jpg|png|gif|svg|webp/;
     }
 
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());

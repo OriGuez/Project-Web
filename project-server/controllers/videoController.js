@@ -22,8 +22,8 @@ exports.createVideo = async (req, res) => {
             const videoFileName = path.basename(videoFile.path);
             const imageFileName = path.basename(imageFile.path);
 
-            const videoRelativePath = path.join('uploads', 'videos', videoFileName);
-            const imageRelativePath = path.join('uploads', 'images', imageFileName);
+            const videoRelativePath = path.join('/uploads', 'videos', videoFileName);
+            const imageRelativePath = path.join('/uploads', 'images', imageFileName);
             // Create a new video with the uploaded file path and other details
             const video = new Video({
                 ...req.body,
@@ -75,6 +75,7 @@ exports.getVideo = async (req, res) => {
         const video = await Video.findById(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });
         // Increment the views count
+        //it increments twice because the thumbnail takes the video too.
         video.views = (video.views || 0) + 1;
         // Save the updated video
         await video.save();

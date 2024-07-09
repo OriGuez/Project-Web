@@ -11,7 +11,16 @@ function AppLogin() {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Default to true for initial render
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem('jwt');
+    if (jwtToken) {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   const validateUsername = () => {
     const val = usernameInput.current.value;
@@ -107,6 +116,17 @@ function AppLogin() {
       }
     }
   };
+
+  if (isAuthenticated) {
+    return (
+      <div className="main-container">
+        <div className="video-add-container">
+          <h2>You Are Already Logged-In</h2>
+          <Link to="/">Go to Homepage</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="App-login-page">
