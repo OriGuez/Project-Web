@@ -4,7 +4,7 @@ import './CommentSection.css';
 import { useState, useEffect } from 'react';
 
 
-function CommentSection({ comments,setComments }) {
+function CommentSection({ loggedUser,comments,setComments }) {
     const [commentsList, setCommentsList] = useState(comments || []);
     useEffect(() => {
         if (Array.isArray(comments)) {
@@ -23,6 +23,7 @@ function CommentSection({ comments,setComments }) {
             {commentsList.map(comment => (
                 <Comment
                     key={comment._id}
+                    loggedUser={loggedUser}
                     commentId={comment._id}
                     commentText={comment.content}
                     uploader={comment.userId}

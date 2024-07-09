@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from '../Home/VideoPrev';
 import './UserPage.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit } from 'react-icons/fa';
 
 function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const { userid } = useParams();
@@ -25,25 +25,32 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
         const userUrl = `/api/users/${userid}`;
         const response = await fetch(userUrl);
         if (!response.ok) {
+          if (response.status === 404) {
+            setUser(null)
+            return;
+          }
           throw new Error(`Failed to fetch user data: ${response.statusText}`);
         }
 
         const userData = await response.json();
+        if (!userData) {
+          setUser(null);
+          return;
+        }
         setUser(userData);
         setNewDisplayName(userData.displayName);
-
         const videosUrl = `/api/users/${userid}/videos`;
         const videosResponse = await fetch(videosUrl);
         if (!videosResponse.ok) {
           throw new Error(`Failed to fetch user videos: ${videosResponse.statusText}`);
         }
-
         const userVideosData = await videosResponse.json();
         setUserVideos(userVideosData);
-
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        setError(error.message);
+        setUser(null);
+        //return;
+        // console.error('Error fetching user data:', error);
+        // setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -85,10 +92,34 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
 
       const updatedUser = await response.json();
       setUser(updatedUser);
+      //to update the navbar:
+      setLoggedUser(updatedUser);
       setEditing(false);
     } catch (error) {
       console.error('Error updating user:', error);
       setError(error.message);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    const token = localStorage.getItem('jwt');
+    const userID = localStorage.getItem('loggedUserID');
+    //const userID=loggedUser._id
+    const response = await fetch(`/api/users/${userID}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(`Failed to delete video: ${errorMessage}`);
+    }
+    else {
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("loggedUserID");
+      setLoggedUser(null);
+      navigate(`/`);
     }
   };
 
@@ -100,7 +131,16 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   if (error) {
     return <p>Error: {error}</p>;
   }
-
+  if (!user) {
+    return (
+      <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
+        <p>User not found.</p>
+        <Link to="/">
+          <p>Go back home</p>
+        </Link>
+      </div>
+    );
+  }
   return (
     <div className="user-page">
       <NavBar
@@ -114,20 +154,25 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
         <div className="userpage-info">
           <img src={user.profilePic} alt="User" className="userpage-image" />
           <div className="user-details">
-          <p className="channelName">{user.displayName}</p>
-          <p>@{user.username}</p>
-           </div>
-          {canEdit && (
-            <button onClick={() => setEditing(true)} className="edit-user-button">
-              Edit User
-            </button>
+            <p className="channelName">{user.displayName}</p>
+            <p>@{user.username}</p>
+          </div>
+          {canEdit && !editing && (
+            <>
+              <button onClick={() => setEditing(true)} className="edit-user-button">
+                Edit User
+              </button>
+              <button onClick={handleDeleteUser} className="edit-user-button">
+                Delete User
+              </button>
+            </>
           )}
         </div>
       )}
       {editing && (
         <div className="edit-user-form">
           <label>
-            New Display Name:
+            Insert New Channel Name:
             <input
               type="text"
               value={newDisplayName}
@@ -138,7 +183,8 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
             New Profile Picture:
             <input
               type="file"
-              accept="image/*"
+              // accept="image/*"
+              accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
               onChange={(e) => setNewProfilePic(e.target.files[0])}
             />
           </label>
@@ -158,8 +204,9 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                   publisher={user._id}  // Use the username of the user as the publisher
                   description={video.description}
                   vidID={video._id}
-                  thumbnailUrl={"/" + video.thumbnail}
+                  thumbnailUrl={video.thumbnail}
                   upload_date={video.createdAt}
+                  views={video.views}
                 />
                 {canEdit && (
                   <div className="edit-delete-actions">

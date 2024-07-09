@@ -2,15 +2,15 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import './EditVideoPage.css';
 
-function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoList }) {
+function EditVideoPage({ loggedUser }) {
   const { id } = useParams();
-  const [videoFile, setVideoFile] = useState(null);
+  // const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
   const [videoPreview, setVideoPreview] = useState('');
   const [thumbnailPreview, setThumbnailPreview] = useState('');
   const [currentThumb, setCurrentThumb] = useState('');
-
+  const [uploaderId, setUploaderId] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   // const [imgPreview, setImgPreview] = useState('');
@@ -45,7 +45,7 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
         setThumbnailPreview(data.thumbnail);
         setCurrentThumb(data.thumbnail);
         setVideoPreview(data.url);
-
+        setUploaderId(data.userId);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         setError(error);
@@ -57,11 +57,17 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
   }, [id]); // Ensure effect re-runs if id changes
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem('jwt');
-    if (!jwtToken) {
+    if (!loggedUser) {
       setIsAuthenticated(false);
+      return;
     }
-  }, []);
+    // const jwtToken = localStorage.getItem('jwt');
+    // const loggedUserID = localStorage.getItem('loggedUserID');
+    if (uploaderId !== loggedUser._id)
+      setIsAuthenticated(false);
+    else
+      setIsAuthenticated(true);
+  }, [loggedUser, uploaderId]);
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
@@ -78,8 +84,10 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     if (option === 'generate' && videoPreview) {
       generateThumbnail();
     } else if (option === 'upload') {
-      setThumbnailPreview('');
+      setThumbnailPreview(null);
     }
+    else if (option === 'none')
+      setThumbnailPreview(null);
   };
 
   const generateThumbnail = () => {
@@ -87,27 +95,29 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
     // const url = URL.createObjectURL(file);
-    videoElement.src = "/"+videoPreview;
-    videoElement.currentTime = 2;
-
-    videoElement.onloadeddata = () => {
-      videoElement.play();
-      videoElement.pause();
-      videoElement.currentTime = 2;
-    };
-
-    videoElement.onseeked = () => {
-      canvasElement.width = videoElement.videoWidth;
-      canvasElement.height = videoElement.videoHeight;
-      context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-      const dataUrl = canvasElement.toDataURL('image/jpeg');
-      setThumbnailPreview(dataUrl);
-      canvasElement.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
-          setThumbnailFile(file);
-        }
-      }, 'image/jpeg');
+    videoElement.src = videoPreview;
+    // Load metadata to get video dimensions
+    videoElement.onloadedmetadata = () => {
+      // Set the current time to a point where we are sure we have a frame
+      videoElement.currentTime = 0;
+      // Wait for the frame to be ready
+      videoElement.onseeked = () => {
+        // Ensure the video dimensions are available
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+        // Draw the frame on the canvas
+        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+        // Convert the canvas content to a Data URL
+        const dataUrl = canvasElement.toDataURL('image/jpeg');
+        setThumbnailPreview(dataUrl);
+        // Convert the canvas content to a Blob
+        canvasElement.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], 'canvasImage.jpg', { type: 'image/jpeg' });
+            setThumbnailFile(file);
+          }
+        }, 'image/jpeg');
+      };
     };
   };
 
@@ -134,12 +144,11 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
         if (response.status === 200) {
           setTitle('');
           setDescription('');
-          setVideoFile(null);
           setThumbnailFile(null);
           setThumbnailPreview(null);
           setThumbnailOption('none');
           setErrors({});
-          navigate('/');
+          navigate(`/userpage/${userID}`);
         } else {
           switch (response.status) {
             case 400:
@@ -213,6 +222,34 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
   //   return true;
   // };
 
+  const handleDeleteVideo = async (vidId) => {
+    const token = localStorage.getItem('jwt');
+    const userID = localStorage.getItem('loggedUserID');
+    const response = await fetch(`/api/users/${userID}/videos/${vidId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    });
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(`Failed to delete video: ${errorMessage}`);
+    }
+    else {
+      setTitle('');
+      setDescription('');
+      setThumbnailFile(null);
+      setThumbnailPreview(null);
+      setThumbnailOption('none');
+      setErrors({});
+      navigate(`/userpage/${userID}`);
+    }
+    // else
+    // setShouldNavigate(true);
+  };
+
+
+
   const validateForm = () => {
     const isTitleValid = validateTitle(title);
     const isDescriptionValid = validateDescription(description);
@@ -226,13 +263,14 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
     return (
       <div className="main-container">
         <div className="video-edit-container">
-          <h2>Please log in to access this page</h2>
+          <h2>You Are Not Authorized to enter this page</h2>
           <Link to="/">Go to Homepage</Link>
         </div>
       </div>
     );
   }
-
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
   return (
     <div className="main-container-edit">
       <div className="video-edit-container">
@@ -241,7 +279,7 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
             <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
           </Link>ViewTube
         </div>
-        <h2>Edit your video</h2>
+        <h2>Edit/Delete your video</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="title-input">
             <label htmlFor="title">Title</label>
@@ -271,13 +309,13 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
             />
             {errors.description && <div className="error-message">{errors.description}</div>}
           </div>
-            <div className="videoplay">
-              <video src={"/" + videoPreview} controls></video>
-            </div>           
+          <div className="videoplay">
+            <video src={videoPreview} controls></video>
+          </div>
           <div className="form-group">
             <label>Current Thumbnail</label>
             <div className="thumbnail-options">
-              <img src={"/" + currentThumb} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />
+              <img src={currentThumb} width="100px" height="100px" className='rounded-scalable-image' alt="Preview" />
               <label className="thumbnail-option">
                 <input
                   type="radio"
@@ -320,7 +358,8 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
                 type="file"
                 id="thumbnailFile"
                 name="thumbnailFile"
-                accept="image/*"
+                // accept="image/*"
+                accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
                 onChange={handleThumbnailChange}
                 className="wide-input"
               />
@@ -331,9 +370,10 @@ function EditVideoPage({ loggedUser, videoList, setVideoList, setFilteredVideoLi
             {thumbnailPreview && <img src={thumbnailPreview} width="100px" height="100px" className='rounded-scalable-image-edit' alt="Preview" />}
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
-        <button type="submit">Submit</button>    
-       </form>
+          <canvas ref={canvasRef} style={{ display: 'none' }} />
+          <button type="submit">Save Changes</button>
+          <button onClick={() => handleDeleteVideo(id)}>Delete Video</button>
+        </form>
       </div>
     </div>
   );

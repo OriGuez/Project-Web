@@ -17,14 +17,8 @@ function App() {
   const [usersList, setUsersList] = useState(users);
   const [videoList, setVideoList] = useState(videos);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [filteredVideoList, setFilteredVideoList] = useState(videoList);
+  // const [filteredVideoList, setFilteredVideoList] = useState(videoList);
   const loggedUserID = localStorage.getItem('loggedUserID');
-  // const handleSignOut = () => {
-    //   // Clear the token from local storage
-    //   localStorage.removeItem('jwt');
-    //   localStorage.removeItem('loggedUserID');
-    //   setLoggedUser(null);
-    // };
 
     useEffect(() => {
       // Fetch the currently logged-in user data
@@ -49,7 +43,14 @@ function App() {
       fetchLoggedUser();
     }, [loggedUserID]);
 
-
+    useEffect(() => {
+      const darkModeData = localStorage.getItem('isDarkMode');
+      if (!darkModeData)
+        setIsDarkMode(false);
+      else
+        setIsDarkMode(true);
+    }, []);
+    
   return (
     <div className="App">
       <BrowserRouter>
@@ -61,7 +62,7 @@ function App() {
           <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} />} />
           <Route path="/userpage/:userid" component={UserPage} element={<UserPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route path="/search/:query" component={Search} element={<Search loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
-          <Route path="/video/:id/edit" component={EditVideoPage} element={<EditVideoPage loggedUser={loggedUser} videoList={videoList} setVideoList={setVideoList} setFilteredVideoList={setFilteredVideoList} />} />
+          <Route path="/video/:id/edit" component={EditVideoPage} element={<EditVideoPage loggedUser={loggedUser} />} />
         </Routes>
       </BrowserRouter>
     </div>
