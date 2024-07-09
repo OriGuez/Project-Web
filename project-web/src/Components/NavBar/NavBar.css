@@ -196,30 +196,7 @@ span5 {
   transition: background-color 0.3s;
 }
 
-/* Tooltip styling */
-.tooltipAdd {
-  visibility: hidden;
-  background-color: rgba(85, 85, 85, 0.5);
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-  padding: 2px;
-  position: absolute;
-  z-index: 10;
-  top: 125%; /* Position the tooltip above the button */
-  left: 50%;
-  margin-left: -30px; /* Center the tooltip */
-  width: 60px;
-  height: 25px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
 
-/* Show the tooltip on hover */
-.icon-circle:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
 
 .dark-mode .icon-circle{
   color: rgb(221, 221, 221);
@@ -258,16 +235,18 @@ span5 {
   visibility: hidden;
   background-color: rgba(85, 85, 85, 0.5);  color: #fff;
   text-align: center;
+  font-weight: normal;
+  font-size: 16px;
   border-radius: 5px;
   padding: 2px;
   position: absolute;
   z-index: 10;
-  top: 125%; /* Position the tooltip above the button */
+  top: 135%; /* Position the tooltip above the button */
   left: 50%;
   height: 25px;
-  width: 120px;
+  width: 100px;
   margin-bottom: 20px;
-  margin-left: -60px; /* Center the tooltip */
+  margin-left: -50px; /* Center the tooltip */
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -282,6 +261,74 @@ span5 {
   visibility: visible;
   opacity: 1;
 }
+/* Tooltip styling */
+.tooltipAdd {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);
+  color: #fff;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 110%; /* Position the tooltip above the button */
+  left: 50%;
+  margin-left: -45px; /* Center the tooltip */
+  width: 90px;
+  height: 25px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip on hover */
+.icon-circle:hover .tooltipAdd {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltipSignIn {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);  color: #fff;
+  text-align: center;
+  font-weight: normal;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 85%;
+  height: 25px;
+  width: 90px;
+  margin-bottom: 20px;
+  margin-left: -45px; 
+  transition: opacity 0.3s;
+}
+.tooltipLogo {
+  visibility: hidden;
+  background-color: rgba(85, 85, 85, 0.5);  color: #fff;
+  text-align: center;
+  font-weight: normal;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 2px;
+  position: absolute;
+  z-index: 10;
+  top: 70%;
+  height: 25px;
+  width: 90px;
+  margin-bottom: 20px;
+  margin-left: -24px; 
+  transition: opacity 0.3s;
+}
+.navbar-brand:hover .tooltipLogo {
+  visibility: visible;
+  opacity: 1;
+}
+.signInLink:hover .tooltipSignIn {
+  visibility: visible;
+  opacity: 1;
+}
 .tooltipSearch {
   visibility: hidden;
   background-color: rgba(85, 85, 85, 0.5);  color: #fff;
@@ -293,9 +340,9 @@ span5 {
   top: 80%; /* Position the tooltip above the button */
   /* left: 50%; */
   height: 25px;
-  width: 120px;
+  width: 90px;
   margin-bottom: 20px;
-  margin-left: -60px; /* Center the tooltip */
+  margin-left: -43px; /* Center the tooltip */
   opacity: 0;
   transition: opacity 0.3s;
 }

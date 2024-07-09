@@ -2,15 +2,9 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './VideoPrev.css';
 
-function VideoPrev({
-  title,
-  publisher,
-  vidID,
-  thumbnailUrl,
-  upload_date,
-  views
-}) {
+function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, isDarkMode }) {
   const url = `/video/${vidID}`;
+
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -51,22 +45,22 @@ function VideoPrev({
     return datePart;
   };
   return (
-    <div className="video-prev">
+    <div className={`video-prev ${isDarkMode ? 'dark-mode' : ''}`}>
       <div>
-        <Link to={url}  style={{ textDecoration: 'none', color: 'inherit' }} className="video-link">
+        <Link to={url} style={{ textDecoration: 'none', color: 'inherit' }} className="video-link">
           <img src={thumbnailUrl} alt={title} className="video-thumbnail" />
           <div className="video-info">
             <h3 className="video-title">{title}</h3>
-
-
             <Link to={`/userpage/${userData._id}`} className="link-no-style">
               <p className="video-publisher">
                 <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
+                </p>
+                </Link>
+                <Link to={`/userpage/${userData._id}`} className="link-no-style">
+              <p className="video-publisher-channel">
                 {userData.displayName}
               </p>
-
             </Link>
-
             <p className="video-views-upload-date">{views} views • {formatDate(upload_date)}</p>
           </div>
         </Link>
