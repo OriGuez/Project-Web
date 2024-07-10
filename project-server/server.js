@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 // defining of directory of static object that you can access
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '..', 'project-web', 'build')));
+//app.use(express.static(path.join(__dirname, '..', 'project-web', 'build')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {

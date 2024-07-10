@@ -153,17 +153,20 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
           <div className="user-details">
             <p className="channelName">{user.displayName}</p>
             <p>@{user.username}</p>
-          </div>
+          
           {canEdit && !editing && (
             <>
+            <div className="edit-actions">
               <button onClick={() => setEditing(true)} className="edit-user-button">
                 Edit User
               </button>
               <button onClick={handleDeleteUser} className="edit-user-button">
                 Delete User
               </button>
+              </div>
             </>
           )}
+          </div>
         </div>
       )}
       {editing && (
@@ -188,15 +191,14 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
           <button onClick={() => setEditing(false)} className="edit-user-button" >Cancel</button>
         </div>
       )}
-      <div className="user-videos">
-        {userVideos.length > 0 ? (
-          userVideos.map((video) => {
-            return (
-              <>
+      <main className="main-content-user-grid">
+        <section className="video-grid-user">
+          {userVideos.length > 0 ? (
+            userVideos.map((video) => (
+              <div key={video._id} className="video-item-user">
                 <VideoPrev
-                  key={video._id}
                   title={video.title}
-                  publisher={user._id}  
+                  publisher={user._id}
                   description={video.description}
                   vidID={video._id}
                   thumbnailUrl={video.thumbnail}
@@ -210,14 +212,16 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                     </button>
                   </div>
                 )}
-              </>
-            );
-          })
-        ) : (
+              </div>
+            ))
+          ) : (
           <p>No videos found!</p>
         )}
+          </section>
+          </main>
+
       </div>
-    </div>
+    // </div>
   );
 }
 
