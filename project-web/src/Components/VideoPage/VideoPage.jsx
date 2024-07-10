@@ -7,7 +7,7 @@ import { FaThumbsUp, FaThumbsDown, FaCommentDots, FaTimes } from 'react-icons/fa
 import './VideoPage.css';
 import VideoPrevNar from './VideoPrevNar';
 
-function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
+function VideoPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
     const { id } = useParams();
     const [newCommentText, setNewCommentText] = useState('');
     const [isCommentFocused, setIsCommentFocused] = useState(false);
@@ -66,7 +66,7 @@ function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
                     throw new Error('Video Comments Not Found');
                 }
                 //if i receive this status it means that the list is empty
-                if(response.status === 204)
+                if (response.status === 204)
                     return [];
                 const commentData = await response.json();
                 return commentData;
@@ -180,19 +180,19 @@ function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
     const formatDate = (isoString) => {
         // Check if isoString is undefined or null
         if (!isoString) {
-          return null;
+            return null;
         }
         // Extract the date part (YYYY-MM-DD)
         const datePart = isoString.split('T')[0];
         return datePart;
-      };
+    };
 
-      const numberWithCommas = (num) => {
-        if(!num)
+    const numberWithCommas = (num) => {
+        if (!num)
             return num;
         return num.toLocaleString();
-      };
-  
+    };
+
     if (videoNotFound) {
         return (
             <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -217,28 +217,27 @@ function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
                 <div className="videoplay">
                     <video src={vidFromServer.url} controls autoPlay muted></video>
                 </div>
+                <div className="video-title">{vidFromServer.title}</div>
+                <div className="publisherDetails">
+                    <Link to={`/userpage/${userFromServer._id}`} className="link-no-style">
+                        <img src={userFromServer.profilePic} alt="profile pic" className="publisher-img" width="40px" height="auto" />
+                        <span className="video-page-publisher">{userFromServer.displayName}</span>
+                    </Link>
+                    <div className="video-actions">
+                        <ShareButton />
+                        {loggedUser && (
+                            <button onClick={toggleLikedList} className={`like-button ${hasLiked ? "liked" : ""}`}>
+                                {hasLiked ? <FaThumbsDown /> : <FaThumbsUp />}
+                                {hasLiked ? "Unlike" : "Like"}
+                            </button>
+                        )}
+                    </div>
+                </div>
                 <div className="video-details">
-                    <h2 className="video-title">{vidFromServer.title}</h2>
                     <div className="video-meta">
-                        <Link to={`/userpage/${userFromServer._id}`} className="link-no-style">
-                            <div className="publisherDetails">
-                                <img src={userFromServer.profilePic} alt="profile pic" width="40px" height="auto" />
-                                <span className="video-publisher">{userFromServer.displayName}</span>
-                            </div>
-                        </Link>
-                        <span className="video-upload-date">{formatDate(vidFromServer.createdAt)}</span>
-                        <span className="video-views">{numberWithCommas(vidFromServer.views)} views</span>
+                        <p className="video-upload-date">{numberWithCommas(vidFromServer.views)} views • {formatDate(vidFromServer.createdAt)}</p>
                     </div>
                     <p className="video-description">{vidFromServer.description}</p>
-                </div>
-                <div className="video-actions">
-                    <ShareButton />
-                    {loggedUser && (
-                        <button onClick={toggleLikedList} className={`like-button ${hasLiked ? "liked" : ""}`}>
-                            {hasLiked ? <FaThumbsDown /> : <FaThumbsUp />}
-                            {hasLiked ? "Unlike" : "Like"}
-                        </button>
-                    )}
                 </div>
             </div>
             <div className="comment-section">

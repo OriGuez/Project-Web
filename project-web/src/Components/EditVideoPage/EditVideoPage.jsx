@@ -14,7 +14,6 @@ function EditVideoPage({ loggedUser }) {
   const [errors, setErrors] = useState({});
   const [thumbnailOption, setThumbnailOption] = useState('none'); // Default option to 'none'
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
-
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -184,6 +183,10 @@ function EditVideoPage({ loggedUser }) {
       setErrors((prevErrors) => ({ ...prevErrors, title: 'Please enter a title.' }));
       return false;
     }
+    if (value.length > 150) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 150 characters or less.' }));
+      return false;
+    }
     setErrors((prevErrors) => ({ ...prevErrors, title: '' }));
     return true;
   };
@@ -193,11 +196,16 @@ function EditVideoPage({ loggedUser }) {
       setErrors((prevErrors) => ({ ...prevErrors, description: 'Please enter a description.' }));
       return false;
     }
+    if (value.length > 2000) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 1200 characters or less.' }));
+      return false;
+    }
     setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
     return true;
   };
-
   const handleDeleteVideo = async (vidId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this video?");
+  if (!confirmed) return;
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
     const response = await fetch(`/api/users/${userID}/videos/${vidId}`, {
@@ -220,8 +228,6 @@ function EditVideoPage({ loggedUser }) {
       navigate(`/userpage/${userID}`);
     }
   };
-
-
 
   const validateForm = () => {
     const isTitleValid = validateTitle(title);
@@ -249,7 +255,7 @@ function EditVideoPage({ loggedUser }) {
             <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
           </Link>ViewTube
         </div>
-        <h2>Edit/Delete your video</h2>
+        <h3>Edit/Delete your video</h3>
         <form onSubmit={handleFormSubmit}>
           <div className="title-input">
             <label htmlFor="title">Title</label>
@@ -262,6 +268,7 @@ function EditVideoPage({ loggedUser }) {
               onBlur={handleBlur}
               required
               className="wide-input"
+              maxlength="150"
             />
             {errors.title && <div className="error-message">{errors.title}</div>}
           </div>
@@ -276,6 +283,7 @@ function EditVideoPage({ loggedUser }) {
               placeholder="Description"
               className="description-textarea"
               required
+              maxlength="2000"
             />
             {errors.description && <div className="error-message">{errors.description}</div>}
           </div>
@@ -328,7 +336,6 @@ function EditVideoPage({ loggedUser }) {
                 type="file"
                 id="thumbnailFile"
                 name="thumbnailFile"
-                // accept="image/*"
                 accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
                 onChange={handleThumbnailChange}
                 className="wide-input"
@@ -341,8 +348,8 @@ function EditVideoPage({ loggedUser }) {
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
           <canvas ref={canvasRef} style={{ display: 'none' }} />
-          <button type="submit">Save Changes</button>
-          <button onClick={() => handleDeleteVideo(id)}>Delete Video</button>
+          <button type="submit" className="edit-video-button">Save Changes</button>
+          <button onClick={() => handleDeleteVideo(id)} className='edit-video-button'>Delete Video</button>
         </form>
       </div>
     </div>

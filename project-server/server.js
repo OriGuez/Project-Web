@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-//const uri = "mongodb://localhost:27017/ViewTube";
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express()
@@ -14,7 +13,6 @@ app.use(bodyParser.json());
 // Middleware to parse JSON
 app.use(express.json());
 // defining of directory of static object that you can access
-//app.use(express.static('public'))
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '..', 'project-web', 'build')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

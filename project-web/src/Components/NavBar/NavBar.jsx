@@ -91,6 +91,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
               className={`btn ${isDarkMode ? 'btn-dark' : 'btn-light'} dropdownToggle`}
               onClick={handleDropdownClick}
             >
+              <span className="tooltipMenu">Menu</span>
               <i className="bi bi-list" style={{ fontSize: '1.5rem' }}></i>
             </button>
             <Link to="/" className="navbar-brand ms-2">
@@ -109,7 +110,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
               onKeyDown={handleKeyPress}
             />
             <button type="submit" className="search-button" onClick={handleSearch}>
-            <span className="tooltipSearch">Search</span>
+              <span className="tooltipSearch">Search</span>
               <i className="bi bi-search"></i>
             </button>
           </div>
@@ -125,30 +126,29 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                     </div>
                   </Link>
                 </div>
+                <div className="signOut" style={{ position: 'relative' }}>
+                  <img src={loggedUser.profilePic} alt="Profile" className="user-image" onClick={handleImageClick} />
+                  <div className={`signOutDialog ${showSignOutDialog ? 'showSignOutDialog' : 'hideSignOutDialog'}`}>
+                    <div className="dialogChannelName" title={loggedUser.displayName}>{loggedUser.displayName} </div>
+                    <br />
+                    <span>@{loggedUser.username}</span>
+                    <br />
+                    <Link to={`/userpage/${loggedUser._id}`} className="myChannelButton">
+                      <span className="tooltip">My Channel</span>
 
-                  <div className="signOut" style={{ position: 'relative' }}>
-                    <img src={loggedUser.profilePic} alt="Profile" className="user-image" onClick={handleImageClick} />
-                    <div className={`signOutDialog ${showSignOutDialog ? 'showSignOutDialog' : 'hideSignOutDialog'}`}>
-                      <span className="dialogChannelName">{loggedUser.displayName}</span>
-                      <br />
-                      <span>@{loggedUser.username}</span>
-                      <br />
-                      <Link to={`/userpage/${loggedUser._id}`} className="myChannelButton">
-                        <span className="tooltip">My Channel</span>
-
-                        <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
-                      </Link>
-                      <br />
-                      <button className="btn btn-secondary" onClick={handleSignOutConfirm}>
-                        <FaSignOutAlt /> Sign Out
-                      </button>
-                    </div>
+                      <img src="/channel.png" alt="My Channel" width="40px" height="auto" />
+                    </Link>
+                    <br />
+                    <button className="btn btn-secondary" onClick={handleSignOutConfirm}>
+                      <FaSignOutAlt /> Sign Out
+                    </button>
                   </div>
+                </div>
               </>
             ) : (
               <div className="signIn">
                 <Link to="/login" className="signInLink">
-                <span className="tooltipSignIn">Sign In</span>
+                  <span className="tooltipSignIn">Sign In</span>
                   <div className="signInContent">
                     <img src="/default.png" alt="Sign in" className="signInImage" />
 
@@ -163,7 +163,7 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
       <div className="dropdown-container">
         <div className={`offcanvas offcanvas-start ${isDropdownOpen ? 'show' : ''}`}>
           <div className="offcanvas-header">
-            <h5 className="offcanvas-title">Menu</h5>
+            <h5 className="offcanvas-title"> Menu</h5>
             <button
               type="button"
               className="btn-close"

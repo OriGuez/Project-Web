@@ -10,7 +10,7 @@ function VideoAdd({ loggedUser}) {
   const [errors, setErrors] = useState({});
   const [imgPreview, setImgPreview] = useState(null);
   const [thumbnailOption, setThumbnailOption] = useState('upload');
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
+  const [isAuthenticated, setIsAuthenticated] = useState(true); 
 
 
   const [thumbFileServer, setThumbFileServer] = useState(null);
@@ -28,11 +28,6 @@ function VideoAdd({ loggedUser}) {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (!loggedUser) {
-  //     navigate('/login');
-  //   }
-  // }, [loggedUser, navigate]);
 
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
@@ -42,7 +37,6 @@ function VideoAdd({ loggedUser}) {
       if (thumbnailOption === 'generate') {
         generateThumbnail(file);
       }
-      //setImgPreview(URL.createObjectURL(file));
       setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
     }
   };
@@ -182,6 +176,10 @@ function VideoAdd({ loggedUser}) {
       setErrors((prevErrors) => ({ ...prevErrors, title: 'Please enter a title.' }));
       return false;
     }
+    if (value.length > 150) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 150 characters or less.' }));
+      return false;
+    }
     setErrors((prevErrors) => ({ ...prevErrors, title: '' }));
     return true;
   };
@@ -189,6 +187,10 @@ function VideoAdd({ loggedUser}) {
   const validateDescription = (value) => {
     if (!value.trim()) {
       setErrors((prevErrors) => ({ ...prevErrors, description: 'Please enter a description.' }));
+      return false;
+    }
+    if (value.length > 2000) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 1200 characters or less.' }));
       return false;
     }
     setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
@@ -253,6 +255,7 @@ function VideoAdd({ loggedUser}) {
               placeholder="Title"
               required
               className="wide-input"
+              maxlength="150"
             />
             {errors.title && <div className="error-message">{errors.title}</div>}
           </div>
@@ -267,6 +270,8 @@ function VideoAdd({ loggedUser}) {
               placeholder="Description"
               className="description-textarea"
               required
+              maxlength="2000"
+
             />
             {errors.description && <div className="error-message">{errors.description}</div>}
           </div>
@@ -317,7 +322,6 @@ function VideoAdd({ loggedUser}) {
                 type="file"
                 id="thumbnailFile"
                 name="thumbnailFile"
-                // accept="image/*"
                 accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
                 onChange={handleThumbnailChange}
                 className="wide-input"
@@ -330,7 +334,7 @@ function VideoAdd({ loggedUser}) {
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
         <canvas ref={canvasRef} style={{ display: 'none' }} />
-          <button type="submit">Add Video</button>
+          <button type="submit" className='submitVideo' >Add Video</button>
         </form>
       </div>
     </div>

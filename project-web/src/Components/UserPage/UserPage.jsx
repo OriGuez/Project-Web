@@ -12,7 +12,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [canEdit, setCanEdit] = useState(false);
-  // of editing user.
   const [editing, setEditing] = useState(false);
   const [newDisplayName, setNewDisplayName] = useState('');
   const [newProfilePic, setNewProfilePic] = useState('');
@@ -48,9 +47,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
         setUserVideos(userVideosData);
       } catch (error) {
         setUser(null);
-        //return;
-        // console.error('Error fetching user data:', error);
-        // setError(error.message);
       } finally {
         setLoading(false);
       }
@@ -102,6 +98,8 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   };
 
   const handleDeleteUser = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete your user?");
+    if (!confirmed) return;
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
     const response = await fetch(`/api/users/${userID}`, {
@@ -182,13 +180,12 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
             New Profile Picture:
             <input
               type="file"
-              // accept="image/*"
               accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
               onChange={(e) => setNewProfilePic(e.target.files[0])}
             />
           </label>
-          <button onClick={handleEditUser}>Save</button>
-          <button onClick={() => setEditing(false)}>Cancel</button>
+          <button onClick={handleEditUser} className="edit-user-button" >Save</button>
+          <button onClick={() => setEditing(false)} className="edit-user-button" >Cancel</button>
         </div>
       )}
       <div className="user-videos">
@@ -199,7 +196,7 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                 <VideoPrev
                   key={video._id}
                   title={video.title}
-                  publisher={user._id}  // Use the username of the user as the publisher
+                  publisher={user._id}  
                   description={video.description}
                   vidID={video._id}
                   thumbnailUrl={video.thumbnail}
