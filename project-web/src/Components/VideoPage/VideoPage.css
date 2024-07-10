@@ -4,9 +4,9 @@
   min-height: 100vh;
   background-color: var(--background-color-light);
   color: var(--text-color-light);
-  padding: 0; 
-  width: 100%; 
-  align-items: center; 
+  padding: 0;
+  width: 100%;
+  align-items: center;
 }
 
 .home-container.dark-mode {
@@ -18,9 +18,9 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 70%; 
-  max-width: 1200px; 
-  margin: 20px auto; 
+  width: 70%;
+  max-width: 1200px;
+  margin: 20px auto;
   margin-top: 120px;
   margin-left: 20px;
   padding: 20px;
@@ -32,8 +32,8 @@
 .videoplay {
   margin-top: 100px;
   width: 100%;
-  max-width: 1200px; 
-  height: 550px; 
+  max-width: 1200px;
+  height: 550px;
   background-color: #000;
   border-radius: 12px;
   overflow: hidden;
@@ -53,13 +53,14 @@
   align-items: flex-start;
   border-radius: 20px;
   background-color: #f3f3f3;
-  width: 100%; 
+  width: 100%;
 }
 
 .video-title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-top: -7px;
+  margin-bottom: 7px;
   color: #333;
   text-align: left;
 }
@@ -73,34 +74,36 @@
   margin-bottom: 10px;
 }
 
-.video-publisher {
+.video-page-publisher {
   text-align: left;
   font-weight: bold;
   font-size: 16px;
   margin-left: 2px;
 }
+
 .publisherDetails {
+  display: line;
+  align-items: center;
   text-align: left;
   font-weight: bold;
   font-size: 16px;
 }
 
 .video-upload-date {
-  text-align: right;
+  text-align: left;
+  margin-left: 3px;
 }
 
 .video-description {
   font-size: 16px;
   line-height: 1.5;
+  margin-left: 3px;
   color: #606060;
   text-align: left;
   margin-top: 10px;
 }
 
-.video-actions {
-  display: flex;
-  gap: 10px;
-}
+
 
 .like-button {
   height: 40px;
@@ -122,8 +125,10 @@
 
 .like-button:hover {
   background-color: #d3d3d3;
-  
-}.dislike-button:hover {
+
+}
+
+.dislike-button:hover {
   background-color: #d3d3d3;
 }
 
@@ -136,9 +141,9 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 100%; 
-  max-width: 1000px; 
-  margin: 20px auto; 
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto;
   margin-left: 20px;
   padding: 20px;
   background-color: #fff;
@@ -150,7 +155,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%; 
+  width: 100%;
 }
 
 .video-section {
@@ -158,9 +163,10 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px 0; 
-  overflow-x: hidden; 
+  padding: 20px 0;
+  overflow-x: hidden;
 }
+
 .link-no-style {
   text-decoration: none;
   color: inherit;
@@ -169,24 +175,24 @@
 
 .video-grid-narrow {
   position: absolute;
-  top: 0; 
-  right: 0; 
-  width: 350px;
-  grid-template-columns: repeat(1, 1fr); 
+  top: 0;
+  right: 0;
+  width: 410px;
+  grid-template-columns: repeat(1, 1fr);
   gap: 15px;
   padding: 0 10px;
-  overflow-x: hidden; 
-  overflow-y: auto; 
-  margin-top: 100px; 
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-top: 100px;
   margin-bottom: 20px;
-  margin-right: 60px;
+  margin-left: -20px; 
   white-space: normal;
-  word-wrap: break-word; 
+  word-wrap: break-word;
 }
 
 .video-item {
-  width: calc(33.33% - 20px); 
-  flex: 1; 
+  width: calc(33.33% - 20px);
+  flex: 1;
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 8px;
@@ -199,13 +205,7 @@
   border-radius: 8px;
 }
 
-.video-item .video-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 10px;
-  color: #333;
-  text-align: center;
-}
+
 
 .video-item .video-description {
   font-size: 14px;
@@ -220,8 +220,9 @@
   margin-top: 10px;
 }
 
-.edit-button, .delete-button {
-  height: 40px;
+.edit-button,
+.delete-button {
+  height: 36px;
   width: 120px;
   display: inline-flex;
   align-items: center;
@@ -236,11 +237,12 @@
   cursor: pointer;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
   outline: none;
-  margin-top: -10px;
+  margin-top: 4px;
   gap: 5px;
 }
 
-.edit-button:hover, .delete-button:hover {
+.edit-button:hover,
+.delete-button:hover {
   background-color: var(--button-hover-bg-color, #c9c9c9);
 }
 
@@ -257,7 +259,8 @@
   margin-bottom: 10px;
 }
 
-.save-edit-button, .cancel-edit-button {
+.save-edit-button,
+.cancel-edit-button {
   background-color: var(--button-bg-color, #606060);
   color: #fff;
   border: none;
@@ -269,11 +272,12 @@
   transition: background-color 0.3s;
 }
 
-.save-edit-button:hover, .cancel-edit-button:hover {
+.save-edit-button:hover,
+.cancel-edit-button:hover {
   background-color: var(--button-hover-bg-color, #c9c9c9);
 }
 
-.comment-buttons .add-comment-button  {
+.comment-buttons .add-comment-button {
   height: 40px;
   width: 120px;
   display: inline-flex;
@@ -290,6 +294,7 @@
   transition: background-color 0.3s, border-color 0.3s, color 0.3s;
   outline: none;
 }
+
 .comment-buttons .cancel-comment-button {
   height: 40px;
   width: 120px;
@@ -308,7 +313,8 @@
   outline: none;
 }
 
-.add-comment-button:hover, .cancel-comment-button:hover {
+.add-comment-button:hover,
+.cancel-comment-button:hover {
   background-color: #d3d3d3;
 }
 
@@ -319,19 +325,13 @@
   width: 100%;
 }
 
-.comment-profile-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
 .comment-input {
   flex: 1;
-  height: 40px; 
+  height: 40px;
   padding: 10px;
   border-radius: 5px;
   border: none;
-  border-bottom: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc;
   resize: none;
 }
 
@@ -366,10 +366,7 @@
 
 
 
-.video-title {
-  font-size: 24px;
-  font-weight: bold;
-}
+
 
 .video-meta {
   margin-top: 10px;
@@ -383,15 +380,8 @@
   color: #cccccc;
 }
 
-.publisherDetails {
-  display: flex;
-  align-items: center;
-}
 
-.video-publisher {
-  margin-left: 10px;
-  font-weight: bold;
-}
+
 
 
 .video-upload-date {
@@ -401,9 +391,10 @@
 
 
 .video-actions {
-  margin-top: 20px;
+  margin-top: -40px;
+  margin-left: 700px;
+  align-self: right;
   display: flex;
-  justify-content: flex-start;
   gap: 10px;
 }
 
@@ -412,7 +403,8 @@
   margin-top: 20px;
 }
 
-.edit-title-input, .edit-description-input {
+.edit-title-input,
+.edit-description-input {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
@@ -420,7 +412,8 @@
   border-radius: 4px;
 }
 
-.dark-mode .edit-title-input, .dark-mode .edit-description-input {
+.dark-mode .edit-title-input,
+.dark-mode .edit-description-input {
   background-color: #333333;
   color: #ffffff;
   border: 1px solid #555555;
@@ -481,47 +474,46 @@
   gap: 10px;
 }
 
-.add-comment-button, .cancel-comment-button {
+.add-comment-button,
+.cancel-comment-button {
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.dark-mode .video-details{
+.dark-mode .video-details {
   background-color: #727272;
 }
 
-.video-details .video-title {
-  background-color: transparent;
-  margin-left: 10px;
-}
+
 .video-details .video-description {
-  margin-left: 10px;
+  margin-left: 15px;
 }
-.video-details .publisherDetails{
-  margin-left: 10px;
-}
+
+
+
 .video-details .video-upload-date {
   margin-right: 10px;
 }
 
-.dark-mode .video-details .video-title {
-color: #DDDDDD;
+.dark-mode .video-title {
+  color: #DDDDDD;
 }
 
 .dark-mode .video-details .video-publisher {
-  color: #CCCCCC;
+  color: #efefef;
 }
 
 .dark-mode .video-details .video-description {
-    color: #CCCCCC;
+  color: #fffefe;
 }
 
 .dark-mode .video-details .video-upload-date {
-  color: #CCCCCC;
+  color: #ffffff;
 }
-.video-details .publisherDetails img {
+
+.publisher-img {
   width: 40px;
   height: 40px;
   border-radius: 50%;

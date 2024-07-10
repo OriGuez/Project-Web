@@ -10,7 +10,6 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, '..','..', 'project-web', 'build', 'index.html'));
 });
-//add auth to enter this route !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.get('/videoadd', (req, res) => {
     res.sendFile(path.join(__dirname, '..','..', 'project-web', 'build', 'index.html'));
 });

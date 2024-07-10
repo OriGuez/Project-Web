@@ -3,18 +3,23 @@
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
+    width: 450px;
     margin-right: -20px;
     color: #333;
     line-height: 1.2; 
     overflow: hidden;
+    text-decoration: none;
     text-overflow: ellipsis;
-    background-color: #eee;
 }
 
+.link-no-style{
+    text-decoration: none;
 
+}
 .video-thumbnail-scroll {
     width: 180px; 
     height: 110px;
+    border-radius: 10%;
     margin-right: 10px; 
     white-space: nowrap;
     word-wrap: break-word;
@@ -26,28 +31,35 @@
     flex-direction: column;
     white-space: nowrap;
     word-wrap: break-word;
+    text-decoration: none;
+
 }
 
 .video-title-scroll {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
     margin-bottom: 5px;
+    align-items: left;
+    text-align: left;
+    align-self: left;
+    align-content: left;
     color: #333;
     display: flex;
     flex-wrap: wrap;
     white-space: nowrap !important;
     max-width: 10px;
+    margin-top: -34px;
+    margin-left: -15px;
+    margin-bottom: -25px;
     word-wrap: break-word !important;
     text-wrap: normal !important;
 ;}
 
 
-.video-publisher-scroll,
-.video-views-upload-date-scroll {
-    font-size: 14px;
+.video-publisher-scroll {
+    font-size: 12px;
     color: #606060;
-    margin: 0;
-}
+    margin-top:-12px;}
 
 .video-wrapper {
     display: flex;
@@ -78,7 +90,6 @@ span6 {
     overflow-wrap: break-word; 
     word-wrap: break-word; 
     white-space: normal; 
-    background-color: #eee; 
     padding: 10px;
     box-sizing: border-box; 
 }
@@ -92,9 +103,31 @@ span6 {
     margin-left: -12px;
 }
 
-.video-views-scroll {
+.video-views-upload-date-scroll {
     font-size: 12px;
     color: #555;
-    margin-top: -5px;
+    margin-top: 20px;
+    margin-bottom: -15px;
+  }
+
+  .dark-mode .video-views-upload-date-scroll {
+    color: #dfdfdf;
+  }
+  .dark-mode .video-title-scroll {
+    color: #ffffff;
+  }
+  .dark-mode .video-publisher-scroll {
+    color: #dfdfdf;
   }
   
+  .video-wrapper:hover {
+    background-color: #efeded;
+    border-radius: 5%;
+  }
+  .dark-mode .video-wrapper:hover {
+    background-color: #404040;
+    border-radius: 5%;
+  }
+  .video-prev-nar a.link-no-style {
+    text-decoration: none;
+  }

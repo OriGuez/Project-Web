@@ -14,7 +14,6 @@ exports.addComment = async (req, res) => {
         }
         userId = user._id;
         const { content } = req.body;
-        // const userId = req.params.id;
         const videoId = req.params.pid;
 
         // Check if userId and videoId are valid ObjectIds

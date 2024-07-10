@@ -1,26 +1,39 @@
 .user-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
   padding: 20px;
 }
 
 .user-videos {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 11px; 
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: hidden; 
   margin-bottom: 20px;
-  margin-top: 80px;
+  margin-top: 80px; 
+  width: 100%;
 }
+
 .user-details {
   display: flex;
+  text-align: left;
+  align-self: left;
+  align-items: left;
+  align-content: left;
   flex-direction: column;
-  align-items: center;
 }
 
 .userpage-info {
-  margin-top: 90px;
-  text-align: center;
+  margin-top: 150px;
+  margin-left: 20px;
+  text-align: left;
+  align-self: left;
+  align-items: left;
+  align-content: left;
   margin-bottom: -50px;
 }
 
@@ -28,23 +41,34 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  margin-bottom: 20px;
 }
 
 .userpage-info .channelName {
   font-size: 44px;
   font-weight: bold;
   display: block;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  text-align: left;
+  align-self: left;
+  align-items: left;
+  align-content: left;
 }
 
 .userpage-info .channel {
+  
   font-size: 20px;
   display: block;
 }
 .edit-delete-actions-user {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  margin-top: 260px;
+  margin-left: -150px;
+  position: relative; 
+  z-index: 990; 
 }
+
 
 .dark-mode .user-page {
   background-color: #343A40;
@@ -59,16 +83,33 @@
   background-color: #343A40;
 }
 
-/* .dark-mode .vsc-initialized {
+.dark-mode .vsc-initialized {
   background-color: #343A40;
-}  */
-/* .dark-mode .body.vsc-initialized {
-  background-color: #343A40;
-} */
-/* Ensure body and html take full height */
+} 
+.edit-user-form{
+  width:400px;
+  margin-left: 210px;
+  margin-top: -230px;
+}
+.edit-user-button {
+height: 40px;
+width: 120px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 6px 16px;
+background-color: #fff;
+border: 1px solid #dadada;
+border-radius: 20px;
+font-size: 14px;
+font-weight: bold;
+color: #606060;
+cursor: pointer;
+transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+outline: none;
+gap: 5px;
+}
+.edit-user-button:hover {
+  background-color: var(--button-hover-bg-color, #c9c9c9);
+}
 
-
-/* Ensure App takes full height */
-/* .App {
-  height: 100%;
-} */

@@ -4,7 +4,6 @@ import './EditVideoPage.css';
 
 function EditVideoPage({ loggedUser }) {
   const { id } = useParams();
-  // const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
   const [videoPreview, setVideoPreview] = useState('');
@@ -13,12 +12,8 @@ function EditVideoPage({ loggedUser }) {
   const [uploaderId, setUploaderId] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
-  // const [imgPreview, setImgPreview] = useState('');
   const [thumbnailOption, setThumbnailOption] = useState('none'); // Default option to 'none'
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
-  // const [thumbFileServer, setThumbFileServer] = useState(null);
-  // const [vidFileServer, setVidFileServer] = useState(null);
-
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
@@ -61,8 +56,6 @@ function EditVideoPage({ loggedUser }) {
       setIsAuthenticated(false);
       return;
     }
-    // const jwtToken = localStorage.getItem('jwt');
-    // const loggedUserID = localStorage.getItem('loggedUserID');
     if (uploaderId !== loggedUser._id)
       setIsAuthenticated(false);
     else
@@ -94,7 +87,6 @@ function EditVideoPage({ loggedUser }) {
     const videoElement = videoRef.current;
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
-    // const url = URL.createObjectURL(file);
     videoElement.src = videoPreview;
     // Load metadata to get video dimensions
     videoElement.onloadedmetadata = () => {
@@ -128,7 +120,6 @@ function EditVideoPage({ loggedUser }) {
         const vidPayload = new FormData();
         vidPayload.append('title', title);
         vidPayload.append('description', description);
-        //vidPayload.append('video', vidFileServer);
         if (thumbnailOption !== 'none') {
           vidPayload.append('image', thumbnailFile);
         }
@@ -191,6 +182,10 @@ function EditVideoPage({ loggedUser }) {
       setErrors((prevErrors) => ({ ...prevErrors, title: 'Please enter a title.' }));
       return false;
     }
+    if (value.length > 150) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 150 characters or less.' }));
+      return false;
+    }
     setErrors((prevErrors) => ({ ...prevErrors, title: '' }));
     return true;
   };
@@ -200,29 +195,18 @@ function EditVideoPage({ loggedUser }) {
       setErrors((prevErrors) => ({ ...prevErrors, description: 'Please enter a description.' }));
       return false;
     }
+    if (value.length > 2000) {
+      setErrors((prevErrors) => ({ ...prevErrors, title: 'Title must be 1200 characters or less.' }));
+      return false;
+    }
     setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
     return true;
   };
 
-  // const validateVideoFile = () => {
-  //   if (!videoFile) {
-  //     setErrors((prevErrors) => ({ ...prevErrors, videoFile: 'Please upload a video file.' }));
-  //     return false;
-  //   }
-  //   setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
-  //   return true;
-  // };
-
-  // const validateThumbnailFile = () => {
-  //   if (thumbnailOption === 'upload' && !thumbnailFile) {
-  //     setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: 'Please upload a thumbnail image.' }));
-  //     return false;
-  //   }
-  //   setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
-  //   return true;
-  // };
 
   const handleDeleteVideo = async (vidId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this video?");
+  if (!confirmed) return;
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
     const response = await fetch(`/api/users/${userID}/videos/${vidId}`, {
@@ -244,8 +228,6 @@ function EditVideoPage({ loggedUser }) {
       setErrors({});
       navigate(`/userpage/${userID}`);
     }
-    // else
-    // setShouldNavigate(true);
   };
 
 
@@ -253,9 +235,6 @@ function EditVideoPage({ loggedUser }) {
   const validateForm = () => {
     const isTitleValid = validateTitle(title);
     const isDescriptionValid = validateDescription(description);
-    // const isVideoFileValid = validateVideoFile();
-    // const isThumbnailFileValid = validateThumbnailFile();
-
     return isTitleValid && isDescriptionValid;
   };
 
@@ -279,7 +258,7 @@ function EditVideoPage({ loggedUser }) {
             <img src="/logo.png" alt="ViewTube Logo" className="viewtube-logo" width="100px" height="auto" />
           </Link>ViewTube
         </div>
-        <h2>Edit/Delete your video</h2>
+        <h3>Edit/Delete your video</h3>
         <form onSubmit={handleFormSubmit}>
           <div className="title-input">
             <label htmlFor="title">Title</label>
@@ -292,6 +271,7 @@ function EditVideoPage({ loggedUser }) {
               onBlur={handleBlur}
               required
               className="wide-input"
+              maxlength="150"
             />
             {errors.title && <div className="error-message">{errors.title}</div>}
           </div>
@@ -306,6 +286,7 @@ function EditVideoPage({ loggedUser }) {
               placeholder="Description"
               className="description-textarea"
               required
+              maxlength="2000"
             />
             {errors.description && <div className="error-message">{errors.description}</div>}
           </div>
@@ -358,7 +339,6 @@ function EditVideoPage({ loggedUser }) {
                 type="file"
                 id="thumbnailFile"
                 name="thumbnailFile"
-                // accept="image/*"
                 accept=".jpeg,.jpg,.png,.gif,.svg,.webp"
                 onChange={handleThumbnailChange}
                 className="wide-input"
@@ -371,8 +351,8 @@ function EditVideoPage({ loggedUser }) {
           </div>
           <video ref={videoRef} style={{ display: 'none' }} />
           <canvas ref={canvasRef} style={{ display: 'none' }} />
-          <button type="submit">Save Changes</button>
-          <button onClick={() => handleDeleteVideo(id)}>Delete Video</button>
+          <button type="submit" className="edit-video-button">Save Changes</button>
+          <button onClick={() => handleDeleteVideo(id)} className='edit-video-button'>Delete Video</button>
         </form>
       </div>
     </div>

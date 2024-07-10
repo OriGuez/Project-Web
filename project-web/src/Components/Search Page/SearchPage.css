@@ -122,12 +122,10 @@
   --placeholder-color-dark: #d3d3d3; 
 }
 
-/* Light mode placeholder */
 .form-control::placeholder {
   color: var(--placeholder-color-light);
 }
 
-/* Define keyframes for slide-down animation */
 @keyframes slideDown {
   from {
     transform: translateY(-20px);
@@ -139,7 +137,6 @@
   }
 }
 
-/* Define keyframes for slide-up animation */
 @keyframes slideUp {
   from {
     transform: translateY(0);

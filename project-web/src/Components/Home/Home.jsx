@@ -35,7 +35,6 @@ function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode,videoList, s
     };
     fetchVideos();
   }, []);
-//  }, [setVideoList, setFilteredVideoList]);
 
 
 if (loading) {

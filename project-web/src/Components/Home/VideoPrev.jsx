@@ -4,11 +4,10 @@ import './VideoPrev.css';
 
 function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, isDarkMode }) {
   const url = `/video/${vidID}`;
-
-
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     // Function to fetch user data
@@ -51,7 +50,6 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, 
     } else {
       return (num / 1000000000).toFixed(0) + 'B';
     }
-    //return number.toLocaleString();
   };
 
 
@@ -71,26 +69,28 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, 
   };
   return (
     <div className={`video-prev ${isDarkMode ? 'dark-mode' : ''}`}>
+      
       <div>
         <Link to={url} style={{ textDecoration: 'none', color: 'inherit' }} className="video-link">
           <img src={thumbnailUrl} alt={title} className="video-thumbnail" />
           <div className="video-info">
-            <h3 className="video-title">{title}</h3>
+          <div className="video-title" title={title}>{title}</div>
             <Link to={`/userpage/${userData._id}`} className="link-no-style">
               <p className="video-publisher">
-                <img src={userData.profilePic} alt={`profile pic`} className="user-image" />
+                <img src={userData.profilePic} alt={`profile pic`} className="user-image" title={userData.displayName}/>
                 </p>
                 </Link>
                 <Link to={`/userpage/${userData._id}`} className="link-no-style">
-              <p className="video-publisher-channel">
+                <div className="video-publisher-channel" title={userData.displayName}>
                 {userData.displayName}
-              </p>
+              </div>
             </Link>
             <p className="video-views-upload-date">{formatNum(views)} views • {formatDate(upload_date)}</p>
           </div>
         </Link>
       </div>
     </div>
+    
   );
 }
 
