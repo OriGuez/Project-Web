@@ -6,16 +6,26 @@
   color: var(--text-color-light);
   padding: 20px;
 }
-
-.user-videos {
+.main-content-user-grid {
   display: flex;
-  flex-wrap: wrap; 
-  gap: 11px; 
+  justify-content: center;
+  margin-top: 80px;
+  margin-bottom: 50px;
+}
+
+.video-item-user{
+  margin-bottom: 20px;
+}
+
+.video-grid-user {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
   overflow-x: auto;
   overflow-y: hidden; 
   margin-bottom: 20px;
-  margin-top: 80px; 
-  width: 100%;
+  margin-top: 80px;
+  height: 100%;
 }
 
 .user-details {
@@ -23,20 +33,27 @@
   text-align: left;
   align-self: left;
   align-items: left;
+  gap:3px;
+  margin-left: 20px;
   align-content: left;
   flex-direction: column;
 }
 
 .userpage-info {
+  display:flex;
+  flex-direction: line;
   margin-top: 150px;
   margin-left: 20px;
   text-align: left;
   align-self: left;
   align-items: left;
   align-content: left;
-  margin-bottom: -50px;
+  margin-bottom: -90px;
 }
 
+.edit-actions{
+  flex-direction: line;
+}
 .userpage-image {
   width: 150px;
   height: 150px;
@@ -63,8 +80,8 @@
 }
 .edit-delete-actions-user {
   display: flex;
-  margin-top: 260px;
-  margin-left: -150px;
+  margin-left: 215px;
+  margin-top: -48px;
   position: relative; 
   z-index: 990; 
 }
@@ -88,8 +105,9 @@
 } 
 .edit-user-form{
   width:400px;
+  gap:1px;
   margin-left: 210px;
-  margin-top: -230px;
+  margin-bottom: -90px;
 }
 .edit-user-button {
 height: 40px;
@@ -107,9 +125,20 @@ color: #606060;
 cursor: pointer;
 transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 outline: none;
+margin-left: 10px;
 gap: 5px;
 }
 .edit-user-button:hover {
   background-color: var(--button-hover-bg-color, #c9c9c9);
 }
 
+
+.dark-mode .user-details{
+  color: #efefef;
+
+}
+
+.dark-mode .edit-user-form{
+  color: #efefef;
+
+}

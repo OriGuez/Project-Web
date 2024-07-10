@@ -81,8 +81,9 @@
   gap: 3px;
   overflow-x: auto;
   overflow-y: hidden; 
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   margin-top: 80px; 
+
 }
 
 
@@ -163,7 +164,7 @@
 }
 
 .dark-mode .signOutDialog {
-  background-color: #333;
+  background-color: #343a40;
   color: white;
 }
 

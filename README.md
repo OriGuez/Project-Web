@@ -29,9 +29,14 @@ please fill the .env file (which is inside the config folder in project-server).
 * MONGO_URI=""
 * ACCESS_TOKEN_SECRET=""
 
+
+#### ACCESS_TOKEN_SECRET is the secret key of jwt token.
+#### PORT is the port the server will run on.
+
 #### the mongo_URI should include the database name of ViewTube for consistency.
 for example "mongodb://localhost:xxxxx/ViewTube".
   if you have username and password for the mongoDB server you should insert them too.
+
 
 ## Initialize data on The Server
 We've created a script that initializes the database with 30 videos, 10 users and some comments.
@@ -42,8 +47,6 @@ node initData.js
 ```
 - The media (actual videos and images) is already in the "uploads" folder.
 #### now the DB is full.
-#### the users password will be 123123123a for all users
-
 
 ## Running The Server
 first, make sure that you've filled the .env file.
@@ -66,4 +69,3 @@ now go to the address and see the website.
 
 - in order to add a video you need to send a POST request to /api/users/:id/videos/:pid with "image" field as the thumbnail file ,"video" field as the video file, and "title" and "description" fields too (and the token in header).
 - for video and user edits its similar.
-
