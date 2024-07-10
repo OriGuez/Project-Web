@@ -2,7 +2,7 @@ const User = require('../models/user');
 const Comment = require('../models/comment');
 const Video = require('../models/video');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+//const bcrypt = require('bcryptjs');
 
 exports.addUser = async (req, res) => {
     try {
@@ -13,8 +13,7 @@ exports.addUser = async (req, res) => {
             return res.status(409).json({ error: 'Username already exists' });
         }
         // Hash the password before saving
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        //const hashedPassword = await bcrypt.hash(password, 10);
 
         // Set the profilePic URL if an image was uploaded
         let profilePic = '';
@@ -26,7 +25,7 @@ exports.addUser = async (req, res) => {
         }
 
         // Create and save the new user
-        const user = new User({ username, password: hashedPassword, displayName, profilePic });
+        const user = new User({ username, password, displayName, profilePic });
         await user.save();
         res.status(201).json(user);
     } catch (error) {
@@ -97,8 +96,9 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ username });
         if (!user) return res.status(404).json({ message: 'User not found' });
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+        if (user.password !== password) return res.status(400).json({ message: 'Invalid credentials' });
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
         const payload = { username: user.username };
         const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);

@@ -9,7 +9,6 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
-  //const [loggedUser, setLoggedUser] = useState(null);
   const userId = localStorage.getItem('loggedUserID');
   const linkStyle = {
     color: isDarkMode ? 'white' : 'black',
@@ -24,25 +23,6 @@ function NavBar({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
       root.classList.remove('dark-mode');
     }
   }, [isDarkMode]);
-
-  // useEffect(() => {
-  //   const fetchLoggedUser = async () => {
-  //     try {
-  //       const response = await fetch(`/api/users/${userId}`);
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       const data = await response.json();
-  //       setLoggedUser(data);
-  //     } catch (error) {
-  //       console.error('Error fetching user data:', error);
-  //     }
-  //   };
-
-  //   if (userId) {
-  //     fetchLoggedUser();
-  //   }
-  // }, [userId]);
 
   const handleSignOut = () => {
     // Clear the token from local storage
