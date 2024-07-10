@@ -73,7 +73,7 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date, view
                         <div class="title-container">
                             <h1 className="video-title-scroll" title={title}>{title}</h1>
                         </div>
-                        <div className="video-publisher-scroll" title={publisher}>{publisher}</div>
+                        <div className="video-publisher-scroll" title={userData.displayName}>{userData.displayName}</div>
                         <p className="video-views-upload-date-scroll">{views} views • {formatDate(upload_date)}</p>
                     </div>
                 </div>
