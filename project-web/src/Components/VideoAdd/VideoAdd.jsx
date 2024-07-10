@@ -70,25 +70,14 @@ function VideoAdd({ loggedUser}) {
   
     const url = URL.createObjectURL(file);
     videoElement.src = url;
-  
-    // Load metadata to get video dimensions
     videoElement.onloadedmetadata = () => {
-      // Set the current time to a point where we are sure we have a frame
       videoElement.currentTime = 0;
-  
-      // Wait for the frame to be ready
       videoElement.onseeked = () => {
-        // Ensure the video dimensions are available
         canvasElement.width = videoElement.videoWidth;
         canvasElement.height = videoElement.videoHeight;
-  
-        // Draw the frame on the canvas
         context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-  
-        // Convert the canvas content to a Data URL
         const dataUrl = canvasElement.toDataURL('image/jpeg');
         setImgPreview(dataUrl);
-  
         // Convert the canvas content to a Blob
         canvasElement.toBlob((blob) => {
           if (blob) {
@@ -292,7 +281,8 @@ function VideoAdd({ loggedUser}) {
               type="file"
               id="videoFile"
               name="videoFile"
-              accept="video/*"
+              accept=".mp4,.avi,.mkv,.mov,.webm,.wmv"
+              // accept="video/*"
               onChange={handleVideoChange}
               className="wide-input"
             />

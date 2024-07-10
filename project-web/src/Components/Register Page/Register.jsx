@@ -1,6 +1,5 @@
 import './Register.css';
 import React, { useState,useEffect } from 'react';
-import users from '../../data/userdb.json';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { FaSignInAlt, FaAddressCard } from 'react-icons/fa';
@@ -45,7 +44,6 @@ function Registration() {
         //if user created successfully
         if (response.status === 201) {
           //const result = await response.json();
-          // setUsersList([...usersList, newUser]);
           navigate("/login");
           setImgPreview('');
           setPicFile('');
@@ -125,10 +123,6 @@ function Registration() {
       setUsernameError('Username cannot be empty');
       return false;
     }
-    // else if (usersList.some(user => user.username === value)) {
-    //   setUsernameError('Username already exists');
-    //   return false;
-    // }
     setUsernameError('');
     return true;
   };
@@ -262,7 +256,7 @@ function Registration() {
               {channelNameError && <div className="error-message">{channelNameError}</div>}
             </div>
             <div className="input-group">
-              <input className="input-group" type="file" accept=".jpeg,.jpg,.png,.gif,.svg" onChange={handleImageChange} />
+              <input className="input-group" type="file" accept=".jpeg,.jpg,.png,.gif,.svg,.webp" onChange={handleImageChange} />
               {imgError && <div className="error-message1">{imgError}</div>}
             </div>
             <div className="image-container">

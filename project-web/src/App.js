@@ -3,21 +3,17 @@ import Home from './Components/Home/Home';
 import AppLogin from './Components/Login Page/Login';
 import Registration from './Components/Register Page/Register';
 import React, { useState, useEffect } from 'react';
-import users from './data/userdb.json';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import VideoPage from './Components/VideoPage/VideoPage';
 import VideoAdd from './Components/VideoAdd/VideoAdd';
 import UserPage from './Components/UserPage/UserPage';
-import videos from './data/vidDB.json';
 import Search from './Components/Search Page/SearchPage';
 import EditVideoPage from './Components/EditVideoPage/EditVideoPage';
 
 function App() {
   const [loggedUser, setLoggedUser] = useState(null);
-  const [usersList, setUsersList] = useState(users);
-  const [videoList, setVideoList] = useState(videos);
+  const [videoList, setVideoList] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  // const [filteredVideoList, setFilteredVideoList] = useState(videoList);
   const loggedUserID = localStorage.getItem('loggedUserID');
 
     useEffect(() => {
@@ -55,8 +51,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<AppLogin usersList={usersList} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
-          <Route path="/register" element={<Registration usersList={usersList} setUsersList={setUsersList} />} />
+          <Route path="/login" element={<AppLogin loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
+          <Route path="/register" element={<Registration />} />
           <Route path="/" element={<Home loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} videoList={videoList} setVideoList={setVideoList}/>} />
           <Route path="/video/:id" component={VideoPage} element={<VideoPage loggedUser={loggedUser} setLoggedUser={setLoggedUser} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />} />
           <Route path="/videoadd" element={<VideoAdd loggedUser={loggedUser} />} />

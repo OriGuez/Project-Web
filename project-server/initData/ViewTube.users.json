@@ -1,0 +1,100 @@
+[{
+  "_id": {
+    "$oid": "668d63a6351996f089b74f65"
+  },
+  "username": "Matan",
+  "password": "123123123a",
+  "displayName": "Matan Channel",
+  "profilePic": "/uploads/images/image-1720542118053.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668d64a7351996f089b74fb3"
+  },
+  "username": "Ori",
+  "password": "123123123a",
+  "displayName": "Ori Channel",
+  "profilePic": "/uploads/images/image-1720542375678.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668d6501351996f089b74fff"
+  },
+  "username": "Abraham",
+  "password": "123123123a",
+  "displayName": "Abbys",
+  "profilePic": "/uploads/images/image-1720542465503.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668d656f351996f089b7504c"
+  },
+  "username": "Adam123",
+  "password": "123123123a",
+  "displayName": "Adam The King",
+  "profilePic": "/uploads/images/image-1720542575458.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668d65ef351996f089b750c2"
+  },
+  "username": "Michael",
+  "password": "123123123a",
+  "displayName": "Micha The Magician",
+  "profilePic": "/uploads/images/image-1720542703392.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668e109a5f7f3a5924b9b938"
+  },
+  "username": "Avi",
+  "password": "123123123a",
+  "displayName": "AviChannel",
+  "profilePic": "/uploads/images/image-1720586394254.gif",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668e11955f7f3a5924b9b98f"
+  },
+  "username": "ido111",
+  "password": "123123123a",
+  "displayName": "idododododo",
+  "profilePic": "/uploads/images/image-1720586645793.png",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668e14775f7f3a5924b9bbe2"
+  },
+  "username": "oren1",
+  "password": "123123123a",
+  "displayName": "oren_1",
+  "profilePic": "/uploads/images/image-1720587382953.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668e177f48cf1fb9404e2dda"
+  },
+  "username": "adi",
+  "password": "123123123a",
+  "displayName": "adiC",
+  "profilePic": "/uploads/images/image-1720588159334.webp",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "668e1a9f48cf1fb9404e3091"
+  },
+  "username": "moshiko",
+  "password": "123123123a",
+  "displayName": "moshVidz",
+  "profilePic": "/uploads/images/image-1720588959832.webp",
+  "__v": 0
+}]

@@ -45,7 +45,7 @@ function EditVideoPage({ loggedUser }) {
         console.error('There was a problem with the fetch operation:', error);
         setError(error);
       } finally {
-        setLoading(false); // Ensure loading state is set to false after fetch
+        setLoading(false);
       }
     };
     fetchVideo();
@@ -133,6 +133,7 @@ function EditVideoPage({ loggedUser }) {
           body: vidPayload,
         });
         if (response.status === 200) {
+          // on success
           setTitle('');
           setDescription('');
           setThumbnailFile(null);
@@ -202,8 +203,6 @@ function EditVideoPage({ loggedUser }) {
     setErrors((prevErrors) => ({ ...prevErrors, description: '' }));
     return true;
   };
-
-
   const handleDeleteVideo = async (vidId) => {
     const confirmed = window.confirm("Are you sure you want to delete this video?");
   if (!confirmed) return;
@@ -229,8 +228,6 @@ function EditVideoPage({ loggedUser }) {
       navigate(`/userpage/${userID}`);
     }
   };
-
-
 
   const validateForm = () => {
     const isTitleValid = validateTitle(title);

@@ -75,7 +75,6 @@ exports.getVideo = async (req, res) => {
         const video = await Video.findById(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });
         // Increment the views count
-        //it increments twice because the thumbnail takes the video too.
         video.views = (video.views || 0) + 1;
         // Save the updated video
         await video.save();
@@ -138,12 +137,11 @@ exports.get20videos = async (req, res) => {
 exports.likeVideo = async (req, res) => {
     try {
         const videoId = req.params.pid;
-        const userId = req.params.id; // Assuming the user ID is passed in the request body
+        const userId = req.params.id;
         const video = await Video.findById(videoId);
         if (!video) {
             return res.status(404).json({ error: 'Video not found' });
         }
-
         if (!video.likes.includes(userId)) {
             video.likes.push(userId);
             await video.save();
@@ -178,7 +176,6 @@ exports.unlikeVideo = async (req, res) => {
         res.status(500).json({ error: 'Server error', details: error.message });
     }
 };
-
 
 exports.searchVideos = async (req, res) => {
     try {

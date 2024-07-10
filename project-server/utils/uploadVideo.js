@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 function checkFileType(file, cb) {
     let filetypes;
     if (file.fieldname === 'video') {
-        filetypes = /mp4|avi|mkv|mov/;
+        filetypes = /mp4|avi|mkv|mov|webm|wmv/;
     } else if (file.fieldname === 'image') {
         filetypes = /jpeg|jpg|png|gif|svg|webp/;
     }

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import './Home.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../NavBar/NavBar';
 import VideoPrev from './VideoPrev';
 
-function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode,videoList, setVideoList}) {
+function Home({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode, videoList, setVideoList }) {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,14 +35,13 @@ function Home({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode,videoList, s
     fetchVideos();
   }, []);
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-if (loading) {
-  return <p>Loading...</p>;
-}
-
-if (error) {
-  return <p>Error: {error}</p>;
-}
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <div className={`home-container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -55,17 +53,21 @@ if (error) {
       />
       <main className="main-content">
         <section className="video-grid">
-          {videoList.map((video) => (
-            <VideoPrev
-              key={video.url}
-              title={video.title}
-              publisher={video.userId}
-              vidID={video._id}
-              thumbnailUrl={video.thumbnail}
-              upload_date={video.createdAt}
-              views={video.views}
-            />
-          ))}
+          {videoList && videoList.length > 0 ? (
+            videoList.map((video) => (
+              <VideoPrev
+                key={video.url}
+                title={video.title}
+                publisher={video.userId}
+                vidID={video._id}
+                thumbnailUrl={video.thumbnail}
+                upload_date={video.createdAt}
+                views={video.views}
+              />
+            ))
+          ) : (
+            <p>No videos found</p>
+          )}
         </section>
         <section className="suggested-videos"></section>
       </main>

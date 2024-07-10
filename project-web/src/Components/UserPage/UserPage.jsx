@@ -102,7 +102,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
     if (!confirmed) return;
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
-    //const userID=loggedUser._id
     const response = await fetch(`/api/users/${userID}`, {
       method: 'DELETE',
       headers: {
