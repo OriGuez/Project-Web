@@ -21,7 +21,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
 }).then(() => {
-    console.log('Connected to MongoDB');
+    const dbName = mongoose.connection.name;
+    console.log(`Connected to MongoDB. database: ${dbName}`);
 }).catch((err) => {
     console.error('Failed to connect to MongoDB', err);
 });
@@ -36,8 +37,13 @@ app.use('/api', videoRoutes);
 const commentRoutes = require('./routes/commentRoutes');
 app.use('/api', commentRoutes);
 
+//for debugging
+//const indexPath = path.join(__dirname, '..', 'project-web', 'build', 'index.html');
+//for running from public
+const indexPath = path.join(__dirname, 'public', 'index.html');
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'project-web', 'build', 'index.html'));
+    res.sendFile(indexPath);
 });
 const appRoutes = require('./routes/appRoutes')
 app.use("/",appRoutes)

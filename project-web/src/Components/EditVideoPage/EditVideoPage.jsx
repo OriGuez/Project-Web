@@ -4,7 +4,6 @@ import './EditVideoPage.css';
 
 function EditVideoPage({ loggedUser }) {
   const { id } = useParams();
-  // const [videoFile, setVideoFile] = useState(null);
   const [thumbnailFile, setThumbnailFile] = useState(null);
   const [title, setTitle] = useState('');
   const [videoPreview, setVideoPreview] = useState('');
@@ -13,11 +12,8 @@ function EditVideoPage({ loggedUser }) {
   const [uploaderId, setUploaderId] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
-  // const [imgPreview, setImgPreview] = useState('');
   const [thumbnailOption, setThumbnailOption] = useState('none'); // Default option to 'none'
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Default to true for initial render
-  // const [thumbFileServer, setThumbFileServer] = useState(null);
-  // const [vidFileServer, setVidFileServer] = useState(null);
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
@@ -50,7 +46,7 @@ function EditVideoPage({ loggedUser }) {
         console.error('There was a problem with the fetch operation:', error);
         setError(error);
       } finally {
-        setLoading(false); // Ensure loading state is set to false after fetch
+        setLoading(false);
       }
     };
     fetchVideo();
@@ -61,8 +57,6 @@ function EditVideoPage({ loggedUser }) {
       setIsAuthenticated(false);
       return;
     }
-    // const jwtToken = localStorage.getItem('jwt');
-    // const loggedUserID = localStorage.getItem('loggedUserID');
     if (uploaderId !== loggedUser._id)
       setIsAuthenticated(false);
     else
@@ -94,7 +88,6 @@ function EditVideoPage({ loggedUser }) {
     const videoElement = videoRef.current;
     const canvasElement = canvasRef.current;
     const context = canvasElement.getContext('2d');
-    // const url = URL.createObjectURL(file);
     videoElement.src = videoPreview;
     // Load metadata to get video dimensions
     videoElement.onloadedmetadata = () => {
@@ -128,7 +121,6 @@ function EditVideoPage({ loggedUser }) {
         const vidPayload = new FormData();
         vidPayload.append('title', title);
         vidPayload.append('description', description);
-        //vidPayload.append('video', vidFileServer);
         if (thumbnailOption !== 'none') {
           vidPayload.append('image', thumbnailFile);
         }
@@ -142,6 +134,7 @@ function EditVideoPage({ loggedUser }) {
           body: vidPayload,
         });
         if (response.status === 200) {
+          // on success
           setTitle('');
           setDescription('');
           setThumbnailFile(null);
@@ -204,24 +197,6 @@ function EditVideoPage({ loggedUser }) {
     return true;
   };
 
-  // const validateVideoFile = () => {
-  //   if (!videoFile) {
-  //     setErrors((prevErrors) => ({ ...prevErrors, videoFile: 'Please upload a video file.' }));
-  //     return false;
-  //   }
-  //   setErrors((prevErrors) => ({ ...prevErrors, videoFile: '' }));
-  //   return true;
-  // };
-
-  // const validateThumbnailFile = () => {
-  //   if (thumbnailOption === 'upload' && !thumbnailFile) {
-  //     setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: 'Please upload a thumbnail image.' }));
-  //     return false;
-  //   }
-  //   setErrors((prevErrors) => ({ ...prevErrors, thumbnailFile: '' }));
-  //   return true;
-  // };
-
   const handleDeleteVideo = async (vidId) => {
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
@@ -244,8 +219,6 @@ function EditVideoPage({ loggedUser }) {
       setErrors({});
       navigate(`/userpage/${userID}`);
     }
-    // else
-    // setShouldNavigate(true);
   };
 
 
@@ -253,9 +226,6 @@ function EditVideoPage({ loggedUser }) {
   const validateForm = () => {
     const isTitleValid = validateTitle(title);
     const isDescriptionValid = validateDescription(description);
-    // const isVideoFileValid = validateVideoFile();
-    // const isThumbnailFileValid = validateThumbnailFile();
-
     return isTitleValid && isDescriptionValid;
   };
 

@@ -30,6 +30,27 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date, view
         fetchUserData();
     }, [publisher]); // Re-run the effect if 'publisher' changes
 
+    const formatNum = (num) => {
+        //notice that the number is limited to 2 billion views
+        if(!num)
+          return num;
+        if (num < 1000) {
+          return num.toString();
+        } else if (num >= 1000 && num < 10000) {
+          return (num / 1000).toFixed(1) + 'k';
+        } else if (num >= 10000 && num < 1000000) {
+          return (num / 1000).toFixed(0) + 'k';
+        } else if (num >= 1000000 && num < 10000000) {
+          return (num / 1000000).toFixed(1) + 'M';
+        } else if (num >= 10000000 && num < 1000000000) {
+          return (num / 1000000).toFixed(0) + 'M';
+        } else if (num >= 1000000000 && num < 10000000000) {
+          return (num / 1000000000).toFixed(1) + 'B';
+        } else {
+          return (num / 1000000000).toFixed(0) + 'B';
+        }
+      };
+
     // Handling different states: loading, error, and successful data fetch
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -54,7 +75,7 @@ function VideoPrevNar({ title, publisher, vidID, thumbnailUrl, upload_date, view
                         <h1 className="title" >{title}</h1>
                     </div>
                     <p className="video-publisher-scroll">{userData.displayName}</p>
-                    <p className="video-views-upload-date-scroll">{views} views • {formatDate(upload_date)}</p>
+                    <p className="video-views-upload-date-scroll">{formatNum(views)} views • {formatDate(upload_date)}</p>
 
                 </div>
             </div>

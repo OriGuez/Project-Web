@@ -18,7 +18,6 @@ function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
     const [commentsFromServer, setCommentsFromServer] = useState('');
     const [vidPrevList, setvidPrevList] = useState([]);
 
-    /////////note that he does a lot of things twice so maybe to split it to loggedUser in seperate and id in seperate.
     useEffect(() => {
         const loadVideo = async () => {
             const videoData = await fetchVideoById(id);
@@ -77,11 +76,7 @@ function VideoPage({ loggedUser,setLoggedUser, isDarkMode, setIsDarkMode }) {
             }
         };
         loadVideo();
-        //reset the new comment if i passed a video
-        //setNewCommentText('');
-        // setShouldNavigate(false);
     }, [id]);
-    //}, [id, loggedUser]);
 
     useEffect(() => {
         if (vidFromServer && loggedUser) {

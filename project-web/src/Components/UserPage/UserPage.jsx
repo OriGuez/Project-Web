@@ -104,7 +104,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
   const handleDeleteUser = async () => {
     const token = localStorage.getItem('jwt');
     const userID = localStorage.getItem('loggedUserID');
-    //const userID=loggedUser._id
     const response = await fetch(`/api/users/${userID}`, {
       method: 'DELETE',
       headers: {
@@ -195,7 +194,6 @@ function UserPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
       <div className="user-videos">
         {userVideos.length > 0 ? (
           userVideos.map((video) => {
-            // const thumbnailUrl = video.thumbnail ? `/uploads/images/${video.thumbnail}` : "/default.png";
             return (
               <>
                 <VideoPrev

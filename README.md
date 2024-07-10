@@ -10,23 +10,60 @@ https://github.com/OriGuez/Project-Web/tree/main
 Exercise 2 main branch is called "main-Exercise2" and is here:
 https://github.com/OriGuez/Project-Web/tree/main-Exercise2
 
+the project has 2 folders:
+- project-web : the react app (frontend).
+- project-server : the server (backend).
+
 the search fields are video title and description.
+the username is case-sensitive.
+supported file types are:
+- jpg,jpeg,png,webp,gif,svg for images.
+- mp4,mkv,mov,wmv,webm for videos.
+
+the latest build of the react app is in "public" directory in the server.
+project was tested on windows and mac on chrome.
+
+## Filling details in .env file
+please fill the .env file (which is inside the config folder in project-server). its made of 3 fields:
+* PORT=
+* MONGO_URI=""
+* ACCESS_TOKEN_SECRET=""
+
+#### the mongo_URI should include the database name of ViewTube for consistency.
+for example "mongodb://localhost:xxxxx/ViewTube".
+  if you have username and password for the mongoDB server you should insert them too.
+
+## Initialize data on The Server
+We've created a script that initializes the database with 30 videos, 10 users and some comments.
+- to run the script first put in the config/.env file the mongo URI including the database name (as mentioned above).
+- Then, start the terminal on "project-server/initData" folder and hit
+```
+node initData.js
+```
+- The media (actual videos and images) is already in the "uploads" folder.
+#### now the DB is full.
+#### the users password will be 123123123a for all users
 
 
+## Running The Server
+first, make sure that you've filled the .env file.
+Then, please install the dependencies using
+```
+npm install
+```
+on both project-server and project-web folders. (although project-web isnt neccesary to run the server because its build is sitting in "public" folder in project-server).
+In order to run the server you need to go to the terminal on project-server directory and hit
+```
+node server.js
+```
+now go to the address and see the website.
 
 
+### Routes and file uploads
+- the server supports the routes mentioned in exercise 2-3 instructions.
 
+- files are sitting on the server so in order to register a user you need to send a POST request to /api/users with "image" field as the image file and "username","password","displayName" fields too.
 
-We splitted our work at first to register and login pages, and later to home and video pages,
-created components to items like the navbar, video-add and different sections in the site like comment section and etc.
+- in order to add a video you need to send a POST request to /api/users/:id/videos/:pid with "image" field as the thumbnail file ,"video" field as the video file, and "title" and "description" fields too (and the token in header).
+- for video and user edits its similar.
 
-We designd our site with a uniform design with a lot of attention to the small details.  
-
-By clicking on your user image in home page you will see information about your user and an option to sign out.
-
-By clicking on the brand logo from any page on our site you will be redirected to home page.
-
-
-# Running The App
-In order to run the project you need to go to command line on project-web directory and hit "npm install" in order to get the node_modules.  
- Next you need to hit "npm start" on the same folder.

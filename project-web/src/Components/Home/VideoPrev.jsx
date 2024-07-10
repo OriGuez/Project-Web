@@ -51,7 +51,6 @@ function VideoPrev({ title, publisher, vidID, thumbnailUrl, upload_date, views, 
     } else {
       return (num / 1000000000).toFixed(0) + 'B';
     }
-    //return number.toLocaleString();
   };
 
 
