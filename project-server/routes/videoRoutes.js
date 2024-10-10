@@ -1,6 +1,7 @@
 const express = require('express');
 const authenticateToken = require('../utils/auth');
 const checkUser = require('../utils/checkUser');
+const checkOptionalAuthentication = require('../utils/checkOptionalAuth');
 const uploadImage = require('../utils/uploadImages');
 const {
     getUserVideos,
@@ -10,6 +11,7 @@ const {
     updateVideo,
     deleteVideo,
     get20videos,
+    getRecommendedVideos,
     likeVideo,
     unlikeVideo,
     searchVideos
@@ -20,8 +22,9 @@ const router = express.Router();
 router.get('/users/:id/videos', getUserVideos);
 router.get('/:username/videos', getUserVideosByUsername);
 router.get('/users/:id/videos/:pid', getVideo);
-router.get('/videos/:pid', getVideo);
+router.get('/videos/:pid',checkOptionalAuthentication, getVideo);
 router.get('/videos', get20videos);
+router.get('/videosRecommend/:pid',checkOptionalAuthentication, getRecommendedVideos);
 router.get('/searchvideo', searchVideos);
 
 //private routes - only for logged User:

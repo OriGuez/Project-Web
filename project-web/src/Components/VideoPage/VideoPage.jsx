@@ -35,7 +35,15 @@ function VideoPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
 
         const fetchVideoById = async (videoId) => {
             try {
-                const response = await fetch(`/api/videos/${videoId}`);
+                // Get the JWT token from localStorage
+                const jwtToken = localStorage.getItem('jwt');
+                const headers = {
+                    'Authorization': `Bearer ${jwtToken}` // Attach JWT token
+                };
+                const response = await fetch(`/api/videos/${videoId}`, {
+                    method: 'GET',
+                    headers: headers
+                });
                 if (!response.ok) {
                     throw new Error('Video not found');
                 }
@@ -90,11 +98,13 @@ function VideoPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
-        const fetchPreviewVideos = async () => {
+        const fetchPreviewVideos = async (videoId) => {
             try {
-                const response = await fetch('/api/videos', {
+                const token = localStorage.getItem('jwt');
+                const response = await fetch(`/api/videosRecommend/${videoId}`, {
                     method: 'GET',
                     headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -112,7 +122,7 @@ function VideoPage({ loggedUser, setLoggedUser, isDarkMode, setIsDarkMode }) {
                 setLoading(false);
             }
         };
-        fetchPreviewVideos();
+        fetchPreviewVideos(id);
     }, [id]);
 
     const toggleLikedList = async () => {

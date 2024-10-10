@@ -3,6 +3,7 @@ const Comment = require('../models/comment');
 const User = require('../models/user');
 const upload = require('../utils/uploadVideo');
 const path = require('path');
+const mongoose = require('mongoose');
 
 exports.createVideo = async (req, res) => {
     //video file needs to be sent with "video" tag.and the rest of items in "body"
@@ -72,6 +73,57 @@ exports.getUserVideosByUsername = async (req, res) => {
 exports.getVideo = async (req, res) => {
     //make here a check if the id of user that was attached is valid to this video or not
     try {
+        if (req.user) {
+
+            const user = await User.findOne({ username: req.user.username });
+            if (!user) return res.status(404).json({ message: 'User not found' });
+
+            // User is logged in
+            // Perform logic for authenticated users, such as tracking views per user, etc.
+            //console.log(`User ${user._id} is watching video ${req.params.pid}`);
+            const net = require('net');
+            // Define the address and port to connect to
+            const host = process.env.TCP_HOST;  // C++ server address
+            const port = process.env.TCP_PORT;   // C++ server port
+            // Create a TCP client
+            const client = new net.Socket();
+
+            // Connect to the C++ TCP server
+            client.connect(port, host, () => {
+                console.log('Connected to C++ server');
+
+                // Send a message to the C++ server
+                const message = `${user._id}#${req.params.pid}`;
+                client.write(message);
+            });
+
+            // Event: When receiving data from the C++ server
+            client.on('data', (data) => {
+                console.log('Received from C++ server: ' + data);
+                client.end();
+                // Process the data and optionally respond or close connection
+                // For example, you can close the connection if the message is 'exit'
+                if (data.toString() === 'exit') {
+                    client.end();
+                }
+            });
+
+            // Event: When the connection is closed
+            client.on('close', () => {
+                console.log('Connection closed');
+            });
+
+            // Event: Handle errors
+            client.on('error', (err) => {
+                console.error('Error: ', err.message);
+                client.end();
+            });
+        } else {
+            // User is not logged in
+            // Perform logic for unauthenticated users (e.g., increment general views)
+            console.log('Unauthenticated user is watching the video');
+        }
+
         const video = await Video.findById(req.params.pid);
         if (!video) return res.status(404).json({ message: 'Video not found' });
         // Increment the views count
@@ -133,6 +185,87 @@ exports.get20videos = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+exports.getRecommendedVideos = async (req, res) => {
+    if (req.user) {
+        const user = await User.findOne({ username: req.user.username });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        const net = require('net');
+        // Define the address and port to connect to
+        const host = process.env.TCP_HOST;  // C++ server address
+        const port = process.env.TCP_PORT;   // C++ server port
+        // Create a TCP client
+        const client = new net.Socket();
+        // Connect to the C++ TCP server
+        client.connect(port, host, () => {
+            console.log('Connected to C++ server');
+            // Send a message to the C++ server
+            const message = "Recommend#" + req.params.pid;
+            client.write(message);
+        });
+
+        // Event: When receiving data from the C++ server
+        client.on('data', async (data) => {
+            console.log('Received from C++ server: ' + data);
+
+            // Step 1: Remove quotes and split the string into an array of IDs
+            const idArray = data.toString().replace(/'/g, '').split(',');
+            const validIds = idArray.filter(id => mongoose.Types.ObjectId.isValid(id));
+            try {
+                const videos = await Video.find({ _id: { $in: validIds } });
+                
+                if (videos.length < 10) {
+                    const remaining = 10 - videos.length;
+                    const existingIds = videos.map(video => video._id); // Collect existing video IDs
+                    const randomVideos = await Video.aggregate([
+                        { $match: { _id: { $nin: existingIds } } }, // Exclude already fetched videos
+                        { $sample: { size: remaining } } // Get random videos
+                    ]);
+                    const finalVideos = videos.concat(randomVideos);
+                    res.json(finalVideos);
+                } else {
+                    res.json(videos);
+                }
+            } catch (err) {
+                console.error('Error fetching videos:', err);
+                res.status(500).json({ message: 'Error fetching videos' });
+            } finally {
+                client.end(); // Ensure connection is closed
+            }
+        });
+
+        // Event: When the connection is closed
+        client.on('close', () => {
+            console.log('Connection closed');
+        });
+
+        // Event: Handle errors
+        client.on('error', async (err) => {
+            console.error('Error: ', err.message);
+            client.end(); // Close the client on error
+            await exports.get20videos(req, res); // Call the fallback function
+        });
+    } else {
+        // User is not logged in
+        // Perform logic for unauthenticated users (e.g., increment general views)
+        console.log('Unauthenticated user is watching the video');
+        //get20videos(req,res);
+        try {
+            const mostViewedVideos = await Video.find().sort({ views: -1 }).limit(10);
+            const mostViewedVideoIds = mostViewedVideos.map(video => video._id);
+            const randomVideos = await Video.aggregate([
+                { $match: { _id: { $nin: mostViewedVideoIds } } },
+                { $sample: { size: 10 } }
+            ]);
+            const combinedVideos = mostViewedVideos.concat(randomVideos);
+            const shuffledVideos = shuffleArray(combinedVideos);
+            res.status(200).json(shuffledVideos);
+        } catch (err) {
+            console.error('Error fetching videos:', err);
+            res.status(500).json({ message: 'Server error', error: err.message });
+        }
+    }
+};
+
 
 exports.likeVideo = async (req, res) => {
     try {
