@@ -1,6 +1,10 @@
-# React-Web App + Server
-This is Exercise 2 submission by Matan Sabag and Ori Guez.
-React Web App + Server
+# React-Web App + Servers
+This is the Final submission by Matan Sabag and Ori Guez.
+React Web App + Servers
+
+# Wiki
+## The wiki is in "wiki" folder in [Wiki Directory](./wiki/)
+
 
 # Exercise 1
 Exercise 1 main branch is called "main" and is here:
@@ -9,6 +13,11 @@ https://github.com/OriGuez/Project-Web/tree/main
 # Exercise 2
 Exercise 2 main branch is called "main-Exercise2" and is here:
 https://github.com/OriGuez/Project-Web/tree/main-Exercise2
+
+
+
+
+
 
 the project has 2 folders:
 - project-web : the react app (frontend).
