@@ -67,3 +67,10 @@ make sure that the mongoDB service is running.
 ```
 mongosh --host XXX.X.X.X --port XXXXX ViewTube
 ```
+
+
+eventually there should be the 2 servers running together.
+
+![alt text](images/SETUP/SERVER2.JPG)
+
+![alt text](images/SETUP/SERVER3.JPG)
