@@ -14,11 +14,6 @@ https://github.com/OriGuez/Project-Web/tree/main
 Exercise 2 main branch is called "main-Exercise2" and is here:
 https://github.com/OriGuez/Project-Web/tree/main-Exercise2
 
-
-
-
-
-
 the project has 2 folders:
 - project-web : the react app (frontend).
 - project-server : the server (backend).
@@ -37,6 +32,8 @@ please fill the .env file (which is inside the config folder in project-server).
 * PORT=
 * MONGO_URI=""
 * ACCESS_TOKEN_SECRET=""
+* TCP_HOST=""
+* TCP_PORT=""
 
 
 #### ACCESS_TOKEN_SECRET is the secret key of jwt token.
